@@ -1,3 +1,5 @@
+package PL_project;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -71,7 +73,7 @@ public class Lexer {
                 ch = nextChar();
                 break;
             
-            case '/':  // divide or comment
+            case '/':  // divide or comment or /=
                 ch = nextChar();
                 if (ch != '/')  {
                 	return chkOpt('=', Token.divideAssignTok,
@@ -116,7 +118,7 @@ public class Lexer {
     			return Token.rightBraceTok;
     	    case ';': ch = nextChar();
     			return Token.semicolonTok;	
-                // - * ( ) { } ; ,  student exercise
+                // + ++ += - -- -= * *= % %= ( ) { } ; ,  
                 
             case '&': check('&'); return Token.andTok;
             case '|': check('|'); return Token.orTok;
@@ -133,7 +135,6 @@ public class Lexer {
         	case '!':
         		return chkOpt('=', Token.notTok,
         						   Token.noteqTok);
-                // < > !  student exercise 
 
             default:  error("Illegal character " + ch); 
             } // switch
@@ -146,7 +147,7 @@ public class Lexer {
     }
   
     private boolean isDigit(char c) {
-        return (c>='0'&&c<='9');  // student exercise
+        return (c>='0'&&c<='9'); 
     }
 
     private void check(char c) {
@@ -165,7 +166,6 @@ public class Lexer {
     	else{
     		return one;
     	}
-          // student exercise
     }
     private Token chkOpt3(char c1, char c2, Token one, Token two,Token three) {
     	ch = nextChar();
@@ -180,7 +180,6 @@ public class Lexer {
     	else{
     		return one;
     	}
-          // student exercise
     }
 
     private String concat(String set) {
@@ -208,3 +207,4 @@ public class Lexer {
     } // main
 
 }
+
