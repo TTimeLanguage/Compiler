@@ -1,5 +1,5 @@
 /**
- * Created by ë³‘í›ˆ on 2015-05-09.
+ * Created by º´ÈÆ on 2015-05-09.
  */
 public class Token {
 	private static final int KEYWORDS = TokenType.Eof.ordinal();
