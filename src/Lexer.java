@@ -1,4 +1,3 @@
-package PL_project;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -76,8 +75,8 @@ public class Lexer {
             case '/':  // divide or comment or /=
                 ch = nextChar();
                 if (ch != '/')  {
-                	return chkOpt('=', Token.divideAssignTok,
-                            Token.divideTok);                	
+                		if(ch != '=') return Token.divideTok;
+                		else { ch = nextChar(); return Token.divideAssignTok;} 
                 };
                 // comment
                 do {
@@ -103,11 +102,11 @@ public class Lexer {
         				Token.minusAssignTok,
         				Token.minusMinusTok);
             case '*': 
-            	return chkOpt('=', Token.multiplyAsssignTok,
-                        Token.multiplyTok);
+            	return chkOpt('=', Token.multiplyTok,
+                        Token.multiplyAsssignTok);
             case '%':
-            	return chkOpt('=', Token.modAssignTok,
-                        Token.modTok);
+            	return chkOpt('=', Token.modTok,
+                        Token.modAssignTok);
     	    case '(': ch = nextChar();
     			return Token.leftParenTok;
     	    case ')': ch = nextChar();
