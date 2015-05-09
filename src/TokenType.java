@@ -1,5 +1,5 @@
 /**
- * Created by º´ÈÆ on 2015-05-06.
+ * Created by ë³‘í›ˆ on 2015-05-06.
  */
 public enum TokenType {
 	Void, Bool, Int, Char, Float, Date, Time, Main, True, False, If, Else, ElseIf, While, For, Switch, Case, Eof,
