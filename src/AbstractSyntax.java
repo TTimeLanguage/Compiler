@@ -130,7 +130,7 @@ class NoArrayInit extends Declaration {
 
 /**
  * Abstract Syntax :
- * Statement = Skip | IfSatement | Block | WhileSatement | SwitchStatement
+ * Statement = Skip | IfStatement | Block | WhileStatement | SwitchStatement
  * | ForStatement | Return | Expression | Break | Continue
  */
 abstract class Statement {
@@ -142,13 +142,13 @@ abstract class Statement {
  * IfStatement = Expression condition; Block; (Expression elseif; Block)*; Block?
  */
 class IfStatement extends Statement {
-	Expression conditiion;
+	Expression condition;
 	Block statements;
 	ArrayList<IfStatement> elseIfs;
 	Block elses;
 
 	IfStatement(Expression c, Block s, ArrayList<IfStatement> elseIf, Block e) {
-		conditiion = c;
+		condition = c;
 		statements = s;
 		elseIfs = elseIf;
 		elses = e;
