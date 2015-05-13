@@ -248,7 +248,7 @@ class Return extends Statement {
  * Abstract Syntax :
  * Break =
  */
-class Bread extends Statement {}
+class Break extends Statement {}
 
 
 /**
