@@ -25,6 +25,8 @@ public class Token {
 	public static final Token forTok = new Token(TokenType.For, "for");
 	public static final Token switchTok = new Token(TokenType.Switch, "switch");
 	public static final Token caseTok = new Token(TokenType.Case, "case");
+	public static final Token breakTok = new Token(TokenType.Break, "break");
+	public static final Token continueTok = new Token(TokenType.Continue, "continue");
 	public static final Token leftBraceTok = new Token(TokenType.LeftBrace, "{");
 	public static final Token rightBraceTok = new Token(TokenType.RightBrace, "}");
 	public static final Token leftBracketTok = new Token(TokenType.LeftBracket, "[");
@@ -32,6 +34,7 @@ public class Token {
 	public static final Token leftParenTok = new Token(TokenType.LeftParen, "(");
 	public static final Token rightParenTok = new Token(TokenType.RightParen, ")");
 	public static final Token semicolonTok = new Token(TokenType.Semicolon, ";");
+	public static final Token colonTok = new Token(TokenType.Colon, ":");
 	public static final Token commaTok = new Token(TokenType.Comma, ",");
 	public static final Token assignTok = new Token(TokenType.Assign, "=");
 	public static final Token eqeqTok = new Token(TokenType.Equals, "==");
