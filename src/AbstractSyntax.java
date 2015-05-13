@@ -437,6 +437,12 @@ class Type {
 	public String toString() {
 		return value;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		Type tmp = (Type) obj;
+		return tmp.value.equals(this.value);
+	}
 }
 
 
