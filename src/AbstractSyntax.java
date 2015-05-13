@@ -80,7 +80,7 @@ class Statements {
  * Abstract Syntax :
  * Declaration = ArrayInit | NoArrayInit
  */
-abstract class Declaration {
+abstract class Declaration extends Global {
 }
 
 
