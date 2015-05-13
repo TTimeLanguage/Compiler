@@ -423,6 +423,20 @@ class Function extends Expression {
 
 /**
  * Abstract Syntax :
+ * TypeCast = Type type; Expression
+ */
+class TypeCast extends Expression {
+	Type type;
+	Expression expression;
+
+	TypeCast(Type t, Expression e) {
+		type = t;
+		expression = e;
+	}
+}
+
+/**
+ * Abstract Syntax :
  * Type = 'int' | 'bool' | 'void' | 'char' | 'float' | 'time' | 'date'
  */
 class Type {
