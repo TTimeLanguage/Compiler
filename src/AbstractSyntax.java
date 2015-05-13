@@ -24,7 +24,8 @@ class Program {
  * Abstract Syntax :
  * Global = FunctionDeclaration | Declarations
  */
-abstract class Global {}
+abstract class Global {
+}
 
 
 /**
@@ -246,42 +247,47 @@ class Return extends Statement {
  * Abstract Syntax :
  * Break =
  */
-class Break extends Statement {}
+class Break extends Statement {
+}
 
 
 /**
  * Abstract Syntax :
  * Continue =
  */
-class Continue extends Statement {}
+class Continue extends Statement {
+}
 
 
 /**
  * Abstract Syntax :
  * Skip =
  */
-class Skip extends Statement {}
+class Skip extends Statement {
+}
 
 
 /**
  * Abstract Syntax :
  * Expression = VariableRef | Value | Binary | Unary | Assignment | Function
  */
-abstract class Expression extends Statement{}
+abstract class Expression extends Statement {
+}
 
 
 /**
  * Abstract Syntax :
  * VariableRef = Variable | ArrayRef
  */
-abstract class VariableRef extends Expression{}
+abstract class VariableRef extends Expression {
+}
 
 
 /**
  * Abstract Syntax :
  * Variable = String id
  */
-class Variable extends VariableRef{
+class Variable extends VariableRef {
 	String name;
 
 	Variable(String name) {
@@ -307,7 +313,7 @@ class Variable extends VariableRef{
  * Abstract Syntax :
  * ArrayRef = String id; Expression index
  */
-class ArrayRef extends VariableRef{
+class ArrayRef extends VariableRef {
 	String name;
 	Expression index;
 
@@ -386,10 +392,10 @@ class Assignment extends Assignments {
  * Abstract Syntax :
  * ArrayAssign = String Id; Expression index; Operator; Expression
  */
-class ArrayAssign  extends Assignments {
+class ArrayAssign extends Assignments {
 	Expression index;
 
-	ArrayAssign (Variable v, Expression index,Operator o, Expression e) {
+	ArrayAssign(Variable v, Expression index, Operator o, Expression e) {
 		var = v;
 		this.index = index;
 		operator = o;
@@ -662,7 +668,7 @@ class Operator {
 	final static String INT_TIMES_ASSIGN = "INT*=";
 	final static String INT_DIV_ASSIGN = "INT/=";
 	final static String INT_MOD_ASSIGN = "INT%=";
-	
+
 	// RelationalOp = < | <= | == | != | >= | > | 
 	final static String FLOAT_LT = "FLOAT<";
 	final static String FLOAT_LE = "FLOAT<=";
@@ -686,7 +692,7 @@ class Operator {
 	final static String FLOAT_TIMES_ASSIGN = "FLOAT*=";
 	final static String FLOAT_DIV_ASSIGN = "FLOAT/=";
 	final static String FLOAT_MOD_ASSIGN = "FLOAT%=";
-	
+
 	// RelationalOp = < | <= | == | != | >= | > | 
 	final static String TIME_LT = "TIME<";
 	final static String TIME_LE = "TIME<=";
@@ -708,7 +714,7 @@ class Operator {
 	final static String TIME_TIMES_ASSIGN = "TIME*=";
 	final static String TIME_DIV_ASSIGN = "TIME/=";
 	final static String TIME_MOD_ASSIGN = "TIME%=";
-	
+
 	// RelationalOp = < | <= | == | != | >= | > | 
 	final static String DATE_LT = "DATE<";
 	final static String DATE_LE = "DATE<=";
@@ -730,7 +736,7 @@ class Operator {
 	final static String DATE_TIMES_ASSIGN = "DATE*=";
 	final static String DATE_DIV_ASSIGN = "DATE/=";
 	final static String DATE_MOD_ASSIGN = "DATE%=";
-	
+
 	// RelationalOp = < | <= | == | != | >= | >
 	final static String CHAR_LT = "CHAR<";
 	final static String CHAR_LE = "CHAR<=";
@@ -738,7 +744,7 @@ class Operator {
 	final static String CHAR_NE = "CHAR!=";
 	final static String CHAR_GT = "CHAR>";
 	final static String CHAR_GE = "CHAR>=";
-	
+
 	// RelationalOp = < | <= | == | != | >= | >
 	final static String BOOL_LT = "BOOL<";
 	final static String BOOL_LE = "BOOL<=";
@@ -748,7 +754,7 @@ class Operator {
 	final static String BOOL_GE = "BOOL>=";
 	// UnaryOp = !
 	final static String BOOL_COMP = "!";
-	
+
 	// Type specific cast
 	final static String I2F = "I2F";
 	final static String F2I = "F2I";
@@ -782,7 +788,7 @@ class Operator {
 		return value.equals(PLUS) || value.equals(MINUS) || value.equals(TIMES)
 				|| value.equals(DIV) || value.equals(MOD);
 	}
-	
+
 	boolean AssignOP() {
 		return value.equals(PLUSASSIGN) || value.equals(MINUSASSIGN) || value.equals(TIMESASSIGN)
 				|| value.equals(MODASSIGN) || value.equals(DIVASSIGN);
@@ -822,7 +828,7 @@ class Operator {
 			{PLUSPLUS, FLOAT_PP}, {MINUSMINUS, FLOAT_MM},
 			{PLUSASSIGN, FLOAT_PLUS_ASSIGN}, {MINUSASSIGN, FLOAT_MINUS_ASSIGN}, {TIMESASSIGN, FLOAT_TIMES_ASSIGN},
 			{DIVASSIGN, FLOAT_DIV_ASSIGN}, {MODASSIGN, FLOAT_MOD_ASSIGN},
-			{EQ, FLOAT_EQ}, {NE, FLOAT_NE}, {LT, FLOAT_LT},	{LE, FLOAT_LE}, {GT, FLOAT_GT}, {GE, FLOAT_GE},
+			{EQ, FLOAT_EQ}, {NE, FLOAT_NE}, {LT, FLOAT_LT}, {LE, FLOAT_LE}, {GT, FLOAT_GT}, {GE, FLOAT_GE},
 			{NEG, FLOAT_NEG}, {INT, F2I}
 	};
 
@@ -881,7 +887,7 @@ class Operator {
 	static public Operator timeMap(String op) {
 		return map(timeMap, op);
 	}
-	
+
 	static public Operator dateMap(String op) {
 		return map(dateMap, op);
 	}
