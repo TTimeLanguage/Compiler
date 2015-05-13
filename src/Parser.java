@@ -139,7 +139,7 @@ public class Parser {
 		int size = Integer.parseInt(match(TokenType.IntLiteral));
 		match(TokenType.RightBracket);
 
-		if (isEqual()) {
+		if (isAssign()) {
 			ArrayList<Expression> expressions = new ArrayList<Expression>();
 
 			match(TokenType.LeftBrace);
@@ -160,7 +160,7 @@ public class Parser {
 	private NoArrayInit noArrayInit(Type type, String id) {
 		// NoArrayInit → Id [ '=' Expression ]
 
-		if (isEqual()) {
+		if (isAssign()) {
 			return new NoArrayInit(type, id, expression());
 		}
 		return new NoArrayInit(type, id);
@@ -181,7 +181,7 @@ public class Parser {
 			s = IfStatement();
 			//		System.out.println("block data " + s);}
 		else if (token.type().equals(TokenType.LeftBrace))    //block
-			s = Block();
+			s = block();
 		else if (token.type().equals(TokenType.While))        //while
 			s = WhileStatement();
 		else if (token.type().equals(TokenType.Switch))        //switch
@@ -227,16 +227,17 @@ public class Parser {
 	}
 
 	private Statement block() {
-		Block b = new Block(null);
-		Statement s;
-		match(TokenType.LeftBrace);
-		//	System.out.println(" left brace matched");
+		// Block → '{' { Statement } '}'
+
+		ArrayList<Statement> statements = new ArrayList<Statement>();
+
+		match(TokenType.LeftBracket);
 		while (isStatement()) {
-			s = statements();
-			b.member.add(s);
+			statements.add(statement());
 		}
-		match(TokenType.RightBrace);// end of the block 
-		return b;
+		match(TokenType.RightBracket);
+
+		return new Block(statements);
 	}
 
 	private Statement WhileStatement() {
@@ -306,7 +307,7 @@ public class Parser {
 
 
 	private Expression expression() {
-		// Expression → Disjunction | Assignment
+		// Expression → [ Disjunction AssignmentOp ] Disjunction
 		// todo
 
 		return null;
@@ -442,7 +443,7 @@ public class Parser {
 				token.type().equals(TokenType.Divide);
 	}
 
-	private boolean isAssignmentOper() {
+	private boolean isAssignmentOp() {
 		return token.type().equals(TokenType.PlusAssign)
 				|| token.type().equals(TokenType.MinusAssign)
 				|| token.type().equals(TokenType.MultiplyAssign)
@@ -512,8 +513,8 @@ public class Parser {
 		return token.type().equals(TokenType.LeftBrace);
 	}
 
-	private boolean isEqual() {
-		return token.type().equals(TokenType.Equals);
+	private boolean isAssign() {
+		return token.type().equals(TokenType.Assign);
 	}
 
 	private boolean isRightBrace() {
