@@ -204,6 +204,10 @@ class SwitchStatement extends Statement {
 	HashMap<Value, ArrayList<Statement>> cases = new HashMap<Value, ArrayList<Statement>>();
 	ArrayList<Statement> defaults;
 
+	SwitchStatement(Expression condition) {
+		this.condition = condition;
+	}
+
 	void addCase(Value caseLiteral, ArrayList<Statement> statements) {
 		cases.put(caseLiteral, statements);
 	}
@@ -369,54 +373,15 @@ class Unary extends Expression {
 
 /**
  * Abstract Syntax :
- * Assignments = Assignment | ArrayAssign
- */
-abstract class Assignments extends Expression {
-	Variable var;
-	Operator operator;
-	Expression expression;
-}
-
-
-/**
- * Abstract Syntax :
- * Assignment = String Id; Operator; Expression
- */
-class Assignment extends Assignments {
-	Assignment(Variable v, Operator o, Expression e) {
-		var = v;
-		operator = o;
-		expression = e;
-	}
-}
-
-
-/**
- * Abstract Syntax :
- * ArrayAssign = String Id; Expression index; Operator; Expression
- */
-class ArrayAssign extends Assignments {
-	Expression index;
-
-	ArrayAssign(Variable v, Expression index, Operator o, Expression e) {
-		var = v;
-		this.index = index;
-		operator = o;
-		expression = e;
-	}
-}
-
-
-/**
- * Abstract Syntax :
  * Function = String name; Expression*
  */
 class Function extends Expression {
 	String name;
 	ArrayList<Expression> params;
 
-	void addParams(Expression param) {
-		params.add(param);
+	Function(String id, ArrayList<Expression> params) {
+		name = id;
+		this.params = params;
 	}
 }
 
