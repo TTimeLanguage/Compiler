@@ -20,7 +20,6 @@ public class Token {
 	public static final Token falseTok = new Token(TokenType.False, "false");
 	public static final Token ifTok = new Token(TokenType.If, "if");
 	public static final Token elseTok = new Token(TokenType.Else, "else");
-	public static final Token elseIfTok = new Token(TokenType.ElseIf, "else if");
 	public static final Token whileTok = new Token(TokenType.While, "while");
 	public static final Token forTok = new Token(TokenType.For, "for");
 	public static final Token switchTok = new Token(TokenType.Switch, "switch");
