@@ -81,6 +81,8 @@ class Statements {
  * Declaration = ArrayInit | NoArrayInit
  */
 abstract class Declaration extends Global {
+	Type type;
+	String name;
 }
 
 
@@ -89,8 +91,6 @@ abstract class Declaration extends Global {
  * ArrayInit = Type; String id; int size; (Expression initList)*
  */
 class ArrayInit extends Declaration {
-	Type type;
-	String name;
 	int size;
 	ArrayList<Expression> initList;
 
@@ -112,14 +112,12 @@ class ArrayInit extends Declaration {
  * ArrayInit = Type; String id; (Expression initList)*
  */
 class NoArrayInit extends Declaration {
-	Type type;
-	String name;
-	ArrayList<Expression> initList;
+	Expression initial;
 
-	NoArrayInit(Type t, String name, ArrayList<Expression> i) {
+	NoArrayInit(Type t, String name, Expression i) {
 		type = t;
 		this.name = name;
-		initList = i;
+		initial = i;
 	}
 
 	NoArrayInit(Type t, String name) {
