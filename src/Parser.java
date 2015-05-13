@@ -32,16 +32,17 @@ public class Parser {
     /************************************************************************************************************/
     public Program program() {
 		// Program → { Global } 'int' 'main' '(' ')' Statements
+
 		ArrayList<Global> globals = new ArrayList<Global>();
 		Statements s = null;
 
 		while (isType()) {
 			Type t = type();
 
-			if (t.equals(Token.mainTok)) {
-				match(TokenType.Main);            // int main
-				match(TokenType.LeftParen);        // (
-				match(TokenType.RightParen);    // )
+			if (t.equals(Type.INT) && isMain()) {
+				match(TokenType.Main);			// int main
+				match(TokenType.LeftParen);		// (
+				match(TokenType.RightParen);	// )
 				s = state();            // Statements
 			}
 
@@ -135,6 +136,9 @@ public class Parser {
 		// Declarations → Type Init { ',' Init } ';'
 
 		Type type = type();
+		String id = match(TokenType.Identifier);
+
+		if (isLeftBrace())
 
 
 
@@ -493,15 +497,27 @@ public class Parser {
  
     private boolean isRightBrace() {
 	return token.type().equals(TokenType.RightBrace);
-    } 
+    }
 
-    private boolean isStatement() {
+	private boolean isLeftBracket() {
+		return token.type().equals(TokenType.LeftBracket);
+	}
+
+	private boolean isRightBracket() {
+		return token.type().equals(TokenType.RightBracket);
+	}
+
+	private boolean isMain() {
+		return token.type().equals(TokenType.Main);
+	}
+
+	private boolean isStatement() {
 	return 	isSemicolon() ||
 		isLeftBrace() ||
 		token.type().equals(TokenType.If) ||
 		token.type().equals(TokenType.While) ||
 		token.type().equals(TokenType.Identifier); 
     }
-    
+
     
 }
