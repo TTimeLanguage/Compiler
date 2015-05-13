@@ -46,7 +46,7 @@ public class Parser {
 				match(TokenType.Main);            // int main
 				match(TokenType.LeftParen);        // (
 				match(TokenType.RightParen);    // )
-				s = statements();            // Statements
+				s = statements();                // Statements
 			}
 
 			String id = match(TokenType.Identifier);
@@ -141,16 +141,16 @@ public class Parser {
 
 		if (isEqual()) {
 			ArrayList<Expression> expressions = new ArrayList<Expression>();
-			
+
 			match(TokenType.LeftBrace);
 			expressions.add(expression());
-			
+
 			while (isComma()) {
 				match(TokenType.Comma);
 				expressions.add(expression());
 			}
 			match(TokenType.RightBrace);
-			
+
 			return new ArrayInit(type, id, size, expressions)
 		}
 
@@ -159,21 +159,12 @@ public class Parser {
 
 	private NoArrayInit noArrayInit(Type type, String id) {
 		// NoArrayInit → Id [ '=' Expression ]
-		
+
 		if (isEqual()) {
 			return new NoArrayInit(type, id, expression());
 		}
 		return new NoArrayInit(type, id);
 	}
-
-	
-
-
-
-	private Expression expression() {
-		return null;
-	}
-	
 
 
 	/**
@@ -193,18 +184,19 @@ public class Parser {
 			s = Block();
 		else if (token.type().equals(TokenType.While))        //while
 			s = WhileStatement();
-		else if (token.type().equals(TokenType.Switch))    //switch
+		else if (token.type().equals(TokenType.Switch))        //switch
 			s = SwitchStatement();
 		else if (token.type().equals(TokenType.For))        //for
 			s = ForStatement();
-			//else if (token.type().equals(TokenType.)) 		//Return
-			//	s = Return();
-			//else if (token.type().equals(TokenType.)) //Expression
-			//	s = Expression();
-			//else if (token.type().equals(TokenType.)) 		//break
-			//	s = Bread();
-			//else if (token.type().equals(TokenType.)) 	//continue
-			//	s = Continue();
+		else if (token.type().equals(TokenType.Return))    //Return
+			s = Return();
+		else if (token.type().equals(TokenType.Break))        //break
+			s = Break();
+		else if (token.type().equals(TokenType.Continue))    //continue
+			s = Continue();
+		/*else if (token.type().equals(TokenType.))			//Expression
+		todo
+			s = expression();*/
 		else error("Error in Statement construction");
 		return s;
 	}
@@ -288,23 +280,94 @@ public class Parser {
 
 	private Statement Return() {
 		// Return → 'return' [ Expression ] ';'
-		return null;
+
+		match(TokenType.Return);
+		if (!isSemicolon()) {
+			return new Return(expression());
+		}
+		return new Return();
 	}
 
-	private Statement Expression() {
-		// Expression → Disjunction | Assignment 
-		return null;
-	}
-
-	private Statement Bread() {
+	private Statement Break() {
 		// Break → 'break' ';'
-		// break
+
+		match(TokenType.Break);
 		match(TokenType.Semicolon);
-		return null;
+		return new Break();
 	}
 
 	private Statement Continue() {
 		// Continue → 'continue' ';'
+
+		match(TokenType.Continue);
+		match(TokenType.Semicolon);
+		return new Continue();
+	}
+
+
+	private Expression expression() {
+		// Expression → Disjunction | Assignment
+		// todo
+
+		return null;
+	}
+
+	private Expression disjunction() {
+		// Disjunction → Conjunction { ‘||’ Conjunction }
+		// todo
+		return null;
+	}
+
+	private Expression conjunction() {
+		// Conjunction → Equality { ‘&&’ Equality }
+		// todo
+		return null;
+	}
+
+	private Expression equality() {
+		// Equality → Relation [ EquOp Relation ]
+		// todo
+		return null;
+	}
+
+	private Expression relation() {
+		// Relation → Addition [ RelOp Addition ]
+		// todo
+		return null;
+	}
+
+	private Expression addition() {
+		// Addition → Term { AddOp  Term }
+		// todo
+		return null;
+	}
+
+	private Expression term() {
+		// Term → Double { MulOp Double }
+		// todo
+		return null;
+	}
+
+	private Expression Double() {
+		// Double → Factor [ DouOp ]
+		// todo
+		return null;
+	}
+
+	private Expression factor() {
+		// Factor → [ UnaryOp ] Primary
+		// todo
+		return null;
+	}
+
+	private Expression Primary() {
+		// Primary → Id [ ‘[’ Expression ’]’ ] | Literal | ‘(‘ Expression ‘)’ | Function
+		// todo
+		return null;
+	}
+
+	private Assignments assignments() {
+		// todo
 		return null;
 	}
 
@@ -313,29 +376,22 @@ public class Parser {
 	 */
 	private Type type() {
 		// Type  -->  int | bool | float | char 
-		// look up enum in API amke sure that this is working 
+		// look up enum in API make sure that this is working
 		Type t = null;
 		if (token.type().equals(TokenType.Int)) {
 			t = Type.INT;
-			//System.out.println(" Type  is int");
 		} else if (token.type().equals(TokenType.Bool)) {
 			t = Type.BOOL;
-			//System.out.println(" Type  is bool");
 		} else if (token.type().equals(TokenType.Float)) {
 			t = Type.FLOAT;
-			//System.out.println(" Type  is float");
 		} else if (token.type().equals(TokenType.Char)) {
 			t = Type.CHAR;
-			//System.out.println(" Type  is char");
 		} else if (token.type().equals(TokenType.Void)) {
 			t = Type.VOID;
-			//System.out.println(" Type  is char");
 		} else if (token.type().equals(TokenType.Time)) {
 			t = Type.TIME;
-			//System.out.println(" Type  is char");
 		} else if (token.type().equals(TokenType.Date)) {
 			t = Type.DATE;
-			//System.out.println(" Type  is char");
 		} else error("Error in Type construction");
 		token = lexer.next();
 		return t;
@@ -344,10 +400,10 @@ public class Parser {
 	private Value literal() { // take the stringy part and convert it to the correct return new  typed value. cast it to the correct value
 		Value value = null;
 		String stval = token.value();
+
 		if (token.type().equals(TokenType.IntLiteral)) {
 			value = new IntValue(Integer.parseInt(stval));
 			token = lexer.next();
-			//System.out.println("found int literal");
 		} else if (token.type().equals(TokenType.FloatLiteral)) {
 			value = new FloatValue(Float.parseFloat(stval));
 			token = lexer.next();
@@ -367,6 +423,7 @@ public class Parser {
 			value = new BoolValue(false);
 			token = lexer.next();
 		} else error("Error in literal value contruction");
+
 		return value;
 	}
 
@@ -394,7 +451,6 @@ public class Parser {
 				|| token.type().equals(TokenType.Assign)
 				|| token.type().equals(TokenType.PlusPlus)
 				|| token.type().equals(TokenType.MinusMinus);
-
 	}
 
 	private boolean isUnaryOp() {
@@ -470,6 +526,10 @@ public class Parser {
 
 	private boolean isRightBracket() {
 		return token.type().equals(TokenType.RightBracket);
+	}
+
+	private boolean isElse() {
+		return token.type().equals(TokenType.Else);
 	}
 
 	private boolean isMain() {
