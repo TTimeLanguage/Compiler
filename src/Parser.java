@@ -308,68 +308,122 @@ public class Parser {
 
 	private Expression expression() {
 		// Expression → [ Disjunction AssignmentOp ] Disjunction
-		// todo
-
-		return null;
-	}
-
-	private Expression disjunction() {
-		// Disjunction → Conjunction { ‘||’ Conjunction }
-		// todo
-		return null;
+		Expression e = disjunction();
+		if (isAssignOp()) {
+			Operator op = new Operator(match(token.type()));
+			Expression term2 = disjunction();
+			e = new Binary(op, term2, e);
+		}
+		return e;
 	}
 
 	private Expression conjunction() {
 		// Conjunction → Equality { ‘&&’ Equality }
-		// todo
-		return null;
+		Expression e = equality();
+		while (token.type().equals(TokenType.And)) {
+			Operator op = new Operator(match(token.type()));
+			Expression term2 = conjunction();
+			e = new Binary(op, e, term2);
+		}
+		return e;  // student exercise
 	}
 
 	private Expression equality() {
-		// Equality → Relation [ EquOp Relation ]
-		// todo
-		return null;
+		// Equality → Relation [ EquOp Relation ]z
+		Expression e = relation();
+		while (isEqualityOp()) {
+			Operator op = new Operator(match(token.type()));
+			Expression term2 = relation();
+			e = new Binary(op, e, term2);
+		}
+		return e;  // student exercise
 	}
 
 	private Expression relation() {
 		// Relation → Addition [ RelOp Addition ]
-		// todo
-		return null;
+		Expression e = addition();
+		while (isRelationalOp()) {
+			Operator op = new Operator(match(token.type()));
+			Expression term2 = addition();
+			e = new Binary(op, e, term2);
+		}
+		return e;  // student exercise
 	}
 
 	private Expression addition() {
 		// Addition → Term { AddOp  Term }
-		// todo
-		return null;
+		Expression e = term();
+		while (isAddOp()) {
+			Operator op = new Operator(match(token.type()));
+			Expression term2 = term();
+			e = new Binary(op, e, term2);
+		}
+		return e;
 	}
 
 	private Expression term() {
 		// Term → Double { MulOp Double }
-		// todo
-		return null;
+		Expression e = Double();
+		while (isMultiplyOp()) {
+			Operator op = new Operator(match(token.type()));
+			Expression term2 = Double();
+			e = new Binary(op, e, term2);
+		}
+		return e;
 	}
 
 	private Expression Double() {
 		// Double → Factor [ DouOp ]
-		// todo
-		return null;
+		Expression term = factor();
+		if (isDouOp()) {
+			Operator op = new Operator(match(token.type()));
+			term = new Unary(op, term);
+		}
+		return term;
 	}
 
 	private Expression factor() {
 		// Factor → [ UnaryOp ] Primary
+		if (isUnaryOp()) {
+			Operator op = new Operator(match(token.type()));
+			Expression term = primary();
+			return new Unary(op, term);
+		} else return primary();
+	}
+
+	private Expression primary() {
+		// Primary → VariableRef | Literal | ‘(‘ Expression ‘)’ | Function | ‘(‘ Type ’)’ Expression
+
+		if (token.type().equals(TokenType.LeftParen)) {
+			match(TokenType.LeftParen);
+			if (isType()) {
+				Type type = type();
+				match(TokenType.RightParen);
+
+				return new TypeCast(type, expression());
+			} else {
+				Expression expression = expression();
+				match(TokenType.RightParen);
+
+				return expression;
+			}
+		} else if (isLiteral()) {
+			return literal();
+		} else if (isIdentifier()) {
+
+		}
+
 		// todo
 		return null;
 	}
 
-	private Expression Primary() {
-		// Primary → Id [ ‘[’ Expression ’]’ ] | Literal | ‘(‘ Expression ‘)’ | Function
-		// todo
-		return null;
-	}
+	private Expression variableRef() {
+		String id = match(TokenType.Identifier);
 
-	private Assignments assignments() {
-		// todo
-		return null;
+		if (isLeftBracket()) {
+			match(TokenType.LeftBracket);
+
+		}
 	}
 
 	/**
@@ -443,7 +497,7 @@ public class Parser {
 				token.type().equals(TokenType.Divide);
 	}
 
-	private boolean isAssignmentOp() {
+	private boolean isAssignOp() {
 		return token.type().equals(TokenType.PlusAssign)
 				|| token.type().equals(TokenType.MinusAssign)
 				|| token.type().equals(TokenType.MultiplyAssign)
@@ -486,6 +540,10 @@ public class Parser {
 				isBooleanLiteral() ||
 				token.type().equals(TokenType.FloatLiteral) ||
 				token.type().equals(TokenType.CharLiteral);
+	}
+
+	private boolean isIdentifier() {
+		return token.type().equals(TokenType.Identifier);
 	}
 
 	private boolean isBooleanLiteral() {
