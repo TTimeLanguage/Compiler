@@ -213,7 +213,7 @@ public class Parser {
 		while (!token.type().equals(TokenType.Else)) {
 			if (token.type().equals(TokenType.ElseIf)) {
 				elseifbranchs.add(elseifbranch);
-				Block thenbranch2 = Block();
+				Block thenbranch2 = block();
 			}
 
 		}
@@ -226,7 +226,7 @@ public class Parser {
 		return new Conditional(test, thenbranch, elseifbranch, elsebranch);// student exercise
 	}
 
-	private Statement Block() {
+	private Statement block() {
 		Block b = new Block(null);
 		Statement s;
 		match(TokenType.LeftBrace);
