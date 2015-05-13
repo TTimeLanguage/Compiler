@@ -3,7 +3,7 @@
  */
 public enum TokenType {
 	Void, Bool, Int, Char, Float, Date, Time, Main, True, False, If, Else, ElseIf, While, For, Switch, Case, Break,
-	Continue, Eof,
+	Continue, Return, Eof,
 	LeftBrace, RightBrace, LeftBracket, RightBracket, LeftParen, RightParen,
 	Semicolon, Colon, Comma, Assign, Equals, Less, LessEqual, Greater, GreaterEqual, Not, NotEqual,
 	Plus, PlusAssign, PlusPlus, Minus, MinusAssign, MinusMinus, Multiply, MultiplyAssign,

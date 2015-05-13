@@ -240,6 +240,9 @@ class Return extends Statement {
 	Return(Expression returnValue) {
 		this.returnValue = returnValue;
 	}
+
+	Return() {
+	}
 }
 
 

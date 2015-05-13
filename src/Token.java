@@ -27,6 +27,7 @@ public class Token {
 	public static final Token caseTok = new Token(TokenType.Case, "case");
 	public static final Token breakTok = new Token(TokenType.Break, "break");
 	public static final Token continueTok = new Token(TokenType.Continue, "continue");
+	public static final Token returnTok = new Token(TokenType.Return, "return");
 	public static final Token leftBraceTok = new Token(TokenType.LeftBrace, "{");
 	public static final Token rightBraceTok = new Token(TokenType.RightBrace, "}");
 	public static final Token leftBracketTok = new Token(TokenType.LeftBracket, "[");
