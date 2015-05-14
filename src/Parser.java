@@ -129,6 +129,8 @@ public class Parser {
 			declaration = noArrayInit(type, id);
 		}
 
+		match(TokenType.Semicolon);
+
 		return declaration;
 	}
 
@@ -752,6 +754,6 @@ public class Parser {
 	public static void main(String args[]) {
 		Parser parser = new Parser(new Lexer(args[0]));
 		Program program = parser.program();
-		//program.display(0);           // display abstract syntax tree
+		program.display(0);           // display abstract syntax tree
 	}
 }
