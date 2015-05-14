@@ -19,14 +19,12 @@ public class Parser {
 	}
 
 	private void error(TokenType tok) {
-		System.err.println("Syntax error: expecting: " + tok
-				+ "; saw: " + token + " ");
+		System.err.println("Syntax error: expecting: " + tok + "; saw: " + token + " ");
 		System.exit(1);
 	}
 
 	private void error(String tok) {
-		System.err.println("Syntax error: expecting: " + tok
-				+ "; saw: " + token + " ");
+		System.err.println("Syntax error: expecting: " + tok + "; saw: " + token + " ");
 		System.exit(1);
 	}
 
@@ -394,7 +392,7 @@ public class Parser {
 		// Disjunction → Conjunction { ‘||’ Conjunction }
 
 		Expression e = conjunction();
-		while (token.type().equals(TokenType.Or)) {
+		while (isOr()) {
 			Operator op = new Operator(match(token.type()));
 			Expression term2 = expression();
 			e = new Binary(op, e, term2);
@@ -407,7 +405,7 @@ public class Parser {
 		// Conjunction → Equality { ‘&&’ Equality }
 
 		Expression e = equality();
-		while (token.type().equals(TokenType.And)) {
+		while (isAnd()) {
 			Operator op = new Operator(match(token.type()));
 			Expression term2 = conjunction();
 			e = new Binary(op, e, term2);
@@ -561,8 +559,8 @@ public class Parser {
 	 * *************************************OK****************************************
 	 */
 	private Type type() {
-		// Type  -->  int | bool | float | char
-		// look up enum in API make sure that this is working
+		// Type → 'int' | 'float' | 'char' | 'bool' | 'time' | 'date' | ‘void’
+
 		Type t = null;
 		if (token.type().equals(TokenType.Int)) {
 			t = Type.INT;
@@ -583,7 +581,7 @@ public class Parser {
 		return t;
 	}
 
-	private Value literal() { // take the stringy part and convert it to the correct return new  typed value. cast it to the correct value
+	private Value literal() {
 		Value value = null;
 		String stval = token.value();
 
@@ -737,6 +735,14 @@ public class Parser {
 
 	private boolean isDefault() {
 		return token.type().equals(TokenType.Default);
+	}
+
+	private boolean isAnd() {
+		return token.type().equals(TokenType.And);
+	}
+
+	private boolean isOr() {
+		return token.type().equals(TokenType.Or);
 	}
 
 	private boolean isMain() {
