@@ -45,14 +45,14 @@ public class Parser {
 				match(TokenType.LeftParen);        // (
 				match(TokenType.RightParen);    // )
 				s = statements();                // Statements
-			}
-
-			String id = match(TokenType.Identifier);
-
-			if (isLeftParen()) {
-				globals.add(functionDeclaration(t, id));
 			} else {
-				globals.add(declaration());
+				String id = match(TokenType.Identifier);
+
+				if (isLeftParen()) {
+					globals.add(functionDeclaration(t, id));
+				} else {
+					globals.add(declaration());
+				}
 			}
 		}
 
@@ -176,13 +176,14 @@ public class Parser {
 		// Statement → Skip | IfStatement | Block | WhileStatement | SwitchStatement |
 		// ForStatement | Return | Expression | Break | Continue
 
-		if (token.type().equals(TokenType.Semicolon)) {
+		if (isSemicolon()) {
+			match(TokenType.Semicolon);
 			return new Skip();
 
-		} else if (token.type().equals(TokenType.If)) {            //if
+		} else if (isIf()) {            //if
 			return IfStatement();
 
-		} else if (token.type().equals(TokenType.LeftBrace)) {    //block
+		} else if (isLeftBrace()) {    //block
 			return block();
 
 		} else if (token.type().equals(TokenType.While)) {        //while
