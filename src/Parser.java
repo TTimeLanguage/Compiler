@@ -340,11 +340,11 @@ public class Parser {
 
 		ArrayList<Statement> statements = new ArrayList<Statement>();
 
-		match(TokenType.LeftBracket);
-		while (isStatement()) {
+		match(TokenType.LeftBrace);
+		while (!isRightBrace()) {
 			statements.add(statement());
 		}
-		match(TokenType.RightBracket);
+		match(TokenType.RightBrace);
 
 		return new Block(statements);
 	}
@@ -538,15 +538,21 @@ public class Parser {
 	}
 
 	private Expression function(String id) {
+		// Function → Id ‘(‘ Params ‘)’
+		// Params → Expression { ‘,’ Expression } | ε
+
 		match(TokenType.LeftParen);
 
 		ArrayList<Expression> params = new ArrayList<Expression>();
 
-		params.add(expression());
-		while (isComma()) {
-			match(TokenType.Comma);
+		if (!isRightParen()) {
 			params.add(expression());
+			while (isComma()) {
+				match(TokenType.Comma);
+				params.add(expression());
+			}
 		}
+		match(TokenType.RightParen);
 
 		return new Function(id, params);
 	}
@@ -735,14 +741,6 @@ public class Parser {
 
 	private boolean isMain() {
 		return token.type().equals(TokenType.Main);
-	}
-
-	private boolean isStatement() {
-		return isSemicolon() ||
-				isLeftBrace() ||
-				token.type().equals(TokenType.If) ||
-				token.type().equals(TokenType.While) ||
-				token.type().equals(TokenType.Identifier);
 	}
 
 	public static void main(String args[]) {
