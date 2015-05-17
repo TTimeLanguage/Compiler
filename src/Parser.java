@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 public class Parser {
-	Token token;          // current token from the input stream
-	Lexer lexer;
+	private Token token;          // current token from the input stream
+	private Lexer lexer;
 
 	public Parser(Lexer ts) { // Open the C++Lite source program
 		lexer = ts;                          // as a token stream, and
@@ -34,7 +34,7 @@ public class Parser {
 	public Program program() {
 		// Program → { Global } 'int' 'main' '(' ')' Statements
 
-		ArrayList<Global> globals = new ArrayList<Global>();
+		ArrayList<Global> globals = new ArrayList<>();
 		Statements s = null;
 
 		while (isType()) {
@@ -56,6 +56,10 @@ public class Parser {
 			}
 		}
 
+		while (lexer.next() != Token.eofTok) {
+			System.out.println(token);
+		}
+
 		return new Program(globals, s);
 	}
 
@@ -63,7 +67,7 @@ public class Parser {
 	private FunctionDeclaration functionDeclaration(Type type, String id) {
 		// FunctionDeclaration → Type Id '(' ParamDeclarations ’)’ Statements
 
-		ArrayList<ParamDeclaration> params = new ArrayList<ParamDeclaration>();
+		ArrayList<ParamDeclaration> params = new ArrayList<>();
 
 		match(TokenType.LeftParen);
 		if (!isRightParen()) {
@@ -96,8 +100,8 @@ public class Parser {
 	private Statements statements() {
 		//Statements → ‘{‘ { Declarations } { Statement } ‘}’
 
-		ArrayList<Declaration> declarations = new ArrayList<Declaration>();
-		ArrayList<Statement> statements = new ArrayList<Statement>();
+		ArrayList<Declaration> declarations = new ArrayList<>();
+		ArrayList<Statement> statements = new ArrayList<>();
 
 
 		match(TokenType.LeftBrace);
@@ -142,7 +146,7 @@ public class Parser {
 		match(TokenType.RightBracket);
 
 		if (isAssign()) {
-			ArrayList<Expression> expressions = new ArrayList<Expression>();
+			ArrayList<Expression> expressions = new ArrayList<>();
 
 			match(TokenType.LeftBrace);
 			expressions.add(expression());
@@ -163,6 +167,7 @@ public class Parser {
 		// NoArrayInit → Id [ '=' Expression ]
 
 		if (isAssign()) {
+			match(TokenType.Assign);
 			return new NoArrayInit(type, id, expression());
 		}
 		return new NoArrayInit(type, id);
@@ -219,7 +224,7 @@ public class Parser {
 
 		Block block = block();
 
-		ArrayList<IfStatement> elseIfs = new ArrayList<IfStatement>();
+		ArrayList<IfStatement> elseIfs = new ArrayList<>();
 		Block elseBlock = null;
 
 		boolean else_appear = false;
@@ -284,7 +289,7 @@ public class Parser {
 			Value value = literal();
 			match(TokenType.Colon);
 
-			ArrayList<Statement> caseStatements = new ArrayList<Statement>();
+			ArrayList<Statement> caseStatements = new ArrayList<>();
 			while (!isCase() && !isDefault()) {
 				caseStatements.add(statement());
 			}
@@ -296,7 +301,7 @@ public class Parser {
 			match(TokenType.Default);
 			match(TokenType.Comma);
 
-			ArrayList<Statement> defaultStatements = new ArrayList<Statement>();
+			ArrayList<Statement> defaultStatements = new ArrayList<>();
 			while (!isRightBrace()) {
 				defaultStatements.add(statement());
 			}
@@ -339,7 +344,7 @@ public class Parser {
 	private Block block() {
 		// Block → '{' { Statement } '}'
 
-		ArrayList<Statement> statements = new ArrayList<Statement>();
+		ArrayList<Statement> statements = new ArrayList<>();
 
 		match(TokenType.LeftBrace);
 		while (!isRightBrace()) {
@@ -496,7 +501,7 @@ public class Parser {
 	private Expression primary() {
 		// Primary → VariableRef | Literal | ‘(‘ Expression ‘)’ | Function | ‘(‘ Type ’)’ Expression
 
-		if (token.type().equals(TokenType.LeftParen)) {
+		if (isLeftParen()) {
 			match(TokenType.LeftParen);
 			if (isType()) {
 				Type type = type();
@@ -544,7 +549,7 @@ public class Parser {
 
 		match(TokenType.LeftParen);
 
-		ArrayList<Expression> params = new ArrayList<Expression>();
+		ArrayList<Expression> params = new ArrayList<>();
 
 		if (!isRightParen()) {
 			params.add(expression());
