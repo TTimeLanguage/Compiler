@@ -72,7 +72,6 @@ public class Lexer {
 					ch = nextChar();
 					if (ch != '/') {
 						if (ch != '=') {
-							ch = nextChar();
 							return Token.divideTok;
 						}
 						else {
