@@ -33,7 +33,7 @@ public class Lexer {
 			try {
 				line = input.readLine();
 			} catch (IOException e) {
-				System.err.println(e);
+				e.printStackTrace();
 				System.exit(1);
 			} // try
 			if (line == null) // at end of file
@@ -71,7 +71,10 @@ public class Lexer {
 				case '/':  // divide or comment or /=
 					ch = nextChar();
 					if (ch != '/') {
-						if (ch != '=') return Token.divideTok;
+						if (ch != '=') {
+							ch = nextChar();
+							return Token.divideTok;
+						}
 						else {
 							ch = nextChar();
 							return Token.divideAssignTok;
@@ -95,19 +98,13 @@ public class Lexer {
 					return Token.eofTok;
 
 				case '+':
-					return chkOpt3('+', '=', Token.plusTok,
-							Token.plusAssignTok,
-							Token.plusPlusTok);
+					return chkOpt3('+', '=', Token.plusTok, Token.plusAssignTok, Token.plusPlusTok);
 				case '-':
-					return chkOpt3('-', '=', Token.minusTok,
-							Token.minusAssignTok,
-							Token.minusMinusTok);
+					return chkOpt3('-', '=', Token.minusTok, Token.minusAssignTok, Token.minusMinusTok);
 				case '*':
-					return chkOpt('=', Token.multiplyTok,
-							Token.multiplyAsssignTok);
+					return chkOpt('=', Token.multiplyTok, Token.multiplyAsssignTok);
 				case '%':
-					return chkOpt('=', Token.modTok,
-							Token.modAssignTok);
+					return chkOpt('=', Token.modTok, Token.modAssignTok);
 				case '(':
 					ch = nextChar();
 					return Token.leftParenTok;
@@ -133,17 +130,16 @@ public class Lexer {
 					return Token.orTok;
 
 				case '=':
-					return chkOpt('=', Token.assignTok,
-							Token.eqeqTok);
+					return chkOpt('=', Token.assignTok,	Token.eqeqTok);
 				case '<':
-					return chkOpt('=', Token.ltTok,
-							Token.lteqTok);
+					return chkOpt('=', Token.ltTok,	Token.lteqTok);
 				case '>':
-					return chkOpt('=', Token.gtTok,
-							Token.gteqTok);
+					return chkOpt('=', Token.gtTok, Token.gteqTok);
 				case '!':
-					return chkOpt('=', Token.notTok,
-							Token.noteqTok);
+					return chkOpt('=', Token.notTok, Token.noteqTok);
+				case ',':
+					ch = nextChar();
+					return Token.commaTok;
 
 				default:
 					error("Illegal character " + ch);
