@@ -33,7 +33,7 @@ public class Lexer {
 			try {
 				line = input.readLine();
 			} catch (IOException e) {
-				System.err.println(e);
+				e.printStackTrace();
 				System.exit(1);
 			} // try
 			if (line == null) // at end of file
@@ -56,10 +56,23 @@ public class Lexer {
 				return Token.keyword(spelling);
 			} else if (isDigit(ch)) { // int or float literal
 				String number = concat(digits);
-				if (ch != '.')  // int Literal
-					return Token.mkIntLiteral(number);
-				number += concat(digits);
-				return Token.mkFloatLiteral(number);
+				if (ch == '.') {
+					number += concat(digits);
+					if (ch == '.') {
+						number += concat(digits);
+						return Token.mkDateLiteral(number);
+					}
+					return Token.mkFloatLiteral(number);
+				} else if (ch == ':') {
+					number += concat(digits);
+					if (ch == ':') {
+						number += concat(digits);
+						return Token.mkTimeLiteral(number);
+					} else {
+						error("illegal time literal");
+					}
+				}
+				return Token.mkIntLiteral(number);
 			} else switch (ch) {
 				case ' ':
 				case '\t':
@@ -71,7 +84,9 @@ public class Lexer {
 				case '/':  // divide or comment or /=
 					ch = nextChar();
 					if (ch != '/') {
-						if (ch != '=') return Token.divideTok;
+						if (ch != '=') {
+							return Token.divideTok;
+						}
 						else {
 							ch = nextChar();
 							return Token.divideAssignTok;
@@ -95,19 +110,13 @@ public class Lexer {
 					return Token.eofTok;
 
 				case '+':
-					return chkOpt3('+', '=', Token.plusTok,
-							Token.plusAssignTok,
-							Token.plusPlusTok);
+					return chkOpt3('+', '=', Token.plusTok, Token.plusAssignTok, Token.plusPlusTok);
 				case '-':
-					return chkOpt3('-', '=', Token.minusTok,
-							Token.minusAssignTok,
-							Token.minusMinusTok);
+					return chkOpt3('-', '=', Token.minusTok, Token.minusAssignTok, Token.minusMinusTok);
 				case '*':
-					return chkOpt('=', Token.multiplyTok,
-							Token.multiplyAsssignTok);
+					return chkOpt('=', Token.multiplyTok, Token.multiplyAsssignTok);
 				case '%':
-					return chkOpt('=', Token.modTok,
-							Token.modAssignTok);
+					return chkOpt('=', Token.modTok, Token.modAssignTok);
 				case '(':
 					ch = nextChar();
 					return Token.leftParenTok;
@@ -120,6 +129,12 @@ public class Lexer {
 				case '}':
 					ch = nextChar();
 					return Token.rightBraceTok;
+				case '[':
+					ch = nextChar();
+					return Token.leftBracketTok;
+				case ']':
+					ch = nextChar();
+					return Token.rightBracketTok;
 				case ';':
 					ch = nextChar();
 					return Token.semicolonTok;
@@ -133,17 +148,16 @@ public class Lexer {
 					return Token.orTok;
 
 				case '=':
-					return chkOpt('=', Token.assignTok,
-							Token.eqeqTok);
+					return chkOpt('=', Token.assignTok,	Token.eqeqTok);
 				case '<':
-					return chkOpt('=', Token.ltTok,
-							Token.lteqTok);
+					return chkOpt('=', Token.ltTok,	Token.lteqTok);
 				case '>':
-					return chkOpt('=', Token.gtTok,
-							Token.gteqTok);
+					return chkOpt('=', Token.gtTok, Token.gteqTok);
 				case '!':
-					return chkOpt('=', Token.notTok,
-							Token.noteqTok);
+					return chkOpt('=', Token.notTok, Token.noteqTok);
+				case ',':
+					ch = nextChar();
+					return Token.commaTok;
 
 				default:
 					error("Illegal character " + ch);
