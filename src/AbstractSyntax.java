@@ -9,7 +9,7 @@ abstract class AbstractSyntax {
 	abstract void display(int k);
 	abstract void V();
 	private boolean valid = false;
-	private static HashMap<String, Declaration> declarationHashMap = new HashMap<>();
+	private static HashMap<String, Init> declarationMap = new HashMap<>();
 }
 
 /**
