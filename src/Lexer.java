@@ -56,10 +56,23 @@ public class Lexer {
 				return Token.keyword(spelling);
 			} else if (isDigit(ch)) { // int or float literal
 				String number = concat(digits);
-				if (ch != '.')  // int Literal
-					return Token.mkIntLiteral(number);
-				number += concat(digits);
-				return Token.mkFloatLiteral(number);
+				if (ch == '.') {
+					number += concat(digits);
+					if (ch == '.') {
+						number += concat(digits);
+						return Token.mkDateLiteral(number);
+					}
+					return Token.mkFloatLiteral(number);
+				} else if (ch == ':') {
+					number += concat(digits);
+					if (ch == ':') {
+						number += concat(digits);
+						return Token.mkTimeLiteral(number);
+					} else {
+						error("illegal time literal");
+					}
+				}
+				return Token.mkIntLiteral(number);
 			} else switch (ch) {
 				case ' ':
 				case '\t':
@@ -116,6 +129,12 @@ public class Lexer {
 				case '}':
 					ch = nextChar();
 					return Token.rightBraceTok;
+				case '[':
+					ch = nextChar();
+					return Token.leftBracketTok;
+				case ']':
+					ch = nextChar();
+					return Token.rightBracketTok;
 				case ';':
 					ch = nextChar();
 					return Token.semicolonTok;
