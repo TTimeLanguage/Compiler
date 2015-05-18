@@ -5,17 +5,42 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 
+abstract class AbstractSyntax {
+	abstract void display(int k);
+	abstract void V();
+	private boolean valid = false;
+	private static HashMap<String, Declaration> declarationHashMap = new HashMap<>();
+}
+
 /**
  * Abstract Syntax :
  * Program = Global*; Staments
  */
-class Program {
+class Program extends AbstractSyntax {
 	ArrayList<Global> globals;
 	Statements statements;
 
 	Program(ArrayList<Global> g, Statements s) {
 		globals = g;
 		statements = s;
+	}
+
+	@Override
+	public void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println("Program");
+		for (Global g : globals) {
+			g.display(k + 1);
+		}
+		statements.display(k + 1);
+	}
+
+	@Override
+	void V() {
+		// todo
 	}
 }
 
@@ -24,7 +49,7 @@ class Program {
  * Abstract Syntax :
  * Global = FunctionDeclaration | Declarations
  */
-abstract class Global {
+abstract class Global extends AbstractSyntax {
 }
 
 
@@ -44,6 +69,24 @@ class FunctionDeclaration extends Global {
 		params = p;
 		statements = s;
 	}
+
+	@Override
+	void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println("FunctionDeclaration " + type + " " + name);
+		for (ParamDeclaration declaration : params) {
+			declaration.display(k + 1);
+		}
+		statements.display(k + 1);
+	}
+
+	@Override
+	void V() {
+		// todo
+	}
 }
 
 
@@ -51,13 +94,26 @@ class FunctionDeclaration extends Global {
  * Abstract Syntax :
  * ParamDeclaration = Type; String Id
  */
-class ParamDeclaration {
+class ParamDeclaration extends AbstractSyntax {
 	Type type;
 	String name;
 
 	ParamDeclaration(Type t, String name) {
 		type = t;
 		this.name = name;
+	}
+
+	void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println("ParamDeclaration " + type + " " + name);
+	}
+
+	@Override
+	void V() {
+		// todo
 	}
 }
 
@@ -66,7 +122,7 @@ class ParamDeclaration {
  * Abstract Syntax :
  * Statements = Declaration*; Statement*
  */
-class Statements {
+class Statements extends AbstractSyntax {
 	ArrayList<Declaration> declarations;
 	ArrayList<Statement> statements;
 
@@ -74,14 +130,60 @@ class Statements {
 		declarations = d;
 		statements = s;
 	}
+
+	@Override
+	void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println("Statements");
+		for (Declaration declaration : declarations) {
+			declaration.display(k + 1);
+		}
+		for (Statement statement : statements) {
+			statement.display(k + 1);
+		}
+	}
+
+	@Override
+	void V() {
+		// todo
+	}
 }
 
 
 /**
  * Abstract Syntax :
- * Declaration = ArrayInit | NoArrayInit
+ * Declaration = Init*
  */
-abstract class Declaration extends Global {
+class Declaration extends Global {
+	ArrayList<Init> inits = new ArrayList<>();
+
+	@Override
+	void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println(this.getClass().getName());
+		for (Init init : inits) {
+			init.display(k + 1);
+		}
+	}
+
+	@Override
+	void V() {
+		// todo
+	}
+}
+
+
+/**
+ * Abstract Syntax :
+ * Init = ArrayInit | NoArrayInit
+ */
+abstract class Init extends AbstractSyntax {
 	Type type;
 	String name;
 }
@@ -91,7 +193,7 @@ abstract class Declaration extends Global {
  * Abstract Syntax :
  * ArrayInit = Type; String id; int size; (Expression initList)*
  */
-class ArrayInit extends Declaration {
+class ArrayInit extends Init {
 	int size;
 	ArrayList<Expression> initList;
 
@@ -105,6 +207,25 @@ class ArrayInit extends Declaration {
 	ArrayInit(Type t, String name, int s) {
 		this(t, name, s, null);
 	}
+
+	@Override
+	void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println("ArrayInit " + type + " " + name + "[" + size + "]");
+		if (initList != null) {
+			for (Expression expression : initList) {
+				expression.display(k + 1);
+			}
+		}
+	}
+
+	@Override
+	void V() {
+		// todo
+	}
 }
 
 
@@ -112,7 +233,7 @@ class ArrayInit extends Declaration {
  * Abstract Syntax :
  * ArrayInit = Type; String id; (Expression initList)*
  */
-class NoArrayInit extends Declaration {
+class NoArrayInit extends Init {
 	Expression initial;
 
 	NoArrayInit(Type t, String name, Expression i) {
@@ -124,6 +245,24 @@ class NoArrayInit extends Declaration {
 	NoArrayInit(Type t, String name) {
 		this(t, name, null);
 	}
+
+	@Override
+	void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println("NoArrayInit " + type + " " + name);
+
+		if (initial != null) {
+			initial.display(k + 1);
+		}
+	}
+
+	@Override
+	void V() {
+		// todo
+	}
 }
 
 
@@ -132,7 +271,7 @@ class NoArrayInit extends Declaration {
  * Statement = Skip | IfStatement | Block | WhileStatement | SwitchStatement
  * | ForStatement | Return | Expression | Break | Continue
  */
-abstract class Statement {
+abstract class Statement extends AbstractSyntax {
 }
 
 
@@ -164,6 +303,30 @@ class IfStatement extends Statement {
 	IfStatement(Expression c, Block s) {
 		this(c, s, null, null);
 	}
+
+	@Override
+	void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println("IfStatement");
+		condition.display(k + 1);
+		statements.display(k + 1);
+		if (elseIfs != null) {
+			for (IfStatement statement : elseIfs) {
+				statement.display(k + 1);
+			}
+		}
+		if (elses != null) {
+			elses.display(k + 1);
+		}
+	}
+
+	@Override
+	void V() {
+		// todo
+	}
 }
 
 
@@ -176,6 +339,23 @@ class Block extends Statement {
 
 	Block(ArrayList<Statement> s) {
 		statements = s;
+	}
+
+	@Override
+	void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println("Block");
+		for (Statement statement : statements) {
+			statement.display(k + 1);
+		}
+	}
+
+	@Override
+	void V() {
+		// todo
 	}
 }
 
@@ -191,6 +371,22 @@ class WhileStatement extends Statement {
 	WhileStatement(Expression c, Block s) {
 		condition = c;
 		statements = s;
+	}
+
+	@Override
+	void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println("WhieStatement");
+		condition.display(k + 1);
+		statements.display(k + 1);
+	}
+
+	@Override
+	void V() {
+		// todo
 	}
 }
 
@@ -210,6 +406,26 @@ class SwitchStatement extends Statement {
 
 	void addCase(Value caseLiteral, ArrayList<Statement> statements) {
 		cases.put(caseLiteral, statements);
+	}
+
+	@Override
+	void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println("SwitchStatement");
+		for (Value value : cases.keySet()) {
+			value.display(k + 1);
+			for (Statement statement : cases.get(value)) {
+				statement.display(k + 1);
+			}
+		}
+	}
+
+	@Override
+	void V() {
+		// todo
 	}
 }
 
@@ -231,6 +447,28 @@ class ForStatement extends Statement {
 	void addPostExpression(Expression expression) {
 		postExpression.add(expression);
 	}
+
+	@Override
+	void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println("ForStatement");
+
+		for (Expression expression : preExpression) {
+			expression.display(k + 1);
+		}
+		condition.display(k + 1);
+		for (Expression expression : postExpression) {
+			expression.display(k + 1);
+		}
+	}
+
+	@Override
+	void V() {
+		// todo
+	}
 }
 
 
@@ -247,6 +485,23 @@ class Return extends Statement {
 
 	Return() {
 	}
+
+	@Override
+	void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println("Return");
+		if (returnValue != null) {
+			returnValue.display(k + 1);
+		}
+	}
+
+	@Override
+	void V() {
+		// todo
+	}
 }
 
 
@@ -255,6 +510,19 @@ class Return extends Statement {
  * Break =
  */
 class Break extends Statement {
+	@Override
+	void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println("Break");
+	}
+
+	@Override
+	void V() {
+		// todo
+	}
 }
 
 
@@ -263,6 +531,19 @@ class Break extends Statement {
  * Continue =
  */
 class Continue extends Statement {
+	@Override
+	void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println("Continue");
+	}
+
+	@Override
+	void V() {
+		// todo
+	}
 }
 
 
@@ -271,14 +552,24 @@ class Continue extends Statement {
  * Skip =
  */
 class Skip extends Statement {
+	@Override
+	void display(int k) {
+
+	}
+
+	@Override
+	void V() {
+		// todo
+	}
 }
 
 
 /**
  * Abstract Syntax :
- * Expression = VariableRef | Value | Binary | Unary | Assignment | Function
+ * Expression = VariableRef | Value | Binary | Unary | Function
  */
 abstract class Expression extends Statement {
+	abstract Type typeOf();
 }
 
 
@@ -313,6 +604,26 @@ class Variable extends VariableRef {
 	public int hashCode() {
 		return name.hashCode();
 	}
+
+	@Override
+	void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println("Variable " + name);
+	}
+
+	@Override
+	void V() {
+		// todo
+	}
+
+	@Override
+	Type typeOf() {
+		// todo
+		return null;
+	}
 }
 
 
@@ -328,6 +639,27 @@ class ArrayRef extends VariableRef {
 		this.name = n;
 		this.index = index;
 	}
+
+	@Override
+	void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println("ArrayRef " + name);
+		index.display(k + 1);
+	}
+
+	@Override
+	void V() {
+		// todo
+	}
+
+	@Override
+	Type typeOf() {
+		// todo
+		return null;
+	}
 }
 
 
@@ -337,6 +669,11 @@ class ArrayRef extends VariableRef {
  */
 abstract class Value extends Expression {
 	Type type;
+
+	@Override
+	Type typeOf() {
+		return type;
+	}
 }
 
 
@@ -353,6 +690,30 @@ class Binary extends Expression {
 		term1 = l;
 		term2 = r;
 	}
+
+	@Override
+	void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println("Binary");
+
+		op.display(k + 1);
+		term1.display(k + 1);
+		term2.display(k + 1);
+	}
+
+	@Override
+	void V() {
+		// todo
+	}
+
+	@Override
+	Type typeOf() {
+		// todo
+		return null;
+	}
 }
 
 
@@ -367,6 +728,29 @@ class Unary extends Expression {
 	Unary(Operator o, Expression e) {
 		op = o;
 		term = e;
+	}
+
+	@Override
+	void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println("Unary");
+
+		op.display(k + 1);
+		term.display(k + 1);
+	}
+
+	@Override
+	void V() {
+		// todo
+	}
+
+	@Override
+	Type typeOf() {
+		// todo
+		return null;
 	}
 }
 
@@ -383,6 +767,30 @@ class Function extends Expression {
 		name = id;
 		this.params = params;
 	}
+
+	@Override
+	void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println("Function " + name);
+
+		for (Expression expression : params) {
+			expression.display(k + 1);
+		}
+	}
+
+	@Override
+	void V() {
+		// todo
+	}
+
+	@Override
+	Type typeOf() {
+		// todo
+		return null;
+	}
 }
 
 
@@ -398,13 +806,34 @@ class TypeCast extends Expression {
 		type = t;
 		expression = e;
 	}
+
+	@Override
+	void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println("TypeCast " + type);
+		expression.display(k + 1);
+	}
+
+	@Override
+	void V() {
+		// todo
+	}
+
+	@Override
+	Type typeOf() {
+		// todo
+		return null;
+	}
 }
 
 /**
  * Abstract Syntax :
  * Type = 'int' | 'bool' | 'void' | 'char' | 'float' | 'time' | 'date'
  */
-class Type {
+class Type extends AbstractSyntax {
 	// Type = int | bool | char | float
 	final static Type INT = new Type("int");
 	final static Type BOOL = new Type("bool");
@@ -428,6 +857,19 @@ class Type {
 	public boolean equals(Object obj) {
 		Type tmp = (Type) obj;
 		return tmp.value.equals(this.value);
+	}
+
+	void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println("Type " + value);
+	}
+
+	@Override
+	void V() {
+		// todo
 	}
 }
 
@@ -454,6 +896,20 @@ class IntValue extends Value {
 
 	public String toString() {
 		return "" + value;
+	}
+
+	@Override
+	void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println("IntValue " + value);
+	}
+
+	@Override
+	void V() {
+		// todo
 	}
 }
 
@@ -485,6 +941,20 @@ class BoolValue extends Value {
 	public String toString() {
 		return "" + value;
 	}
+
+	@Override
+	void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println("BoolValue " + value);
+	}
+
+	@Override
+	void V() {
+		// todo
+	}
 }
 
 
@@ -510,6 +980,20 @@ class CharValue extends Value {
 
 	public String toString() {
 		return "" + value;
+	}
+
+	@Override
+	void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println("CharValue " + value);
+	}
+
+	@Override
+	void V() {
+		// todo
 	}
 }
 
@@ -537,6 +1021,20 @@ class FloatValue extends Value {
 	public String toString() {
 		return "" + value;
 	}
+
+	@Override
+	void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println("FloatValue " + value);
+	}
+
+	@Override
+	void V() {
+		// todo
+	}
 }
 
 
@@ -561,6 +1059,20 @@ class DateValue extends Value {
 	public String toString() {
 		return "" + year + "/" + month + "/" + day;
 	}
+
+	@Override
+	void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println("DateValue " + year + ":" + month + ":" + day);
+	}
+
+	@Override
+	void V() {
+		// todo
+	}
 }
 
 
@@ -584,6 +1096,20 @@ class TimeValue extends Value {
 
 	public String toString() {
 		return "" + hour + "/" + minute + "/" + second;
+	}
+
+	@Override
+	void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println("TimeValue " + hour + ":" + minute + ":" + second);
+	}
+
+	@Override
+	void V() {
+		// todo
 	}
 }
 
@@ -872,5 +1398,13 @@ class Operator {
 
 	static public Operator dateMap(String op) {
 		return map(dateMap, op);
+	}
+
+	void display(int k) {
+		for (int w = 0; w < k; w++) {
+			System.out.print("\t");
+		}
+
+		System.out.println("Operator " + value);
 	}
 }
