@@ -6,10 +6,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 abstract class AbstractSyntax {
-	abstract void display(int k);
-	abstract void V();
 	private boolean valid = false;
 	protected static HashMap<String, Init> declarationMap = new HashMap<>();
+
+	abstract void display(int k);
+
+	abstract void V();
+
+	protected static void check(boolean test, String msg) {
+		if (test) return;
+		System.err.println(msg);
+		System.exit(1);
+	}
 }
 
 /**
@@ -359,7 +367,9 @@ class Block extends Statement {
 
 	@Override
 	void V() {
-		// todo
+		for (Statement i : statements) {
+			i.V();
+		}
 	}
 }
 
@@ -390,7 +400,14 @@ class WhileStatement extends Statement {
 
 	@Override
 	void V() {
-		// todo
+
+		condition.V();
+		Type testType = condition.typeOf();
+		if (testType == Type.BOOL) {
+			statements.V();
+		} else {
+			check(false, "poorly typed test in while Loop in Conditional: " + condition);
+		}
 	}
 }
 
@@ -563,7 +580,6 @@ class Skip extends Statement {
 
 	@Override
 	void V() {
-		// todo
 	}
 }
 
@@ -620,13 +636,15 @@ class Variable extends VariableRef {
 
 	@Override
 	void V() {
-		// todo
+		check(declarationMap.containsKey(this.name)
+				, "undeclared variable: " + this.name);
+		return;
 	}
 
 	@Override
 	Type typeOf() {
-		// todo
-		return null;
+		check(declarationMap.containsKey(this.name), "undefined variable: " + this.name);
+		return declarationMap.get(this.name).type;
 	}
 }
 
@@ -656,13 +674,15 @@ class ArrayRef extends VariableRef {
 
 	@Override
 	void V() {
-		// todo
+		check(declarationMap.containsKey(this.name)
+				, "undeclared variable: " + this.name); // index처리?
+		return;
 	}
 
 	@Override
 	Type typeOf() {
-		// todo
-		return null;
+		check(declarationMap.containsKey(this.name), "undefined variable: " + this.name);
+		return declarationMap.get(this.name).type;
 	}
 }
 
@@ -710,13 +730,37 @@ class Binary extends Expression {
 
 	@Override
 	void V() {
-		// todo
+		Type typ1 = term1.typeOf();
+		Type typ2 = term2.typeOf();
+		term1.V();
+		term2.V();
+		if (op.ArithmeticOp()) {
+			check(typ1 == typ2 &&
+					(typ1 == Type.INT || typ1 == Type.FLOAT)
+					, "type error for " + op);
+		} else if (op.RelationalOp())
+			check(typ1 == typ2, "type error for " + op);
+		else if (op.BooleanOp())
+			check(typ1 == Type.BOOL && typ2 == Type.BOOL, op + ": non-bool operand");
+		else
+			throw new IllegalArgumentException("should never reach here BinaryOp error");
+		return;
+
+
 	}
+
 
 	@Override
 	Type typeOf() {
-		// todo
-		return null;
+		if (op.ArithmeticOp())
+			if (term1.typeOf() == Type.FLOAT)
+				return (Type.FLOAT);
+			else return (Type.INT);
+		if (op.RelationalOp() || op.BooleanOp())
+			return (Type.BOOL);
+		else
+			return null;
+
 	}
 }
 
@@ -748,13 +792,26 @@ class Unary extends Expression {
 
 	@Override
 	void V() {
-		// todo
+		Type type = term.typeOf(); //start here
+		term.V();
+		if (op.NotOp()) {
+			check((type == Type.BOOL), "type error for NotOp " + op);
+		} else if (op.NegateOp()) {
+			check((type == (Type.INT) || type == (Type.FLOAT)), "type error for NegateOp " + op);
+		} else {
+			throw new IllegalArgumentException("should never reach here UnaryOp error");
+		}
+		return;
 	}
 
 	@Override
 	Type typeOf() {
-		// todo
-		return null;
+		if (op.NotOp()) return (Type.BOOL);
+		else if (op.NegateOp()) return term.typeOf();
+		else if (op.intOp()) return (Type.INT);
+		else if (op.floatOp()) return (Type.FLOAT);
+		else if (op.charOp()) return (Type.CHAR);
+		else return null;
 	}
 }
 
@@ -873,7 +930,6 @@ class Type extends AbstractSyntax {
 
 	@Override
 	void V() {
-		// todo
 	}
 }
 
@@ -909,7 +965,6 @@ class IntValue extends Value {
 
 	@Override
 	void V() {
-		// todo
 	}
 }
 
@@ -949,7 +1004,6 @@ class BoolValue extends Value {
 
 	@Override
 	void V() {
-		// todo
 	}
 }
 
@@ -985,7 +1039,6 @@ class CharValue extends Value {
 
 	@Override
 	void V() {
-		// todo
 	}
 }
 
@@ -1021,7 +1074,6 @@ class FloatValue extends Value {
 
 	@Override
 	void V() {
-		// todo
 	}
 }
 
@@ -1055,7 +1107,6 @@ class DateValue extends Value {
 
 	@Override
 	void V() {
-		// todo
 	}
 }
 
@@ -1089,7 +1140,6 @@ class TimeValue extends Value {
 
 	@Override
 	void V() {
-		// todo
 	}
 }
 
@@ -1387,4 +1437,5 @@ class Operator {
 
 		System.out.println("Operator " + value);
 	}
+
 }
