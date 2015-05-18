@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 public class Parser {
 	private Token token;          // current token from the input stream
@@ -51,7 +52,7 @@ public class Parser {
 				if (isLeftParen()) {
 					globals.add(functionDeclaration(t, id));
 				} else {
-					globals.add(declaration());
+					globals.add(declaration(t, id));
 				}
 			}
 		}
@@ -125,18 +126,38 @@ public class Parser {
 
 		Type type = type();
 		String id = match(TokenType.Identifier);
-		Declaration declaration;
+
+		return declaration(type, id);
+	}
+
+
+	private Declaration declaration(Type type, String id) {
+		// Declarations → Type Init { ',' Init } ';'
+
+		ArrayList<Init> declaration = new ArrayList<>();
 
 		if (isLeftBracket()) {
-			declaration = arrayInit(type, id);
+			declaration.add(arrayInit(type, id));
 		} else {
-			declaration = noArrayInit(type, id);
+			declaration.add(noArrayInit(type, id));
+		}
+
+		while (isComma()) {
+			match(TokenType.Comma);
+			id = match(TokenType.Identifier);
+
+			if (isLeftBracket()) {
+				declaration.add(arrayInit(type, id));
+			} else {
+				declaration.add(noArrayInit(type, id));
+			}
 		}
 
 		match(TokenType.Semicolon);
 
-		return declaration;
+		return new Declaration(declaration);
 	}
+
 
 	private ArrayInit arrayInit(Type type, String id) {
 		// ArrayInit → Id '[' Integer ']' [ '=' '{' Expression { ',' Expression } '}' ]
@@ -148,6 +169,7 @@ public class Parser {
 		if (isAssign()) {
 			ArrayList<Expression> expressions = new ArrayList<>();
 
+			match(TokenType.Assign);
 			match(TokenType.LeftBrace);
 			expressions.add(expression());
 
@@ -603,10 +625,12 @@ public class Parser {
 			value = new CharValue(stval.charAt(0));
 			token = lexer.next();
 		} else if (token.type().equals(TokenType.TimeLiteral)) {
-			value = new TimeValue();
+			StringTokenizer tokenizer = new StringTokenizer(stval, ":");
+			value = new TimeValue(tokenizer.nextToken(), tokenizer.nextToken(), tokenizer.nextToken());
 			token = lexer.next();
 		} else if (token.type().equals(TokenType.DateLiteral)) {
-			value = new DateValue();
+			StringTokenizer tokenizer = new StringTokenizer(stval, ".");
+			value = new DateValue(tokenizer.nextToken(), tokenizer.nextToken(), tokenizer.nextToken());
 			token = lexer.next();
 		} else if (token.type().equals(TokenType.True)) {
 			value = new BoolValue(true);
@@ -617,11 +641,6 @@ public class Parser {
 		} else error("Error in literal value contruction");
 
 		return value;
-	}
-
-	private boolean isBooleanOp() {
-		return token.type().equals(TokenType.And) ||
-				token.type().equals(TokenType.Or);
 	}
 
 	private boolean isAddOp() {
@@ -646,20 +665,20 @@ public class Parser {
 	}
 
 	private boolean isUnaryOp() {
-		return token.type().equals(TokenType.Not) ||
-				token.type().equals(TokenType.Minus);
+		return token.type().equals(TokenType.Not)
+				|| token.type().equals(TokenType.Minus);
 	}
 
 	private boolean isEqualityOp() {
-		return token.type().equals(TokenType.Equals) ||
-				token.type().equals(TokenType.NotEqual);
+		return token.type().equals(TokenType.Equals)
+				|| token.type().equals(TokenType.NotEqual);
 	}
 
 	private boolean isRelationalOp() {
-		return token.type().equals(TokenType.Less) ||
-				token.type().equals(TokenType.LessEqual) ||
-				token.type().equals(TokenType.Greater) ||
-				token.type().equals(TokenType.GreaterEqual);
+		return token.type().equals(TokenType.Less)
+				|| token.type().equals(TokenType.LessEqual)
+				|| token.type().equals(TokenType.Greater)
+				|| token.type().equals(TokenType.GreaterEqual);
 	}
 
 	private boolean isDouOp() {
@@ -678,10 +697,12 @@ public class Parser {
 	}
 
 	private boolean isLiteral() {
-		return token.type().equals(TokenType.IntLiteral) ||
-				isBooleanLiteral() ||
-				token.type().equals(TokenType.FloatLiteral) ||
-				token.type().equals(TokenType.CharLiteral);
+		return token.type().equals(TokenType.IntLiteral)
+				|| isBooleanLiteral()
+				|| token.type().equals(TokenType.FloatLiteral)
+				|| token.type().equals(TokenType.CharLiteral)
+				|| token.type().equals(TokenType.TimeLiteral)
+				|| token.type().equals(TokenType.DateLiteral);
 	}
 
 	private boolean isIdentifier() {
@@ -689,8 +710,8 @@ public class Parser {
 	}
 
 	private boolean isBooleanLiteral() {
-		return token.type().equals(TokenType.True) ||
-				token.type().equals(TokenType.False);
+		return token.type().equals(TokenType.True)
+				|| token.type().equals(TokenType.False);
 	}
 
 	private boolean isComma() {

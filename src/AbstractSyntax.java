@@ -160,6 +160,10 @@ class Statements extends AbstractSyntax {
 class Declaration extends Global {
 	ArrayList<Init> inits = new ArrayList<>();
 
+	Declaration(ArrayList<Init> init) {
+		this.inits = init;
+	}
+
 	@Override
 	void display(int k) {
 		for (int w = 0; w < k; w++) {
@@ -881,12 +885,8 @@ class Type extends AbstractSyntax {
 class IntValue extends Value {
 	private int value = 0;
 
-	IntValue() {
-		type = Type.INT;
-	}
-
 	IntValue(int v) {
-		this();
+		type = Type.INT;
 		value = v;
 	}
 
@@ -921,12 +921,8 @@ class IntValue extends Value {
 class BoolValue extends Value {
 	private boolean value = false;
 
-	BoolValue() {
-		type = Type.BOOL;
-	}
-
 	BoolValue(boolean v) {
-		this();
+		type = Type.BOOL;
 		value = v;
 	}
 
@@ -965,12 +961,8 @@ class BoolValue extends Value {
 class CharValue extends Value {
 	private char value = ' ';
 
-	CharValue() {
-		type = Type.CHAR;
-	}
-
 	CharValue(char v) {
-		this();
+		type = Type.CHAR;
 		value = v;
 	}
 
@@ -1005,12 +997,8 @@ class CharValue extends Value {
 class FloatValue extends Value {
 	private float value = 0;
 
-	FloatValue() {
-		type = Type.FLOAT;
-	}
-
 	FloatValue(float v) {
-		this();
+		type = Type.FLOAT;
 		value = v;
 	}
 
@@ -1043,17 +1031,13 @@ class FloatValue extends Value {
  * DateValue = String year, month, day
  */
 class DateValue extends Value {
-	private String year, month, day;
-
-	DateValue() {
-		type = Type.DATE;
-	}
+	private int year, month, day;
 
 	DateValue(String y, String m, String d) {
-		this();
-		year = y;
-		month = m;
-		day = d;
+		type = Type.DATE;
+		year = Integer.parseInt(y);
+		month = Integer.parseInt(m);
+		day = Integer.parseInt(d);
 	}
 
 	public String toString() {
@@ -1066,7 +1050,7 @@ class DateValue extends Value {
 			System.out.print("\t");
 		}
 
-		System.out.println("DateValue " + year + ":" + month + ":" + day);
+		System.out.println("DateValue " + year + "." + month + "." + day);
 	}
 
 	@Override
@@ -1081,17 +1065,13 @@ class DateValue extends Value {
  * TimeValue = String hour, minute, second
  */
 class TimeValue extends Value {
-	private String hour, minute, second;
-
-	TimeValue() {
-		type = Type.TIME;
-	}
+	private int hour, minute, second;
 
 	TimeValue(String h, String m, String s) {
-		this();
-		hour = h;
-		minute = m;
-		second = s;
+		type = Type.TIME;
+		hour = Integer.parseInt(h);
+		minute = Integer.parseInt(m);
+		second = Integer.parseInt(s);
 	}
 
 	public String toString() {
