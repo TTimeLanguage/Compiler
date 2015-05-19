@@ -4,16 +4,18 @@
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 abstract class AbstractSyntax {
 	private boolean valid = false;
-	protected static HashMap<String, Init> globalDeclarationMap = new HashMap<>();
+	protected final static HashMap<String, Init> globalVariableMap = new HashMap<>();
+	protected final static HashSet<Global> globalFunctionMap = new HashSet<>();
 
 	abstract void display(int k);
 
-	abstract void V(HashMap<String, Init> declarationMap);
+	abstract protected void V(HashMap<String, Init> declarationMap);
 
-	protected static void check(boolean test, String msg) {
+	protected final void check(boolean test, String msg) {
 		if (test) return;
 		System.err.println(msg);
 		System.exit(1);
@@ -22,7 +24,7 @@ abstract class AbstractSyntax {
 
 /**
  * Abstract Syntax :
- * Program = Global*; Staments
+ * Program = Global*; Statements
  */
 class Program extends AbstractSyntax {
 	ArrayList<Global> globals;
@@ -31,6 +33,34 @@ class Program extends AbstractSyntax {
 	Program(ArrayList<Global> g, Statements s) {
 		globals = g;
 		statements = s;
+	}
+
+	private void mapGlobal() {
+		for (Global global : globals) {
+
+			if (global instanceof FunctionDeclaration) {
+				FunctionDeclaration functionDeclaration = (FunctionDeclaration) global;
+				functionDeclaration.mapParams();
+
+				if (!globalFunctionMap.contains(global)) {
+					globalFunctionMap.add(functionDeclaration);
+				} else {
+					check(false, "duplicated declaration " + functionDeclaration.name);
+				}
+
+			} else if (global instanceof Declaration) {
+				for (Init init : ((Declaration) global).inits) {
+					if (!globalVariableMap.containsKey(init.name)) {
+						globalVariableMap.put(init.name, init);
+					} else {
+						check(false, "duplicated declaration " + init.name);
+					}
+				}
+
+			} else {
+				check(false, "never reach here");
+			}
+		}
 	}
 
 	@Override
@@ -46,14 +76,24 @@ class Program extends AbstractSyntax {
 		statements.display(k + 1);
 	}
 
+
+	public void V() {
+		V(globalVariableMap);
+	}
+
+
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
-		// todo
+	protected void V(HashMap<String, Init> declarationMap) {
+		mapGlobal();
+
 		for (Global global : globals) {
 			global.V(declarationMap);
 		}
 
-		statements.V(declarationMap);
+		if (statements != null) {
+			statements.mapVariable();
+			statements.V(declarationMap);
+		}
 	}
 }
 
@@ -75,12 +115,25 @@ class FunctionDeclaration extends Global {
 	String name;
 	ArrayList<ParamDeclaration> params;
 	Statements statements;
+	private HashMap<String, Init> paramMap = new HashMap<>();
 
 	FunctionDeclaration(Type t, String name, ArrayList<ParamDeclaration> p, Statements s) {
 		type = t;
 		this.name = name;
 		params = p;
 		statements = s;
+	}
+
+	protected void mapParams() {
+		for (ParamDeclaration param : params) {
+			if (!paramMap.containsKey(param.name)) {
+				paramMap.put(param.name, param);
+			} else {
+				check(false, "duplicated declaration " + param.name);
+			}
+		}
+
+		statements.mapVariable();
 	}
 
 	@Override
@@ -97,8 +150,16 @@ class FunctionDeclaration extends Global {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 		// todo
+		HashMap<String, Init> localMap = new HashMap<>(declarationMap);
+		int globalLength = localMap.size();
+		int localLength = paramMap.size();
+		localMap.putAll(paramMap);
+
+		check(globalLength + localLength == localMap.size(), "duplicated declaration in function " + type + " " + name);
+		
+		statements.V(localMap);
 	}
 }
 
@@ -107,10 +168,7 @@ class FunctionDeclaration extends Global {
  * Abstract Syntax :
  * ParamDeclaration = Type; String Id
  */
-class ParamDeclaration extends AbstractSyntax {
-	Type type;
-	String name;
-
+class ParamDeclaration extends Init {
 	ParamDeclaration(Type t, String name) {
 		type = t;
 		this.name = name;
@@ -125,8 +183,7 @@ class ParamDeclaration extends AbstractSyntax {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
-		// todo
+	protected void V(HashMap<String, Init> declarationMap) {
 	}
 }
 
@@ -138,10 +195,27 @@ class ParamDeclaration extends AbstractSyntax {
 class Statements extends AbstractSyntax {
 	ArrayList<Declaration> declarations;
 	ArrayList<Statement> statements;
+	HashMap<String, Init> variableMap = new HashMap<>();
 
 	Statements(ArrayList<Declaration> d, ArrayList<Statement> s) {
 		declarations = d;
 		statements = s;
+	}
+
+	protected void mapVariable() {
+		for (Declaration declaration : declarations) {
+
+			for (Init init : declaration.inits) {
+
+				if (!variableMap.containsKey(init.name)) {
+					variableMap.put(init.name, init);
+				} else {
+					check(false, "duplicated declaration " + init.name);
+				}
+
+			}
+
+		}
 	}
 
 	@Override
@@ -160,7 +234,7 @@ class Statements extends AbstractSyntax {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 		// todo
 	}
 }
@@ -190,7 +264,7 @@ class Declaration extends Global {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 		// todo
 	}
 }
@@ -240,7 +314,7 @@ class ArrayInit extends Init {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 		// todo
 	}
 }
@@ -277,7 +351,7 @@ class NoArrayInit extends Init {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 		// todo
 	}
 }
@@ -341,7 +415,7 @@ class IfStatement extends Statement {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 		// todo
 	}
 }
@@ -371,7 +445,7 @@ class Block extends Statement {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 		for (Statement i : statements) {
 			i.V(declarationMap);
 		}
@@ -404,7 +478,7 @@ class WhileStatement extends Statement {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 		condition.V(declarationMap);
 		Type testType = condition.typeOf(declarationMap);
 		if (testType == Type.BOOL) {
@@ -449,7 +523,7 @@ class SwitchStatement extends Statement {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 		// todo
 	}
 }
@@ -491,7 +565,7 @@ class ForStatement extends Statement {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 		// todo
 	}
 }
@@ -524,7 +598,7 @@ class Return extends Statement {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 		// todo
 	}
 }
@@ -545,7 +619,7 @@ class Break extends Statement {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 		// todo
 	}
 }
@@ -566,7 +640,7 @@ class Continue extends Statement {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 		// todo
 	}
 }
@@ -583,7 +657,7 @@ class Skip extends Statement {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 	}
 }
 
@@ -621,8 +695,10 @@ class Variable extends VariableRef {
 	}
 
 	public boolean equals(Object obj) {
-		String s = ((Variable) obj).name;
-		return name.equals(s); // case-sensitive identifiers
+		if (obj instanceof Variable) {
+			String s = ((Variable) obj).name;
+			return name.equals(s); // case-sensitive identifiers
+		} else return false;
 	}
 
 	public int hashCode() {
@@ -639,7 +715,7 @@ class Variable extends VariableRef {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 		check(declarationMap.containsKey(this.name), "undeclared variable: " + this.name);
 	}
 
@@ -675,7 +751,7 @@ class ArrayRef extends VariableRef {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 		check(declarationMap.containsKey(this.name), "undeclared variable: " + this.name); // index처리?
 	}
 
@@ -729,7 +805,7 @@ class Binary extends Expression {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 		Type typ1 = term1.typeOf(declarationMap);
 		Type typ2 = term2.typeOf(declarationMap);
 		term1.V(declarationMap);
@@ -787,7 +863,7 @@ class Unary extends Expression {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 		Type type = term.typeOf(declarationMap); //start here
 		term.V(declarationMap);
 		if (op.NotOp()) {
@@ -838,7 +914,7 @@ class Function extends Expression {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 		// todo
 	}
 
@@ -874,7 +950,7 @@ class TypeCast extends Expression {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 		// todo
 	}
 
@@ -911,8 +987,10 @@ class Type extends AbstractSyntax {
 
 	@Override
 	public boolean equals(Object obj) {
-		Type tmp = (Type) obj;
-		return tmp.value.equals(this.value);
+		if (obj instanceof Type) {
+			Type tmp = (Type) obj;
+			return tmp.value.equals(this.value);
+		} else return false;
 	}
 
 	void display(int k) {
@@ -924,7 +1002,7 @@ class Type extends AbstractSyntax {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 	}
 }
 
@@ -959,7 +1037,7 @@ class IntValue extends Value {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 	}
 }
 
@@ -998,7 +1076,7 @@ class BoolValue extends Value {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 	}
 }
 
@@ -1033,7 +1111,7 @@ class CharValue extends Value {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 	}
 }
 
@@ -1068,7 +1146,7 @@ class FloatValue extends Value {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 	}
 }
 
@@ -1101,7 +1179,7 @@ class DateValue extends Value {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 	}
 }
 
@@ -1134,7 +1212,7 @@ class TimeValue extends Value {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 	}
 }
 

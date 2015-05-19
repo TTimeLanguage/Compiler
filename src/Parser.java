@@ -37,11 +37,13 @@ public class Parser {
 
 		ArrayList<Global> globals = new ArrayList<>();
 		Statements s = null;
+		boolean mainDeclared = false;
 
 		while (isType()) {
 			Type t = type();
 
 			if (t.equals(Type.INT) && isMain()) {
+				mainDeclared = true;
 				match(TokenType.Main);            // int main
 				match(TokenType.LeftParen);        // (
 				match(TokenType.RightParen);    // )
@@ -55,6 +57,10 @@ public class Parser {
 					globals.add(declaration(t, id));
 				}
 			}
+		}
+
+		if (!mainDeclared) {
+			error("main is not declared");
 		}
 
 		while (lexer.next() != Token.eofTok) {
@@ -744,10 +750,6 @@ public class Parser {
 
 	private boolean isLeftBracket() {
 		return token.type().equals(TokenType.LeftBracket);
-	}
-
-	private boolean isRightBracket() {
-		return token.type().equals(TokenType.RightBracket);
 	}
 
 	private boolean isElse() {
