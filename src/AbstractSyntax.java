@@ -7,11 +7,11 @@ import java.util.HashMap;
 
 abstract class AbstractSyntax {
 	private boolean valid = false;
-	protected static HashMap<String, Init> declarationMap = new HashMap<>();
+	protected static HashMap<String, Init> globalDeclarationMap = new HashMap<>();
 
 	abstract void display(int k);
 
-	abstract void V();
+	abstract void V(HashMap<String, Init> declarationMap);
 
 	protected static void check(boolean test, String msg) {
 		if (test) return;
@@ -47,8 +47,13 @@ class Program extends AbstractSyntax {
 	}
 
 	@Override
-	void V() {
+	void V(HashMap<String, Init> declarationMap) {
 		// todo
+		for (Global global : globals) {
+			global.V(declarationMap);
+		}
+
+		statements.V(declarationMap);
 	}
 }
 
@@ -92,7 +97,7 @@ class FunctionDeclaration extends Global {
 	}
 
 	@Override
-	void V() {
+	void V(HashMap<String, Init> declarationMap) {
 		// todo
 	}
 }
@@ -120,7 +125,7 @@ class ParamDeclaration extends AbstractSyntax {
 	}
 
 	@Override
-	void V() {
+	void V(HashMap<String, Init> declarationMap) {
 		// todo
 	}
 }
@@ -155,7 +160,7 @@ class Statements extends AbstractSyntax {
 	}
 
 	@Override
-	void V() {
+	void V(HashMap<String, Init> declarationMap) {
 		// todo
 	}
 }
@@ -185,7 +190,7 @@ class Declaration extends Global {
 	}
 
 	@Override
-	void V() {
+	void V(HashMap<String, Init> declarationMap) {
 		// todo
 	}
 }
@@ -235,7 +240,7 @@ class ArrayInit extends Init {
 	}
 
 	@Override
-	void V() {
+	void V(HashMap<String, Init> declarationMap) {
 		// todo
 	}
 }
@@ -272,7 +277,7 @@ class NoArrayInit extends Init {
 	}
 
 	@Override
-	void V() {
+	void V(HashMap<String, Init> declarationMap) {
 		// todo
 	}
 }
@@ -336,7 +341,7 @@ class IfStatement extends Statement {
 	}
 
 	@Override
-	void V() {
+	void V(HashMap<String, Init> declarationMap) {
 		// todo
 	}
 }
@@ -366,9 +371,9 @@ class Block extends Statement {
 	}
 
 	@Override
-	void V() {
+	void V(HashMap<String, Init> declarationMap) {
 		for (Statement i : statements) {
-			i.V();
+			i.V(declarationMap);
 		}
 	}
 }
@@ -399,12 +404,11 @@ class WhileStatement extends Statement {
 	}
 
 	@Override
-	void V() {
-
-		condition.V();
-		Type testType = condition.typeOf();
+	void V(HashMap<String, Init> declarationMap) {
+		condition.V(declarationMap);
+		Type testType = condition.typeOf(declarationMap);
 		if (testType == Type.BOOL) {
-			statements.V();
+			statements.V(declarationMap);
 		} else {
 			check(false, "poorly typed test in while Loop in Conditional: " + condition);
 		}
@@ -418,7 +422,7 @@ class WhileStatement extends Statement {
  */
 class SwitchStatement extends Statement {
 	Expression condition;
-	HashMap<Value, ArrayList<Statement>> cases = new HashMap<Value, ArrayList<Statement>>();
+	HashMap<Value, ArrayList<Statement>> cases = new HashMap<>();
 	ArrayList<Statement> defaults;
 
 	SwitchStatement(Expression condition) {
@@ -445,7 +449,7 @@ class SwitchStatement extends Statement {
 	}
 
 	@Override
-	void V() {
+	void V(HashMap<String, Init> declarationMap) {
 		// todo
 	}
 }
@@ -456,8 +460,8 @@ class SwitchStatement extends Statement {
  * ForStatement = Expression*; Expression; Expression*; Block
  */
 class ForStatement extends Statement {
-	ArrayList<Expression> preExpression = new ArrayList<Expression>();
-	ArrayList<Expression> postExpression = new ArrayList<Expression>();
+	ArrayList<Expression> preExpression = new ArrayList<>();
+	ArrayList<Expression> postExpression = new ArrayList<>();
 	Expression condition;
 	Block statements;
 
@@ -487,7 +491,7 @@ class ForStatement extends Statement {
 	}
 
 	@Override
-	void V() {
+	void V(HashMap<String, Init> declarationMap) {
 		// todo
 	}
 }
@@ -520,7 +524,7 @@ class Return extends Statement {
 	}
 
 	@Override
-	void V() {
+	void V(HashMap<String, Init> declarationMap) {
 		// todo
 	}
 }
@@ -541,7 +545,7 @@ class Break extends Statement {
 	}
 
 	@Override
-	void V() {
+	void V(HashMap<String, Init> declarationMap) {
 		// todo
 	}
 }
@@ -562,7 +566,7 @@ class Continue extends Statement {
 	}
 
 	@Override
-	void V() {
+	void V(HashMap<String, Init> declarationMap) {
 		// todo
 	}
 }
@@ -579,7 +583,7 @@ class Skip extends Statement {
 	}
 
 	@Override
-	void V() {
+	void V(HashMap<String, Init> declarationMap) {
 	}
 }
 
@@ -589,7 +593,7 @@ class Skip extends Statement {
  * Expression = VariableRef | Value | Binary | Unary | Function
  */
 abstract class Expression extends Statement {
-	abstract Type typeOf();
+	abstract Type typeOf(HashMap<String, Init> declarationMap);
 }
 
 
@@ -635,14 +639,12 @@ class Variable extends VariableRef {
 	}
 
 	@Override
-	void V() {
-		check(declarationMap.containsKey(this.name)
-				, "undeclared variable: " + this.name);
-		return;
+	void V(HashMap<String, Init> declarationMap) {
+		check(declarationMap.containsKey(this.name), "undeclared variable: " + this.name);
 	}
 
 	@Override
-	Type typeOf() {
+	Type typeOf(HashMap<String, Init> declarationMap) {
 		check(declarationMap.containsKey(this.name), "undefined variable: " + this.name);
 		return declarationMap.get(this.name).type;
 	}
@@ -673,14 +675,12 @@ class ArrayRef extends VariableRef {
 	}
 
 	@Override
-	void V() {
-		check(declarationMap.containsKey(this.name)
-				, "undeclared variable: " + this.name); // index처리?
-		return;
+	void V(HashMap<String, Init> declarationMap) {
+		check(declarationMap.containsKey(this.name), "undeclared variable: " + this.name); // index처리?
 	}
 
 	@Override
-	Type typeOf() {
+	Type typeOf(HashMap<String, Init> declarationMap) {
 		check(declarationMap.containsKey(this.name), "undefined variable: " + this.name);
 		return declarationMap.get(this.name).type;
 	}
@@ -695,7 +695,7 @@ abstract class Value extends Expression {
 	Type type;
 
 	@Override
-	Type typeOf() {
+	Type typeOf(HashMap<String, Init> declarationMap) {
 		return type;
 	}
 }
@@ -729,11 +729,11 @@ class Binary extends Expression {
 	}
 
 	@Override
-	void V() {
-		Type typ1 = term1.typeOf();
-		Type typ2 = term2.typeOf();
-		term1.V();
-		term2.V();
+	void V(HashMap<String, Init> declarationMap) {
+		Type typ1 = term1.typeOf(declarationMap);
+		Type typ2 = term2.typeOf(declarationMap);
+		term1.V(declarationMap);
+		term2.V(declarationMap);
 		if (op.ArithmeticOp()) {
 			check(typ1 == typ2 &&
 					(typ1 == Type.INT || typ1 == Type.FLOAT)
@@ -744,23 +744,19 @@ class Binary extends Expression {
 			check(typ1 == Type.BOOL && typ2 == Type.BOOL, op + ": non-bool operand");
 		else
 			throw new IllegalArgumentException("should never reach here BinaryOp error");
-		return;
-
-
 	}
 
 
 	@Override
-	Type typeOf() {
+	Type typeOf(HashMap<String, Init> declarationMap) {
 		if (op.ArithmeticOp())
-			if (term1.typeOf() == Type.FLOAT)
+			if (term1.typeOf(declarationMap) == Type.FLOAT)
 				return (Type.FLOAT);
 			else return (Type.INT);
 		if (op.RelationalOp() || op.BooleanOp())
 			return (Type.BOOL);
 		else
 			return null;
-
 	}
 }
 
@@ -791,9 +787,9 @@ class Unary extends Expression {
 	}
 
 	@Override
-	void V() {
-		Type type = term.typeOf(); //start here
-		term.V();
+	void V(HashMap<String, Init> declarationMap) {
+		Type type = term.typeOf(declarationMap); //start here
+		term.V(declarationMap);
 		if (op.NotOp()) {
 			check((type == Type.BOOL), "type error for NotOp " + op);
 		} else if (op.NegateOp()) {
@@ -801,13 +797,12 @@ class Unary extends Expression {
 		} else {
 			throw new IllegalArgumentException("should never reach here UnaryOp error");
 		}
-		return;
 	}
 
 	@Override
-	Type typeOf() {
+	Type typeOf(HashMap<String, Init> declarationMap) {
 		if (op.NotOp()) return (Type.BOOL);
-		else if (op.NegateOp()) return term.typeOf();
+		else if (op.NegateOp()) return term.typeOf(declarationMap);
 		else if (op.intOp()) return (Type.INT);
 		else if (op.floatOp()) return (Type.FLOAT);
 		else if (op.charOp()) return (Type.CHAR);
@@ -843,12 +838,12 @@ class Function extends Expression {
 	}
 
 	@Override
-	void V() {
+	void V(HashMap<String, Init> declarationMap) {
 		// todo
 	}
 
 	@Override
-	Type typeOf() {
+	Type typeOf(HashMap<String, Init> declarationMap) {
 		// todo
 		return null;
 	}
@@ -879,12 +874,12 @@ class TypeCast extends Expression {
 	}
 
 	@Override
-	void V() {
+	void V(HashMap<String, Init> declarationMap) {
 		// todo
 	}
 
 	@Override
-	Type typeOf() {
+	Type typeOf(HashMap<String, Init> declarationMap) {
 		// todo
 		return null;
 	}
@@ -929,7 +924,7 @@ class Type extends AbstractSyntax {
 	}
 
 	@Override
-	void V() {
+	void V(HashMap<String, Init> declarationMap) {
 	}
 }
 
@@ -964,7 +959,7 @@ class IntValue extends Value {
 	}
 
 	@Override
-	void V() {
+	void V(HashMap<String, Init> declarationMap) {
 	}
 }
 
@@ -1003,7 +998,7 @@ class BoolValue extends Value {
 	}
 
 	@Override
-	void V() {
+	void V(HashMap<String, Init> declarationMap) {
 	}
 }
 
@@ -1038,7 +1033,7 @@ class CharValue extends Value {
 	}
 
 	@Override
-	void V() {
+	void V(HashMap<String, Init> declarationMap) {
 	}
 }
 
@@ -1073,7 +1068,7 @@ class FloatValue extends Value {
 	}
 
 	@Override
-	void V() {
+	void V(HashMap<String, Init> declarationMap) {
 	}
 }
 
@@ -1106,7 +1101,7 @@ class DateValue extends Value {
 	}
 
 	@Override
-	void V() {
+	void V(HashMap<String, Init> declarationMap) {
 	}
 }
 
@@ -1139,7 +1134,7 @@ class TimeValue extends Value {
 	}
 
 	@Override
-	void V() {
+	void V(HashMap<String, Init> declarationMap) {
 	}
 }
 

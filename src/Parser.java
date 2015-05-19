@@ -412,7 +412,7 @@ public class Parser {
 		if (isAssignOp()) {
 			Operator op = new Operator(match(token.type()));
 			Expression term2 = disjunction();
-			e = new Binary(op, term2, e);
+			e = new Binary(op, e, term2);
 		}
 
 		return e;
