@@ -541,7 +541,7 @@ public class Parser {
 		} else if (isIdentifier()) {
 			String id = match(TokenType.Identifier);
 
-			if (isLeftBrace()) {
+			if (isLeftParen()) {
 				return function(id);
 			} else {
 				return variableRef(id);
