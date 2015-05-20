@@ -22,14 +22,14 @@ public class ForStatement extends Statement {
 	}
 
 	public void setCondition(Expression condition) {
-		check(this.condition != null,
+		check(this.condition == null,
 				"duplicated declaration condition in for");
 
 		this.condition = condition;
 	}
 
 	public void setStatements(Block statements) {
-		check(this.statements != null,
+		check(this.statements == null,
 				"duplicated declaration block in for");
 
 		this.statements = statements;
@@ -57,6 +57,8 @@ public class ForStatement extends Statement {
 		// todo 확인
 		if (valid) return;
 
+		check(condition != null,
+				"condition can not be null");
 		check(condition.typeOf(declarationMap) == Type.BOOL,
 				"condition type must boolean in for. condition type : " + condition.typeOf(declarationMap));
 

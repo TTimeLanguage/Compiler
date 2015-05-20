@@ -46,7 +46,7 @@ public class Variable extends VariableRef {
 		check(declarationMap.containsKey(name),
 				"undeclared variable: " + name);
 
-		check(declarationMap.get(name) instanceof NoArrayInit,
+		check(!(declarationMap.get(name) instanceof ArrayInit),
 				"wrong reference. should add array reference. in " + name);
 
 		valid = true;
@@ -54,9 +54,9 @@ public class Variable extends VariableRef {
 
 	@Override
 	Type typeOf(HashMap<String, Init> declarationMap) {
-		check(declarationMap.containsKey(this.name),
-				"undefined variable: " + this.name);
+		check(declarationMap.containsKey(name),
+				"undefined variable: " + name);
 
-		return declarationMap.get(this.name).type;
+		return declarationMap.get(name).type;
 	}
 }

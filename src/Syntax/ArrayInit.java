@@ -41,6 +41,9 @@ public class ArrayInit extends Init {
 		// todo 확인
 		if (valid) return;
 
+		check(!type.equals(Type.VOID),
+				"variable type can not be void");
+
 		check(size >= 1,
 				"array size must higher than 1. declared : " + type + " " + name + "[" + size + "]");
 

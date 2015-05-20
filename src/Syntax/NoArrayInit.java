@@ -37,6 +37,9 @@ public class NoArrayInit extends Init {
 		// todo 확인
 		if (valid) return;
 
+		check(!type.equals(Type.VOID),
+				"variable type can not be void");
+
 		check(initial.typeOf(declarationMap).equals(type),
 				"wrong type initializer in declaration : " + type + " " + name);
 

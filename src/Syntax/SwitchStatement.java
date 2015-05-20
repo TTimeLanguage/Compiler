@@ -25,7 +25,7 @@ public class SwitchStatement extends Statement {
 	}
 
 	public void setDefault(ArrayList<Statement> defaults) {
-		check(defaults != null, "duplicated default in switch");
+		check(defaults == null, "duplicated default in switch");
 		this.defaults = defaults;
 	}
 
