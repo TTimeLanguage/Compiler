@@ -10,7 +10,7 @@ public class WhileStatement extends Statement {
 	protected final Expression condition;
 	protected final Block statements;
 
-	WhileStatement(Expression c, Block s) {
+	public WhileStatement(Expression c, Block s) {
 		condition = c;
 		statements = s;
 	}
@@ -34,8 +34,22 @@ public class WhileStatement extends Statement {
 				"poorly typed test in while Loop in Conditional: " + condition);
 
 		condition.V(declarationMap);
-		statements.V(declarationMap);
+		statements.V(declarationMap,this);
 
 		valid = true;
+	}
+
+	@Override
+	void V(HashMap<String, Init> declarationMap, Statement s) {
+		if (valid) return;
+
+		check(condition.typeOf(declarationMap) == Type.BOOL,
+				"poorly typed test in while Loop in Conditional: " + condition);
+		condition.V(declarationMap);
+		statements.V(declarationMap,this);
+
+		valid = true;
+		// TODO Auto-generated method stub
+		
 	}
 }

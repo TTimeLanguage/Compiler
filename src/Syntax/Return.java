@@ -6,14 +6,14 @@ import java.util.HashMap;
  * Abstract Syntax :
  * Syntax.Return = Syntax.Expression?
  */
-class Return extends Statement {
+public class Return extends Statement {
 	protected final Expression returnValue;
 
-	Return(Expression returnValue) {
+	public Return(Expression returnValue) {
 		this.returnValue = returnValue;
 	}
 
-	Return() {
+	public Return() {
 		this(null);
 	}
 
@@ -32,5 +32,11 @@ class Return extends Statement {
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
 		// todo
+	}
+
+	@Override
+	void V(HashMap<String, Init> declarationMap, Statement s) {
+		// TODO Auto-generated method stub
+		
 	}
 }

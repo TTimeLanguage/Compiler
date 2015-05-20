@@ -20,4 +20,13 @@ public class Break extends Statement {
 	public void V(HashMap<String, Init> declarationMap) {
 		// todo
 	}
+
+	@Override
+	void V(HashMap<String, Init> declarationMap, Statement s) {
+		
+		check(s instanceof WhileStatement || s instanceof ForStatement || s instanceof SwitchStatement || s instanceof IfStatement,
+				"can not reach here Break ");
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -20,4 +20,10 @@ public class Continue extends Statement {
 	public void V(HashMap<String, Init> declarationMap) {
 		// todo
 	}
+
+	@Override
+	void V(HashMap<String, Init> declarationMap, Statement s) {
+		check(s instanceof WhileStatement || s instanceof ForStatement,
+				"can not reach here Continue");
+	}
 }

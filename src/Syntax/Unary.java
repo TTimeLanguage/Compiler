@@ -1,4 +1,4 @@
-package Syntax;
+﻿package Syntax;
 
 import java.util.HashMap;
 
@@ -6,11 +6,11 @@ import java.util.HashMap;
  * Abstract Syntax :
  * Syntax.Unary = UnaryOperator; Syntax.Expression
  */
-class Unary extends Expression {
+public class Unary extends Expression {
 	protected final Operator op;
 	protected final Expression term;
 
-	Unary(Operator o, Expression e) {
+	public Unary(Operator o, Expression e) {
 		op = o;
 		term = e;
 	}
@@ -37,12 +37,13 @@ class Unary extends Expression {
 			check((type == Type.BOOL), "type error for NotOp " + op);
 
 		} else if (op.NegateOp()) {
-			check((type == (Type.INT) || type == (Type.FLOAT)),
+			check((type.equals(Type.INT) || type == (Type.FLOAT)),
 					"type error for NegateOp " + op);
 
 		} else if (op.incOp()) {
-			check(type != Type.BOOL || type != Type.VOID,
-					"type error for increase or decrease Op");
+			if(type.equals(Type.BOOL)) check(!(type.equals(Type.BOOL)),"type error for increase or decrease Op");
+			else if(type.equals(Type.VOID))check(!(type.equals(Type.VOID)),"type error for increase or decrease Op");
+			
 		} else {
 			throw new IllegalArgumentException("should never reach here UnaryOp error");
 		}
@@ -53,9 +54,23 @@ class Unary extends Expression {
 	@Override
 	Type typeOf(HashMap<String, Init> declarationMap) {
 		// todo 수정
-		if (op.NotOp()) return (Type.BOOL);
-		else if (op.NegateOp()) return term.typeOf(declarationMap);
-		else if (op.intOp()) return (Type.INT);
+		if (op.NotOp()){
+			if(term.typeOf(declarationMap)==Type.BOOL) return (Type.BOOL);
+			else return null;
+		}
+		else if (op.NegateOp()){
+			if(term.typeOf(declarationMap)==Type.INT || 
+			term.typeOf(declarationMap)==Type.FLOAT) return term.typeOf(declarationMap); 
+			else return null;
+		}
+		else if (op.incOp()){
+			if(term.typeOf(declarationMap)==Type.INT) return (Type.INT);
+			else if(term.typeOf(declarationMap)==Type.FLOAT) return (Type.FLOAT);
+			else if(term.typeOf(declarationMap)==Type.TIME) return (Type.TIME);
+			else if(term.typeOf(declarationMap)==Type.DATE) return (Type.DATE);
+			else return null;
+		}
 		else return null;
 	}
+
 }

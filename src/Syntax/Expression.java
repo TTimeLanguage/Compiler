@@ -12,4 +12,7 @@ import java.util.HashMap;
  */
 public abstract class Expression extends Statement {
 	abstract Type typeOf(HashMap<String, Init> declarationMap);
+	
+	public void V(HashMap<String, Init> declarationMap, Statement s) {
+	}
 }

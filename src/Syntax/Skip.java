@@ -14,4 +14,10 @@ public class Skip extends Statement {
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
 	}
+
+	@Override
+	void V(HashMap<String, Init> declarationMap, Statement s) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -1,4 +1,4 @@
-package Syntax;
+﻿package Syntax;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,15 +10,29 @@ import java.util.HashMap;
 public class ForStatement extends Statement {
 	protected final ArrayList<Expression> preExpression = new ArrayList<>();
 	protected final ArrayList<Expression> postExpression = new ArrayList<>();
-	protected Expression condition;
-	protected Block statements;
+	protected Expression condition = null;
+	protected Block statements = null;
 
-	void addPreExpression(Expression expression) {
+	public void addPreExpression(Expression expression) {
 		preExpression.add(expression);
 	}
 
-	void addPostExpression(Expression expression) {
+	public void addPostExpression(Expression expression) {
 		postExpression.add(expression);
+	}
+
+	public void setCondition(Expression condition) {
+		check(this.condition == null,
+				"duplicated declaration condition in for");
+
+		this.condition = condition;
+	}
+
+	public void setStatements(Block statements) {
+		check(this.statements == null,
+				"duplicated declaration block in for");
+
+		this.statements = statements;
 	}
 
 	@Override
@@ -40,7 +54,7 @@ public class ForStatement extends Statement {
 
 	@Override
 	public void V(HashMap<String, Init> declarationMap) {
-		// todo 확인
+		// todo �솗�씤
 		if (valid) return;
 
 		check(condition.typeOf(declarationMap) == Type.BOOL,
@@ -54,8 +68,30 @@ public class ForStatement extends Statement {
 			post.V(declarationMap);
 		}
 
-		statements.V(declarationMap);
+		statements.V(declarationMap,this);
 
 		valid = true;
+	}
+
+	@Override
+	void V(HashMap<String, Init> declarationMap, Statement s) {
+		// todo �솗�씤
+				if (valid) return;
+
+				check(condition.typeOf(declarationMap) == Type.BOOL,
+						"condition type must boolean in for. condition type : " + condition.typeOf(declarationMap));
+
+				for (Expression pre : preExpression) {
+					pre.V(declarationMap);
+				}
+
+				for (Expression post : postExpression) {
+					post.V(declarationMap);
+				}
+
+				statements.V(declarationMap, this);
+				valid = true;
+		// TODO Auto-generated method stub
+		
 	}
 }

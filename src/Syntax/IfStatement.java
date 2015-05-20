@@ -1,4 +1,4 @@
-package Syntax;
+﻿package Syntax;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,22 +14,22 @@ public class IfStatement extends Statement {
 	protected final ArrayList<IfStatement> elseIfs;
 	protected final Block elses;
 
-	IfStatement(Expression c, Block s, ArrayList<IfStatement> elseIf, Block e) {
+	public IfStatement(Expression c, Block s, ArrayList<IfStatement> elseIf, Block e) {
 		condition = c;
 		statements = s;
 		elseIfs = elseIf;
 		elses = e;
 	}
 
-	IfStatement(Expression c, Block s, ArrayList<IfStatement> elseIfs) {
+	public IfStatement(Expression c, Block s, ArrayList<IfStatement> elseIfs) {
 		this(c, s, elseIfs, null);
 	}
 
-	IfStatement(Expression c, Block s, Block e) {
+	public IfStatement(Expression c, Block s, Block e) {
 		this(c, s, null, e);
 	}
 
-	IfStatement(Expression c, Block s) {
+	public IfStatement(Expression c, Block s) {
 		this(c, s, null, null);
 	}
 
@@ -54,15 +54,14 @@ public class IfStatement extends Statement {
 
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
-		// todo 확인
+		// todo �솗�씤
 		if (valid) return;
 
 		check(condition.typeOf(declarationMap) == Type.BOOL,
 				"\'if\'\'s condition must boolean type. declared : " + condition.typeOf(declarationMap));
 
 		condition.V(declarationMap);
-		statements.V(declarationMap);
-
+		statements.V(declarationMap,this);
 		if (elseIfs != null) {
 			HashSet<Expression> conditions = new HashSet<>();
 			conditions.add(condition);
@@ -73,14 +72,46 @@ public class IfStatement extends Statement {
 						"duplicated else if condition");
 
 				conditions.add(statement.condition);
-				statement.V(declarationMap);
+				statement.V(declarationMap,this);
 			}
 		}
 
 		if (elses != null) {
-			elses.V(declarationMap);
+			elses.V(declarationMap,this);
 		}
 
 		valid = true;
 	}
+
+	@Override
+	void V(HashMap<String, Init> declarationMap, Statement s) {
+		// TODO Auto-generated method stub
+		if (valid) return;
+
+		check(condition.typeOf(declarationMap) == Type.BOOL,
+				"\'if\'\'s condition must boolean type. declared : " + condition.typeOf(declarationMap));
+
+		condition.V(declarationMap); 
+		statements.V(declarationMap,this);
+		if (elseIfs != null) {
+			HashSet<Expression> conditions = new HashSet<>();
+			conditions.add(condition);
+
+			for (IfStatement statement : elseIfs) {
+
+				check(conditions.contains(statement.condition),
+						"duplicated else if condition");
+
+				conditions.add(statement.condition);
+				statement.V(declarationMap,this);
+			}
+		}
+
+		if (elses != null) {
+			elses.V(declarationMap,this);
+		}
+
+		valid = true;
+	}
+	
 }

@@ -1,4 +1,4 @@
-package Syntax;
+﻿package Syntax;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,15 +13,20 @@ public class SwitchStatement extends Statement {
 	protected final HashMap<Value, ArrayList<Statement>> cases = new HashMap<>();
 	protected ArrayList<Statement> defaults = null;
 
-	SwitchStatement(Expression condition) {
+	public SwitchStatement(Expression condition) {
 		this.condition = condition;
 	}
 
-	void addCase(Value caseLiteral, ArrayList<Statement> statements) {
-		check(cases.containsKey(caseLiteral),
+	public void addCase(Value caseLiteral, ArrayList<Statement> statements) {
+		check(!cases.containsKey(caseLiteral),
 				"duplicated case literal in switch");
 
 		cases.put(caseLiteral, statements);
+	}
+
+	public void setDefault(ArrayList<Statement> defaults) {
+		check(defaults != null, "duplicated default in switch");
+		this.defaults = defaults;
 	}
 
 	@Override
@@ -41,7 +46,7 @@ public class SwitchStatement extends Statement {
 
 	@Override
 	public void V(HashMap<String, Init> declarationMap) {
-		// todo 확인
+		// todo �솗�씤
 		if (valid) return;
 
 		switchType = condition.typeOf(declarationMap);
@@ -51,16 +56,43 @@ public class SwitchStatement extends Statement {
 					"different type of case literal in switch. case : " + key.typeOf(declarationMap));
 
 			for (Statement statement : cases.get(key)) {
-				statement.V(declarationMap);
+				statement.V(declarationMap,this);
 			}
 		}
 
 		if (defaults != null) {
 			for (Statement statement : defaults) {
-				statement.V(declarationMap);
+				statement.V(declarationMap,this);
 			}
 		}
 
 		valid = true;
+	}
+
+	@Override
+	void V(HashMap<String, Init> declarationMap, Statement s) {
+		// todo �솗�씤
+				if (valid) return;
+
+				switchType = condition.typeOf(declarationMap);
+
+				for (Value key : cases.keySet()) {
+					check(key.typeOf(declarationMap) != switchType,
+							"different type of case literal in switch. case : " + key.typeOf(declarationMap));
+
+					for (Statement statement : cases.get(key)) {
+						statement.V(declarationMap, this);
+					}
+				}
+
+				if (defaults != null) {
+					for (Statement statement : defaults) {
+						statement.V(declarationMap, this);
+					}
+				}
+
+				valid = true;
+				// TODO Auto-generated method stub
+		
 	}
 }

@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class Block extends Statement {
 	protected final ArrayList<Statement> statements;
 
-	Block(ArrayList<Statement> s) {
+	public Block(ArrayList<Statement> s) {
 		statements = s;
 	}
 
@@ -35,5 +35,17 @@ public class Block extends Statement {
 		}
 
 		valid = true;
+	}
+
+	@Override
+	void V(HashMap<String, Init> declarationMap, Statement s) {
+		if (valid) return;
+		for (Statement i : statements) {
+			i.V(declarationMap,s);
+		}
+		
+		valid = true;
+		// TODO Auto-generated method stub
+		
 	}
 }
