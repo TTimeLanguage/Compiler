@@ -326,10 +326,11 @@ public class Parser {
 			match(TokenType.Colon);
 
 			ArrayList<Statement> caseStatements = new ArrayList<>();
-			while (!isCase() && !isDefault()) {
+			while (!(isCase() || isDefault() || isRightBrace())) {
 				caseStatements.add(statement());
 			}
 
+			System.out.println(caseStatements);
 			result.addCase(value, caseStatements);
 		}
 

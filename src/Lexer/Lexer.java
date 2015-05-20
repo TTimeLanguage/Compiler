@@ -58,20 +58,33 @@ public class Lexer {
 			if (isLetter(ch)) { // ident or keyword
 				String spelling = concat(letters + digits);
 				return Token.keyword(spelling);
+
 			} else if (isDigit(ch)) { // int or float literal
 				String number = concat(digits);
+
 				if (ch == '.') {
 					number += concat(digits);
+
 					if (ch == '.') {
 						number += concat(digits);
 						return Token.mkDateLiteral(number);
 					}
 					return Token.mkFloatLiteral(number);
+
 				} else if (ch == ':') {
+
+					if (!isDigit(nextChar())) {
+						return Token.mkIntLiteral(number);
+					} else {
+						col--;
+					}
+
 					number += concat(digits);
+
 					if (ch == ':') {
 						number += concat(digits);
 						return Token.mkTimeLiteral(number);
+
 					} else {
 						error("illegal time literal");
 					}
@@ -90,8 +103,7 @@ public class Lexer {
 					if (ch != '/') {
 						if (ch != '=') {
 							return Token.divideTok;
-						}
-						else {
+						} else {
 							ch = nextChar();
 							return Token.divideAssignTok;
 						}
@@ -152,9 +164,9 @@ public class Lexer {
 					return Token.orTok;
 
 				case '=':
-					return chkOpt('=', Token.assignTok,	Token.eqeqTok);
+					return chkOpt('=', Token.assignTok, Token.eqeqTok);
 				case '<':
-					return chkOpt('=', Token.ltTok,	Token.lteqTok);
+					return chkOpt('=', Token.ltTok, Token.lteqTok);
 				case '>':
 					return chkOpt('=', Token.gtTok, Token.gteqTok);
 				case '!':
@@ -162,6 +174,9 @@ public class Lexer {
 				case ',':
 					ch = nextChar();
 					return Token.commaTok;
+				case ':':
+					ch = nextChar();
+					return Token.colonTok;
 
 				default:
 					error("Illegal character " + ch);
