@@ -1,5 +1,7 @@
 package Syntax;
 
+import Semantic.FunctionInformation;
+
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -16,7 +18,7 @@ public abstract class AbstractSyntax {
 	 */
 	protected final static HashMap<String, Init> globalVariableMap = new HashMap<>();
 	// todo
-	protected final static HashSet<Global> globalFunctionMap = new HashSet<>();
+	protected final static HashSet<FunctionInformation> globalFunctionMap = new HashSet<>();
 
 	/**
 	 * AST에서 노드(객체)의 정보를 표시함

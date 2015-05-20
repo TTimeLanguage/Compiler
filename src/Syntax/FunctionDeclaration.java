@@ -21,6 +21,18 @@ public class FunctionDeclaration extends Global {
 		statements = s;
 	}
 
+	public Type getType() {
+		return type;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public ArrayList<ParamDeclaration> getParams() {
+		return params;
+	}
+
 	protected void mapParams() {
 		for (ParamDeclaration param : params) {
 

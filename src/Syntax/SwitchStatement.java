@@ -18,7 +18,7 @@ public class SwitchStatement extends Statement {
 	}
 
 	public void addCase(Value caseLiteral, ArrayList<Statement> statements) {
-		check(cases.containsKey(caseLiteral),
+		check(!cases.containsKey(caseLiteral),
 				"duplicated case literal in switch");
 
 		cases.put(caseLiteral, statements);

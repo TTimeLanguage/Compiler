@@ -1,5 +1,7 @@
 package Syntax;
 
+import Semantic.FunctionInformation;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -48,10 +50,13 @@ public class Program extends AbstractSyntax {
 				FunctionDeclaration functionDeclaration = (FunctionDeclaration) global;
 				functionDeclaration.mapParams();
 
-				check(!globalFunctionMap.contains(global),
+				FunctionInformation tmp = new FunctionInformation(functionDeclaration);
+
+				check(!globalFunctionMap.contains(tmp),
 						"duplicated declared function " + functionDeclaration.name);
 
-				globalFunctionMap.add(functionDeclaration);
+				globalFunctionMap.add(new FunctionInformation(functionDeclaration));
+				tmp = null;
 
 			} else if (global instanceof Declaration) {
 

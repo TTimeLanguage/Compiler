@@ -12,6 +12,10 @@ public class ParamDeclaration extends Init {
 		this.name = name;
 	}
 
+	public Type getType() {
+		return type;
+	}
+
 	void display(int lev) {
 		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
