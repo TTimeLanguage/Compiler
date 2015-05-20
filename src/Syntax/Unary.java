@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.Unary = UnaryOperator; Syntax.Expression
+ * Unary = UnaryOperator; Expression
  */
 public class Unary extends Expression {
 	protected final Operator op;

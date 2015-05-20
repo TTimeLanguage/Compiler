@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.Break =
+ * Break =
  */
 public class Break extends Statement {
 	@Override

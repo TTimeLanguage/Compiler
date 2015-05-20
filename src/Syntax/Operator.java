@@ -2,7 +2,7 @@ package Syntax;
 
 /**
  * Abstract Syntax :
- * Syntax.Operator = BooleanOp | RelationalOp | ArithmeticOp | UnaryOp | AssignOp
+ * Operator = BooleanOp | RelationalOp | ArithmeticOp | UnaryOp | AssignOp
  */
 public class Operator {
 	// BooleanOp = && | ||

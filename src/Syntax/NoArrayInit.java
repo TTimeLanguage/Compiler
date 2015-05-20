@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.ArrayInit = Syntax.Type; String id; (Syntax.Expression initList)*
+ * ArrayInit = Type; String id; (Expression initList)*
  */
 public class NoArrayInit extends Init {
 	protected final Expression initial;

@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.DateValue = String year, month, day
+ * DateValue = String year, month, day
  */
 public class DateValue extends Value {
 	protected final int year, month, day;

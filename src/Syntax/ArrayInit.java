@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.ArrayInit = Syntax.Type; String id; int size; (Syntax.Expression initList)*
+ * ArrayInit = Type; String id; int size; (Expression initList)*
  */
 public class ArrayInit extends Init {
 	protected final int size;

@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.BoolValue = bool
+ * BoolValue = bool
  */
 public class BoolValue extends Value {
 	protected final boolean value;

@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.ParamDeclaration = Syntax.Type; String Id
+ * ParamDeclaration = Type; String Id
  */
 public class ParamDeclaration extends Init {
 	public ParamDeclaration(Type t, String name) {

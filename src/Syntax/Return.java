@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.Return = Syntax.Expression?
+ * Return = Expression?
  */
 public class Return extends Statement {
 	protected final Expression returnValue;

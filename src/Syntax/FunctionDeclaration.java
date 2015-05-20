@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.FunctionDeclaration = Syntax.Type; String id; Syntax.ParamDeclaration*; Syntax.Statements
+ * FunctionDeclaration = Type; String id; ParamDeclaration*; Statements
  */
 public class FunctionDeclaration extends Global {
 	protected final Type type;

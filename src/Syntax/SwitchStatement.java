@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.SwitchStatement = Syntax.Expression condition; (Literal case; Syntax.Statement*)*; (Syntax.Statement*)?
+ * SwitchStatement = Expression condition; (Literal case; Statement*)*; (Statement*)?
  */
 public class SwitchStatement extends Statement {
 	protected Type switchType;

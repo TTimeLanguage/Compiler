@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.Statements = Syntax.Declaration*; Syntax.Statement*
+ * Statements = Declaration*; Statement*
  */
 public class Statements extends AbstractSyntax {
 	protected final ArrayList<Declaration> declarations;

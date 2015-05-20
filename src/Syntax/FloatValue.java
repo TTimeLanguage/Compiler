@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.FloatValue = float
+ * FloatValue = float
  */
 public class FloatValue extends Value {
 	protected final float value;

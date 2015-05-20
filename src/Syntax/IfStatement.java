@@ -6,7 +6,7 @@ import java.util.HashSet;
 
 /**
  * Abstract Syntax :
- * Syntax.IfStatement = Syntax.Expression condition; Syntax.Block; (Syntax.Expression elseif; Syntax.Block)*; Syntax.Block?
+ * IfStatement = Expression condition; Block; (Expression elseif; Block)*; Block?
  */
 public class IfStatement extends Statement {
 	protected final Expression condition;

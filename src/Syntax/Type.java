@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.Type = 'int' | 'bool' | 'void' | 'char' | 'float' | 'time' | 'date'
+ * Type = 'int' | 'bool' | 'void' | 'char' | 'float' | 'time' | 'date'
  */
 public class Type extends AbstractSyntax {
 	// Syntax.Type = int | bool | char | float

@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.TimeValue = String hour, minute, second
+ * TimeValue = String hour, minute, second
  */
 public class TimeValue extends Value {
 	protected final int hour, minute, second;

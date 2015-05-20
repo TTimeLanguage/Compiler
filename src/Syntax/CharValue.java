@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.CharValue = String
+ * CharValue = String
  */
 public class CharValue extends Value {
 	protected final char value;

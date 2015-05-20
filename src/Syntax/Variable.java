@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.Variable = String id
+ * Variable = String id
  */
 public class Variable extends VariableRef {
 	protected final String name;

@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.Continue =
+ * Continue =
  */
 public class Continue extends Statement {
 	@Override

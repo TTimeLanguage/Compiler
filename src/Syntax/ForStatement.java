@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.ForStatement = Syntax.Expression*; Syntax.Expression; Syntax.Expression*; Syntax.Block
+ * ForStatement = Expression*; Expression; Expression*; Block
  */
 public class ForStatement extends Statement {
 	protected final ArrayList<Expression> preExpression = new ArrayList<>();

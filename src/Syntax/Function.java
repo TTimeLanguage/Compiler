@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.Function = String name; Syntax.Expression*
+ * Function = String name; Expression*
  */
 public class Function extends Expression {
 	protected final String name;

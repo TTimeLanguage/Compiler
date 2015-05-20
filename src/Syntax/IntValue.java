@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.IntValue = int
+ * IntValue = int
  */
 public class IntValue extends Value {
 	protected final int value;

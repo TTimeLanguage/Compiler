@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.Declaration = Syntax.Init*
+ * Declaration = Init*
  */
 public class Declaration extends Global {
 	protected final ArrayList<Init> inits;

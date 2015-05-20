@@ -5,14 +5,12 @@ import Semantic.FunctionInformation;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * Created by 병훈 on 2015-05-20.
- */
+
 /**
  * AST의 투르 노드
  * <p>
  * Abstract Syntax :
- * Syntax.Program = Syntax.Global*; Syntax.Statements
+ * Program = Global*; Statements
  *
  * @see AbstractSyntax
  */

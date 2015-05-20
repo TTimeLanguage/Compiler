@@ -2,7 +2,7 @@ package Syntax;
 
 /**
  * Abstract Syntax :
- * Syntax.Global = Syntax.FunctionDeclaration | Declarations
+ * Global = FunctionDeclaration | Declarations
  */
 abstract public class Global extends AbstractSyntax {
 }

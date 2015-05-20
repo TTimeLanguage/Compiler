@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.Binary = Syntax.Operator; Syntax.Expression e1, e2
+ * Binary = Operator; Expression e1, e2
  */
 public class Binary extends Expression {
 	protected final Operator op;

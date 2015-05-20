@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.WhileStatement = Syntax.Expression condition; Syntax.Block
+ * WhileStatement = Expression condition; Block
  */
 public class WhileStatement extends Statement {
 	protected final Expression condition;

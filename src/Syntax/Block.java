@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.Block = Syntax.Statement*
+ * Block = Statement*
  */
 public class Block extends Statement {
 	protected final ArrayList<Statement> statements;

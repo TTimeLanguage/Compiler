@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.Skip =
+ * Skip =
  */
 public class Skip extends Statement {
 	@Override

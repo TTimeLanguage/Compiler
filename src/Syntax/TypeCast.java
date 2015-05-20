@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.TypeCast = Syntax.Type type; Syntax.Expression
+ * TypeCast = Type type; Expression
  */
 public class TypeCast extends Expression {
 	protected final Type type;

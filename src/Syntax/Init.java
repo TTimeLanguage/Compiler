@@ -2,7 +2,7 @@ package Syntax;
 
 /**
  * Abstract Syntax :
- * Syntax.Init = Syntax.ArrayInit | Syntax.NoArrayInit
+ * Init = ArrayInit | NoArrayInit
  */
 abstract public class Init extends AbstractSyntax {
 	protected Type type;

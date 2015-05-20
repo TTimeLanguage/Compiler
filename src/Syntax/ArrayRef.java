@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.ArrayRef = String id; Syntax.Expression index
+ * ArrayRef = String id; Expression index
  */
 public class ArrayRef extends VariableRef {
 	protected final String name;
