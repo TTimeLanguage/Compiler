@@ -616,15 +616,19 @@ class WhileStatement extends Statement {
  * SwitchStatement = Expression condition; (Literal case; Statement*)*; (Statement*)?
  */
 class SwitchStatement extends Statement {
+	protected Type switchType;
 	protected final Expression condition;
 	protected final HashMap<Value, ArrayList<Statement>> cases = new HashMap<>();
-	protected ArrayList<Statement> defaults;
+	protected ArrayList<Statement> defaults = null;
 
 	SwitchStatement(Expression condition) {
 		this.condition = condition;
 	}
 
 	void addCase(Value caseLiteral, ArrayList<Statement> statements) {
+		check(cases.containsKey(caseLiteral),
+				"duplicated case literal in switch");
+
 		cases.put(caseLiteral, statements);
 	}
 
@@ -645,7 +649,27 @@ class SwitchStatement extends Statement {
 
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
-		// todo
+		// todo 확인
+		if (valid) return;
+
+		switchType = condition.typeOf(declarationMap);
+
+		for (Value key : cases.keySet()) {
+			check(key.typeOf(declarationMap) != switchType,
+					"different type of case literal in switch. case : " + key.typeOf(declarationMap));
+
+			for (Statement statement : cases.get(key)) {
+				statement.V(declarationMap);
+			}
+		}
+
+		if (defaults != null) {
+			for (Statement statement : defaults) {
+				statement.V(declarationMap);
+			}
+		}
+
+		valid = true;
 	}
 }
 
@@ -687,7 +711,23 @@ class ForStatement extends Statement {
 
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
-		// todo
+		// todo 확인
+		if (valid) return;
+
+		check(condition.typeOf(declarationMap) == Type.BOOL,
+				"condition type must boolean in for. condition type : " + condition.typeOf(declarationMap));
+
+		for (Expression pre : preExpression) {
+			pre.V(declarationMap);
+		}
+
+		for (Expression post : postExpression) {
+			post.V(declarationMap);
+		}
+
+		statements.V(declarationMap);
+
+		valid = true;
 	}
 }
 
@@ -837,17 +877,20 @@ class Variable extends VariableRef {
 
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
+		// todo 확인
 		if (valid) return;
 
-		check(declarationMap.containsKey(this.name),
-				"undeclared variable: " + this.name);
+		check(declarationMap.containsKey(name),
+				"undeclared variable: " + name);
+
+		check(declarationMap.get(name) instanceof NoArrayInit,
+				"wrong reference. should add array reference. in " + name);
 
 		valid = true;
 	}
 
 	@Override
 	Type typeOf(HashMap<String, Init> declarationMap) {
-
 		check(declarationMap.containsKey(this.name),
 				"undefined variable: " + this.name);
 
@@ -881,16 +924,27 @@ class ArrayRef extends VariableRef {
 
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
+		// todo 확인
 		if (valid) return;
 
-		check(declarationMap.containsKey(this.name),
-				"undeclared variable: " + this.name); // todo index처리?
+		check(declarationMap.containsKey(name),
+				"undeclared variable: " + name);
+
+		Init declare = declarationMap.get(name);
+		check(declare instanceof ArrayInit,
+				"wrong reference. should remove array reference. in " + name);
+
+		check(index.typeOf(declarationMap) == Type.INT,
+				"index type must be integer. in " + name);
 
 		valid = true;
 	}
 
 	@Override
 	Type typeOf(HashMap<String, Init> declarationMap) {
+		check(declarationMap.containsKey(this.name),
+				"undefined variable: " + this.name);
+
 		return declarationMap.get(this.name).type;
 	}
 }
@@ -985,6 +1039,7 @@ class Binary extends Expression {
 
 	@Override
 	Type typeOf(HashMap<String, Init> declarationMap) {
+		// todo 추가
 		if (op.ArithmeticOp())
 			if (term1.typeOf(declarationMap) == Type.FLOAT)
 				return (Type.FLOAT);
@@ -1047,11 +1102,10 @@ class Unary extends Expression {
 
 	@Override
 	Type typeOf(HashMap<String, Init> declarationMap) {
+		// todo 수정
 		if (op.NotOp()) return (Type.BOOL);
 		else if (op.NegateOp()) return term.typeOf(declarationMap);
 		else if (op.intOp()) return (Type.INT);
-		else if (op.floatOp()) return (Type.FLOAT);
-		else if (op.charOp()) return (Type.CHAR);
 		else return null;
 	}
 }
@@ -1085,7 +1139,10 @@ class Function extends Expression {
 
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
+		if (valid) return;
 		// todo
+
+		valid = true;
 	}
 
 	@Override
@@ -1121,6 +1178,7 @@ class TypeCast extends Expression {
 
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
+		// todo 추가
 		if (valid) return;
 
 		expression.V(declarationMap);
@@ -1133,6 +1191,10 @@ class TypeCast extends Expression {
 		} else if (type == Type.FLOAT) {
 			check(t == Type.FLOAT || t == Type.INT || t == Type.CHAR,
 					"can not cast type to " + type);
+
+		} else if (type == Type.CHAR) {
+
+		} else if (type == Type.BOOL) {
 
 		} else {
 			throw new IllegalArgumentException("should never reach here TypeCast error");
@@ -1403,7 +1465,9 @@ class TimeValue extends Value {
 
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
-		// todo
+		check(hour >= 0 && hour < 24, "hour value must be between 0 and 23");
+		check(minute >= 0 && minute < 60, "minute value must be between 0 and 59");
+		check(second >= 0 && second < 60, "second value must be between 0 and 59");
 	}
 }
 
@@ -1575,7 +1639,7 @@ class Operator {
 	}
 
 	public boolean equals(Object obj) {
-		return value.equals(obj);
+		return obj instanceof Operator && value.equals(obj);
 	}
 
 	boolean BooleanOp() {
