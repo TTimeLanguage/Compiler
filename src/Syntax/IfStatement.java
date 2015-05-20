@@ -34,21 +34,21 @@ public class IfStatement extends Statement {
 	}
 
 	@Override
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.IfStatement");
-		condition.display(k + 1);
-		statements.display(k + 1);
+		System.out.println("IfStatement");
+		condition.display(lev + 1);
+		statements.display(lev + 1);
 		if (elseIfs != null) {
 			for (IfStatement statement : elseIfs) {
-				statement.display(k + 1);
+				statement.display(lev + 1);
 			}
 		}
 		if (elses != null) {
-			elses.display(k + 1);
+			elses.display(lev + 1);
 		}
 	}
 

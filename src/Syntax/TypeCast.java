@@ -16,13 +16,13 @@ public class TypeCast extends Expression {
 	}
 
 	@Override
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.TypeCast " + type);
-		expression.display(k + 1);
+		System.out.println("TypeCast " + type);
+		expression.display(lev + 1);
 	}
 
 	@Override

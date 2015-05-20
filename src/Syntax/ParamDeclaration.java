@@ -12,12 +12,12 @@ public class ParamDeclaration extends Init {
 		this.name = name;
 	}
 
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.ParamDeclaration " + type + " " + name);
+		System.out.println("ParamDeclaration " + type + " " + name);
 	}
 
 	@Override

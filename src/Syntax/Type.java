@@ -34,12 +34,13 @@ public class Type extends AbstractSyntax {
 		} else return false;
 	}
 
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	@Override
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.Type " + value);
+		System.out.println("Type " + value);
 	}
 
 	@Override

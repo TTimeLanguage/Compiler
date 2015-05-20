@@ -23,12 +23,12 @@ public class FloatValue extends Value {
 	}
 
 	@Override
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.FloatValue " + value);
+		System.out.println("FloatValue " + value);
 	}
 
 	@Override

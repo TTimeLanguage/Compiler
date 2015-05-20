@@ -21,12 +21,12 @@ public class TimeValue extends Value {
 	}
 
 	@Override
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.TimeValue " + hour + ":" + minute + ":" + second);
+		System.out.println("TimeValue " + hour + ":" + minute + ":" + second);
 	}
 
 	@Override

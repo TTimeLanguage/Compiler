@@ -20,15 +20,15 @@ public class NoArrayInit extends Init {
 	}
 
 	@Override
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.NoArrayInit " + type + " " + name);
+		System.out.println("NoArrayInit " + type + " " + name);
 
 		if (initial != null) {
-			initial.display(k + 1);
+			initial.display(lev + 1);
 		}
 	}
 

@@ -17,16 +17,16 @@ public class Binary extends Expression {
 	}
 
 	@Override
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.Binary");
+		System.out.println("Binary");
 
-		op.display(k + 1);
-		term1.display(k + 1);
-		term2.display(k + 1);
+		op.display(lev + 1);
+		term1.display(lev + 1);
+		term2.display(lev + 1);
 	}
 
 	@Override

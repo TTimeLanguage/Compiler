@@ -17,13 +17,13 @@ public class ArrayRef extends VariableRef {
 	}
 
 	@Override
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.ArrayRef " + name);
-		index.display(k + 1);
+		System.out.println("ArrayRef " + name);
+		index.display(lev + 1);
 	}
 
 	@Override

@@ -30,16 +30,16 @@ public class SwitchStatement extends Statement {
 	}
 
 	@Override
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.SwitchStatement");
+		System.out.println("SwitchStatement");
 		for (Value value : cases.keySet()) {
-			value.display(k + 1);
+			value.display(lev + 1);
 			for (Statement statement : cases.get(value)) {
-				statement.display(k + 1);
+				statement.display(lev + 1);
 			}
 		}
 	}

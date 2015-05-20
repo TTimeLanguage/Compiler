@@ -70,16 +70,16 @@ public class Program extends AbstractSyntax {
 	}
 
 	@Override
-	public void display(int k) {
-		for (int w = 0; w < k; w++) {
+	public void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.Program");
+		System.out.println("Program");
 		for (Global g : globals) {
-			g.display(k + 1);
+			g.display(lev + 1);
 		}
-		statements.display(k + 1);
+		statements.display(lev + 1);
 	}
 
 

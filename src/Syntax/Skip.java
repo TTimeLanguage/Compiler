@@ -8,7 +8,7 @@ import java.util.HashMap;
  */
 public class Skip extends Statement {
 	@Override
-	void display(int k) {
+	void display(int lev) {
 	}
 
 	@Override

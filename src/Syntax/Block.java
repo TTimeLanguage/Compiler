@@ -15,14 +15,14 @@ public class Block extends Statement {
 	}
 
 	@Override
-	public void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.Block");
+		System.out.println("Block");
 		for (Statement statement : statements) {
-			statement.display(k + 1);
+			statement.display(lev + 1);
 		}
 	}
 

@@ -36,19 +36,19 @@ public class ForStatement extends Statement {
 	}
 
 	@Override
-	public void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.ForStatement");
+		System.out.println("ForStatement");
 
 		for (Expression expression : preExpression) {
-			expression.display(k + 1);
+			expression.display(lev + 1);
 		}
-		condition.display(k + 1);
+		condition.display(lev + 1);
 		for (Expression expression : postExpression) {
-			expression.display(k + 1);
+			expression.display(lev + 1);
 		}
 	}
 

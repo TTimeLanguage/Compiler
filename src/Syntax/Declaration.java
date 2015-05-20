@@ -15,14 +15,14 @@ public class Declaration extends Global {
 	}
 
 	@Override
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println(this.getClass().getName());
+		System.out.println("Declaration");
 		for (Init init : inits) {
-			init.display(k + 1);
+			init.display(lev + 1);
 		}
 	}
 

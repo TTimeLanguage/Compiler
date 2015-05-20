@@ -23,15 +23,15 @@ public class ArrayInit extends Init {
 	}
 
 	@Override
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.ArrayInit " + type + " " + name + "[" + size + "]");
+		System.out.println("ArrayInit " + type + " " + name + "[" + size + "]");
 		if (initList != null) {
 			for (Expression expression : initList) {
-				expression.display(k + 1);
+				expression.display(lev + 1);
 			}
 		}
 	}

@@ -17,15 +17,15 @@ public class Function extends Expression {
 	}
 
 	@Override
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.Function " + name);
+		System.out.println("Function " + name);
 
 		for (Expression expression : params) {
-			expression.display(k + 1);
+			expression.display(lev + 1);
 		}
 	}
 

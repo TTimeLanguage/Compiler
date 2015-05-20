@@ -34,16 +34,16 @@ public class FunctionDeclaration extends Global {
 	}
 
 	@Override
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.FunctionDeclaration " + type + " " + name);
+		System.out.println("FunctionDeclaration " + type + " " + name);
 		for (ParamDeclaration declaration : params) {
-			declaration.display(k + 1);
+			declaration.display(lev + 1);
 		}
-		statements.display(k + 1);
+		statements.display(lev + 1);
 	}
 
 	@Override
