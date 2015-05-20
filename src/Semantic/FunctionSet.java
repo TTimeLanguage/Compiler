@@ -5,11 +5,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 
-/**
- * Created by 병훈 on 2015-05-20.
- */
-public class FunctionSet<T> implements Set {
-	private ArrayList<T> array = new ArrayList<>();
+
+public class FunctionSet implements Set<FunctionInformation> {
+	private ArrayList<FunctionInformation> array = new ArrayList<>();
 
 	@Override
 	public int size() {
@@ -23,6 +21,14 @@ public class FunctionSet<T> implements Set {
 
 	@Override
 	public boolean contains(Object o) {
+		if (!(o instanceof FunctionInformation)) return false;
+
+		FunctionInformation tmp = (FunctionInformation) o;
+
+		for (FunctionInformation information : array) {
+			if (information.equals(tmp)) return true;
+		}
+
 		return false;
 	}
 
@@ -37,13 +43,23 @@ public class FunctionSet<T> implements Set {
 	}
 
 	@Override
-	public boolean add(Object o) {
-		return false;
+	public <T> T[] toArray(T[] a) {
+		return null;
+	}
+
+	@Override
+	public boolean add(FunctionInformation functionInformation) {
+		if (contains(functionInformation)) return false;
+
+		array.add(functionInformation);
+
+		return true;
 	}
 
 	@Override
 	public boolean remove(Object o) {
-		return false;
+		return contains(o) && array.remove(o);
+
 	}
 
 	@Override
@@ -72,7 +88,13 @@ public class FunctionSet<T> implements Set {
 	}
 
 	@Override
-	public T[] toArray(Object[] a) {
-		return null;
+	public String toString() {
+		StringBuilder result = new StringBuilder("");
+
+		for (FunctionInformation information : array) {
+			result.append(information.toString()).append("\n");
+		}
+
+		return result.toString();
 	}
 }
