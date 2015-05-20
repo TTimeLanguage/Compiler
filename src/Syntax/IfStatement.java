@@ -6,7 +6,7 @@ import java.util.HashSet;
 
 /**
  * Abstract Syntax :
- * Syntax.IfStatement = Syntax.Expression condition; Syntax.Block; (Syntax.Expression elseif; Syntax.Block)*; Syntax.Block?
+ * IfStatement = Expression condition; Block; (Expression elseif; Block)*; Block?
  */
 public class IfStatement extends Statement {
 	protected final Expression condition;
@@ -14,41 +14,41 @@ public class IfStatement extends Statement {
 	protected final ArrayList<IfStatement> elseIfs;
 	protected final Block elses;
 
-	IfStatement(Expression c, Block s, ArrayList<IfStatement> elseIf, Block e) {
+	public IfStatement(Expression c, Block s, ArrayList<IfStatement> elseIf, Block e) {
 		condition = c;
 		statements = s;
 		elseIfs = elseIf;
 		elses = e;
 	}
 
-	IfStatement(Expression c, Block s, ArrayList<IfStatement> elseIfs) {
+	public IfStatement(Expression c, Block s, ArrayList<IfStatement> elseIfs) {
 		this(c, s, elseIfs, null);
 	}
 
-	IfStatement(Expression c, Block s, Block e) {
+	public IfStatement(Expression c, Block s, Block e) {
 		this(c, s, null, e);
 	}
 
-	IfStatement(Expression c, Block s) {
+	public IfStatement(Expression c, Block s) {
 		this(c, s, null, null);
 	}
 
 	@Override
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.IfStatement");
-		condition.display(k + 1);
-		statements.display(k + 1);
+		System.out.println("IfStatement");
+		condition.display(lev + 1);
+		statements.display(lev + 1);
 		if (elseIfs != null) {
 			for (IfStatement statement : elseIfs) {
-				statement.display(k + 1);
+				statement.display(lev + 1);
 			}
 		}
 		if (elses != null) {
-			elses.display(k + 1);
+			elses.display(lev + 1);
 		}
 	}
 

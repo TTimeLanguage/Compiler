@@ -5,14 +5,14 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.Statements = Syntax.Declaration*; Syntax.Statement*
+ * Statements = Declaration*; Statement*
  */
 public class Statements extends AbstractSyntax {
 	protected final ArrayList<Declaration> declarations;
 	protected final ArrayList<Statement> statements;
 	protected final HashMap<String, Init> variableMap = new HashMap<>();
 
-	Statements(ArrayList<Declaration> d, ArrayList<Statement> s) {
+	public Statements(ArrayList<Declaration> d, ArrayList<Statement> s) {
 		declarations = d;
 		statements = s;
 	}
@@ -32,17 +32,17 @@ public class Statements extends AbstractSyntax {
 	}
 
 	@Override
-	public void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.Statements");
+		System.out.println("Statements");
 		for (Declaration declaration : declarations) {
-			declaration.display(k + 1);
+			declaration.display(lev + 1);
 		}
 		for (Statement statement : statements) {
-			statement.display(k + 1);
+			statement.display(lev + 1);
 		}
 	}
 

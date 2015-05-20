@@ -4,16 +4,16 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.Continue =
+ * Continue =
  */
 public class Continue extends Statement {
 	@Override
-	public void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.Continue");
+		System.out.println("Continue");
 	}
 
 	@Override

@@ -5,25 +5,25 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.ArrayRef = String id; Syntax.Expression index
+ * ArrayRef = String id; Expression index
  */
 public class ArrayRef extends VariableRef {
 	protected final String name;
 	protected final Expression index;
 
-	ArrayRef(String n, Expression index) {
+	public ArrayRef(String n, Expression index) {
 		this.name = n;
 		this.index = index;
 	}
 
 	@Override
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.ArrayRef " + name);
-		index.display(k + 1);
+		System.out.println("ArrayRef " + name);
+		index.display(lev + 1);
 	}
 
 	@Override

@@ -1,16 +1,16 @@
 package Syntax;
 
+import Semantic.FunctionInformation;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * Created by 병훈 on 2015-05-20.
- */
+
 /**
  * AST의 투르 노드
  * <p>
  * Abstract Syntax :
- * Syntax.Program = Syntax.Global*; Syntax.Statements
+ * Program = Global*; Statements
  *
  * @see AbstractSyntax
  */
@@ -36,7 +36,7 @@ public class Program extends AbstractSyntax {
 	 *          전역변수와 함수의 정의들
 	 * @param s int main()의 안에 적혀있는 코드들
 	 */
-	Program(ArrayList<Global> g, Statements s) {
+	public Program(ArrayList<Global> g, Statements s) {
 		globals = g;
 		statements = s;
 	}
@@ -48,10 +48,13 @@ public class Program extends AbstractSyntax {
 				FunctionDeclaration functionDeclaration = (FunctionDeclaration) global;
 				functionDeclaration.mapParams();
 
-				check(!globalFunctionMap.contains(global),
+				FunctionInformation tmp = new FunctionInformation(functionDeclaration);
+
+				check(!globalFunctionMap.contains(tmp),
 						"duplicated declared function " + functionDeclaration.name);
 
-				globalFunctionMap.add(functionDeclaration);
+				globalFunctionMap.add(new FunctionInformation(functionDeclaration));
+				tmp = null;
 
 			} else if (global instanceof Declaration) {
 
@@ -70,16 +73,16 @@ public class Program extends AbstractSyntax {
 	}
 
 	@Override
-	public void display(int k) {
-		for (int w = 0; w < k; w++) {
+	public void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.Program");
+		System.out.println("Program");
 		for (Global g : globals) {
-			g.display(k + 1);
+			g.display(lev + 1);
 		}
-		statements.display(k + 1);
+		statements.display(lev + 1);
 	}
 
 

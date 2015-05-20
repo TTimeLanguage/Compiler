@@ -4,26 +4,26 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.WhileStatement = Syntax.Expression condition; Syntax.Block
+ * WhileStatement = Expression condition; Block
  */
 public class WhileStatement extends Statement {
 	protected final Expression condition;
 	protected final Block statements;
 
-	WhileStatement(Expression c, Block s) {
+	public WhileStatement(Expression c, Block s) {
 		condition = c;
 		statements = s;
 	}
 
 	@Override
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.WhileStatement");
-		condition.display(k + 1);
-		statements.display(k + 1);
+		System.out.println("WhileStatement");
+		condition.display(lev + 1);
+		statements.display(lev + 1);
 	}
 
 	@Override

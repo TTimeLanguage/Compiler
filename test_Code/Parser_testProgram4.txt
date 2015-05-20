@@ -1,0 +1,35 @@
+//float abc = 10.2;
+int gugu(int a, int b) {
+	int res;
+	res = a * b;
+	return res;
+}
+int main() {
+	int a;
+	int b;
+	bool c = true;
+	int i;
+	void y;
+
+	i = 1;
+	
+//	switch(i) {
+//	case 1:
+//		i = gugu(a,b);
+//		break;
+//	case 2:
+//		i = gugu(a,i);
+//		break;
+//	default:
+//		i = gugu(b,i);
+//	}
+
+	for(i=0;i<a;i++) {
+		if (b == 10) {
+			continue;
+		}
+		b = a * b;
+	}
+	
+	return b;
+}	

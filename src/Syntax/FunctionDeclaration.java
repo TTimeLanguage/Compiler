@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.FunctionDeclaration = Syntax.Type; String id; Syntax.ParamDeclaration*; Syntax.Statements
+ * FunctionDeclaration = Type; String id; ParamDeclaration*; Statements
  */
 public class FunctionDeclaration extends Global {
 	protected final Type type;
@@ -14,11 +14,23 @@ public class FunctionDeclaration extends Global {
 	protected final Statements statements;
 	protected final HashMap<String, Init> paramMap = new HashMap<>();
 
-	FunctionDeclaration(Type t, String name, ArrayList<ParamDeclaration> p, Statements s) {
+	public FunctionDeclaration(Type t, String name, ArrayList<ParamDeclaration> p, Statements s) {
 		type = t;
 		this.name = name;
 		params = p;
 		statements = s;
+	}
+
+	public Type getType() {
+		return type;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public ArrayList<ParamDeclaration> getParams() {
+		return params;
 	}
 
 	protected void mapParams() {
@@ -34,16 +46,16 @@ public class FunctionDeclaration extends Global {
 	}
 
 	@Override
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.FunctionDeclaration " + type + " " + name);
+		System.out.println("FunctionDeclaration " + type + " " + name);
 		for (ParamDeclaration declaration : params) {
-			declaration.display(k + 1);
+			declaration.display(lev + 1);
 		}
-		statements.display(k + 1);
+		statements.display(lev + 1);
 	}
 
 	@Override

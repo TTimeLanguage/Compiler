@@ -1,3 +1,7 @@
+package Semantic;
+
+import Lexer.Lexer;
+import Paser.Parser;
 import Syntax.Program;
 
 /**

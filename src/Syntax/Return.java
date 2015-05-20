@@ -4,28 +4,28 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.Return = Syntax.Expression?
+ * Return = Expression?
  */
-class Return extends Statement {
+public class Return extends Statement {
 	protected final Expression returnValue;
 
-	Return(Expression returnValue) {
+	public Return(Expression returnValue) {
 		this.returnValue = returnValue;
 	}
 
-	Return() {
+	public Return() {
 		this(null);
 	}
 
 	@Override
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.Return");
+		System.out.println("Return");
 		if (returnValue != null) {
-			returnValue.display(k + 1);
+			returnValue.display(lev + 1);
 		}
 	}
 

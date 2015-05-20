@@ -5,12 +5,12 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.Variable = String id
+ * Variable = String id
  */
 public class Variable extends VariableRef {
 	protected final String name;
 
-	Variable(String name) {
+	public Variable(String name) {
 		this.name = name;
 	}
 
@@ -30,12 +30,12 @@ public class Variable extends VariableRef {
 	}
 
 	@Override
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.Variable " + name);
+		System.out.println("Variable " + name);
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class Variable extends VariableRef {
 		check(declarationMap.containsKey(name),
 				"undeclared variable: " + name);
 
-		check(declarationMap.get(name) instanceof NoArrayInit,
+		check(!(declarationMap.get(name) instanceof ArrayInit),
 				"wrong reference. should add array reference. in " + name);
 
 		valid = true;
@@ -54,9 +54,9 @@ public class Variable extends VariableRef {
 
 	@Override
 	Type typeOf(HashMap<String, Init> declarationMap) {
-		check(declarationMap.containsKey(this.name),
-				"undefined variable: " + this.name);
+		check(declarationMap.containsKey(name),
+				"undefined variable: " + name);
 
-		return declarationMap.get(this.name).type;
+		return declarationMap.get(name).type;
 	}
 }

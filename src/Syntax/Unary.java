@@ -4,27 +4,27 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.Unary = UnaryOperator; Syntax.Expression
+ * Unary = UnaryOperator; Expression
  */
-class Unary extends Expression {
+public class Unary extends Expression {
 	protected final Operator op;
 	protected final Expression term;
 
-	Unary(Operator o, Expression e) {
+	public Unary(Operator o, Expression e) {
 		op = o;
 		term = e;
 	}
 
 	@Override
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.Unary");
+		System.out.println("Unary");
 
-		op.display(k + 1);
-		term.display(k + 1);
+		op.display(lev + 1);
+		term.display(lev + 1);
 	}
 
 	@Override

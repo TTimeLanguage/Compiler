@@ -4,11 +4,11 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.Skip =
+ * Skip =
  */
 public class Skip extends Statement {
 	@Override
-	void display(int k) {
+	void display(int lev) {
 	}
 
 	@Override

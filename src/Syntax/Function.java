@@ -5,27 +5,27 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.Function = String name; Syntax.Expression*
+ * Function = String name; Expression*
  */
-class Function extends Expression {
+public class Function extends Expression {
 	protected final String name;
 	protected final ArrayList<Expression> params;
 
-	Function(String id, ArrayList<Expression> params) {
+	public Function(String id, ArrayList<Expression> params) {
 		name = id;
 		this.params = params;
 	}
 
 	@Override
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.Function " + name);
+		System.out.println("Function " + name);
 
 		for (Expression expression : params) {
-			expression.display(k + 1);
+			expression.display(lev + 1);
 		}
 	}
 

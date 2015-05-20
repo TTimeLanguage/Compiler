@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.SwitchStatement = Syntax.Expression condition; (Literal case; Syntax.Statement*)*; (Syntax.Statement*)?
+ * SwitchStatement = Expression condition; (Literal case; Statement*)*; (Statement*)?
  */
 public class SwitchStatement extends Statement {
 	protected Type switchType;
@@ -13,28 +13,33 @@ public class SwitchStatement extends Statement {
 	protected final HashMap<Value, ArrayList<Statement>> cases = new HashMap<>();
 	protected ArrayList<Statement> defaults = null;
 
-	SwitchStatement(Expression condition) {
+	public SwitchStatement(Expression condition) {
 		this.condition = condition;
 	}
 
-	void addCase(Value caseLiteral, ArrayList<Statement> statements) {
-		check(cases.containsKey(caseLiteral),
+	public void addCase(Value caseLiteral, ArrayList<Statement> statements) {
+		check(!cases.containsKey(caseLiteral),
 				"duplicated case literal in switch");
 
 		cases.put(caseLiteral, statements);
 	}
 
+	public void setDefault(ArrayList<Statement> defaults) {
+		check(defaults == null, "duplicated default in switch");
+		this.defaults = defaults;
+	}
+
 	@Override
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.SwitchStatement");
+		System.out.println("SwitchStatement");
 		for (Value value : cases.keySet()) {
-			value.display(k + 1);
+			value.display(lev + 1);
 			for (Statement statement : cases.get(value)) {
-				statement.display(k + 1);
+				statement.display(lev + 1);
 			}
 		}
 	}

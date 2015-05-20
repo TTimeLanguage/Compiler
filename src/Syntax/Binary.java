@@ -4,29 +4,29 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.Binary = Syntax.Operator; Syntax.Expression e1, e2
+ * Binary = Operator; Expression e1, e2
  */
-class Binary extends Expression {
+public class Binary extends Expression {
 	protected final Operator op;
 	protected final Expression term1, term2;
 
-	Binary(Operator o, Expression l, Expression r) {
+	public Binary(Operator o, Expression l, Expression r) {
 		op = o;
 		term1 = l;
 		term2 = r;
 	}
 
 	@Override
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.Binary");
+		System.out.println("Binary");
 
-		op.display(k + 1);
-		term1.display(k + 1);
-		term2.display(k + 1);
+		op.display(lev + 1);
+		term1.display(lev + 1);
+		term2.display(lev + 1);
 	}
 
 	@Override

@@ -4,17 +4,17 @@ import java.util.HashMap;
 
 /**
  * Abstract Syntax :
- * Syntax.Type = 'int' | 'bool' | 'void' | 'char' | 'float' | 'time' | 'date'
+ * Type = 'int' | 'bool' | 'void' | 'char' | 'float' | 'time' | 'date'
  */
 public class Type extends AbstractSyntax {
 	// Syntax.Type = int | bool | char | float
-	final static Type INT = new Type("int");
+	public  final static Type INT = new Type("int");
 	public final static Type BOOL = new Type("bool");
-	final static Type CHAR = new Type("char");
-	final static Type FLOAT = new Type("float");
-	final static Type VOID = new Type("void");
-	final static Type TIME = new Type("time");
-	final static Type DATE = new Type("date");
+	public final static Type CHAR = new Type("char");
+	public final static Type FLOAT = new Type("float");
+	public final static Type VOID = new Type("void");
+	public final static Type TIME = new Type("time");
+	public final static Type DATE = new Type("date");
 
 	private String value;
 
@@ -34,12 +34,13 @@ public class Type extends AbstractSyntax {
 		} else return false;
 	}
 
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	@Override
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.Type " + value);
+		System.out.println("Type " + value);
 	}
 
 	@Override

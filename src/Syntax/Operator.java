@@ -2,9 +2,9 @@ package Syntax;
 
 /**
  * Abstract Syntax :
- * Syntax.Operator = BooleanOp | RelationalOp | ArithmeticOp | UnaryOp | AssignOp
+ * Operator = BooleanOp | RelationalOp | ArithmeticOp | UnaryOp | AssignOp
  */
-class Operator {
+public class Operator {
 	// BooleanOp = && | ||
 	final static String AND = "&&";
 	final static String OR = "||";
@@ -158,7 +158,7 @@ class Operator {
 
 	protected final String value;
 
-	Operator(String s) {
+	public Operator(String s) {
 		value = s;
 	}
 
@@ -291,12 +291,12 @@ class Operator {
 		return map(dateMap, op);
 	}
 
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.Operator " + value);
+		System.out.println("Operator " + value);
 	}
 
 }
