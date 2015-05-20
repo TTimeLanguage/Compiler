@@ -1,3 +1,5 @@
+import Token.Token;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -25,7 +27,7 @@ public class Lexer {
 		}
 	}
 
-	private char nextChar() { // Return next char
+	private char nextChar() { // Syntax.Return next char
 		if (ch == eofCh)
 			error("Attempt to read past end of file");
 		col++;
@@ -49,7 +51,7 @@ public class Lexer {
 	}
 
 
-	public Token next() { // Return next token
+	public Token next() { // Syntax.Return next token
 		do {
 			if (isLetter(ch)) { // ident or keyword
 				String spelling = concat(letters + digits);
