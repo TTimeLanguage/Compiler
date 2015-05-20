@@ -7,7 +7,7 @@ import java.util.HashMap;
  * Syntax.ParamDeclaration = Syntax.Type; String Id
  */
 public class ParamDeclaration extends Init {
-	ParamDeclaration(Type t, String name) {
+	public ParamDeclaration(Type t, String name) {
 		type = t;
 		this.name = name;
 	}

@@ -11,7 +11,7 @@ public class ArrayRef extends VariableRef {
 	protected final String name;
 	protected final Expression index;
 
-	ArrayRef(String n, Expression index) {
+	public ArrayRef(String n, Expression index) {
 		this.name = n;
 		this.index = index;
 	}

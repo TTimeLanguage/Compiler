@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class Variable extends VariableRef {
 	protected final String name;
 
-	Variable(String name) {
+	public Variable(String name) {
 		this.name = name;
 	}
 

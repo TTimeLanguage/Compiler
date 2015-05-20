@@ -11,7 +11,7 @@ public class ArrayInit extends Init {
 	protected final int size;
 	protected final ArrayList<Expression> initList;
 
-	ArrayInit(Type t, String name, int s, ArrayList<Expression> i) {
+	public ArrayInit(Type t, String name, int s, ArrayList<Expression> i) {
 		type = t;
 		this.name = name;
 		size = s;

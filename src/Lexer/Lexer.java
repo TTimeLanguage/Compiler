@@ -1,3 +1,5 @@
+package Lexer;
+
 import Token.Token;
 
 import java.io.BufferedReader;

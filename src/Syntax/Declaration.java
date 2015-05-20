@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class Declaration extends Global {
 	protected final ArrayList<Init> inits;
 
-	Declaration(ArrayList<Init> init) {
+	public Declaration(ArrayList<Init> init) {
 		this.inits = init;
 	}
 

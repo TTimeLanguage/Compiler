@@ -6,11 +6,11 @@ import java.util.HashMap;
  * Abstract Syntax :
  * Syntax.Binary = Syntax.Operator; Syntax.Expression e1, e2
  */
-class Binary extends Expression {
+public class Binary extends Expression {
 	protected final Operator op;
 	protected final Expression term1, term2;
 
-	Binary(Operator o, Expression l, Expression r) {
+	public Binary(Operator o, Expression l, Expression r) {
 		op = o;
 		term1 = l;
 		term2 = r;

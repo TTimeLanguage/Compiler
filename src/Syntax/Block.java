@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class Block extends Statement {
 	protected final ArrayList<Statement> statements;
 
-	Block(ArrayList<Statement> s) {
+	public Block(ArrayList<Statement> s) {
 		statements = s;
 	}
 

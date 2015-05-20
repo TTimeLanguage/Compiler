@@ -6,11 +6,11 @@ import java.util.HashMap;
  * Abstract Syntax :
  * Syntax.Unary = UnaryOperator; Syntax.Expression
  */
-class Unary extends Expression {
+public class Unary extends Expression {
 	protected final Operator op;
 	protected final Expression term;
 
-	Unary(Operator o, Expression e) {
+	public Unary(Operator o, Expression e) {
 		op = o;
 		term = e;
 	}

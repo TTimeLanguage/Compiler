@@ -4,7 +4,7 @@ package Syntax;
  * Abstract Syntax :
  * Syntax.Operator = BooleanOp | RelationalOp | ArithmeticOp | UnaryOp | AssignOp
  */
-class Operator {
+public class Operator {
 	// BooleanOp = && | ||
 	final static String AND = "&&";
 	final static String OR = "||";
@@ -158,7 +158,7 @@ class Operator {
 
 	protected final String value;
 
-	Operator(String s) {
+	public Operator(String s) {
 		value = s;
 	}
 

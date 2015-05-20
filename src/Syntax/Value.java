@@ -19,10 +19,10 @@ public abstract class Value extends Expression {
  * Abstract Syntax :
  * Syntax.IntValue = int
  */
-class IntValue extends Value {
+public class IntValue extends Value {
 	protected final int value;
 
-	IntValue(int v) {
+	public IntValue(int v) {
 		type = Type.INT;
 		value = v;
 	}
@@ -54,10 +54,10 @@ class IntValue extends Value {
  * Abstract Syntax :
  * Syntax.BoolValue = bool
  */
-class BoolValue extends Value {
+public class BoolValue extends Value {
 	protected final boolean value;
 
-	BoolValue(boolean v) {
+	public BoolValue(boolean v) {
 		type = Type.BOOL;
 		value = v;
 	}
@@ -93,10 +93,10 @@ class BoolValue extends Value {
  * Abstract Syntax :
  * Syntax.CharValue = String
  */
-class CharValue extends Value {
+public class CharValue extends Value {
 	protected final char value;
 
-	CharValue(char v) {
+	public CharValue(char v) {
 		type = Type.CHAR;
 		value = v;
 	}
@@ -128,10 +128,10 @@ class CharValue extends Value {
  * Abstract Syntax :
  * Syntax.FloatValue = float
  */
-class FloatValue extends Value {
+public class FloatValue extends Value {
 	protected final float value;
 
-	FloatValue(float v) {
+	public FloatValue(float v) {
 		type = Type.FLOAT;
 		value = v;
 	}
@@ -163,10 +163,10 @@ class FloatValue extends Value {
  * Abstract Syntax :
  * Syntax.DateValue = String year, month, day
  */
-class DateValue extends Value {
+public class DateValue extends Value {
 	protected final int year, month, day;
 
-	DateValue(String y, String m, String d) {
+	public DateValue(String y, String m, String d) {
 		type = Type.DATE;
 		year = Integer.parseInt(y);
 		month = Integer.parseInt(m);
@@ -199,10 +199,10 @@ class DateValue extends Value {
  * Abstract Syntax :
  * Syntax.TimeValue = String hour, minute, second
  */
-class TimeValue extends Value {
+public class TimeValue extends Value {
 	protected final int hour, minute, second;
 
-	TimeValue(String h, String m, String s) {
+	public TimeValue(String h, String m, String s) {
 		type = Type.TIME;
 		hour = Integer.parseInt(h);
 		minute = Integer.parseInt(m);

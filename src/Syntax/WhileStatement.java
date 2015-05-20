@@ -10,7 +10,7 @@ public class WhileStatement extends Statement {
 	protected final Expression condition;
 	protected final Block statements;
 
-	WhileStatement(Expression c, Block s) {
+	public WhileStatement(Expression c, Block s) {
 		condition = c;
 		statements = s;
 	}

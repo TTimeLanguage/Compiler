@@ -10,15 +10,29 @@ import java.util.HashMap;
 public class ForStatement extends Statement {
 	protected final ArrayList<Expression> preExpression = new ArrayList<>();
 	protected final ArrayList<Expression> postExpression = new ArrayList<>();
-	protected Expression condition;
-	protected Block statements;
+	protected Expression condition = null;
+	protected Block statements = null;
 
-	void addPreExpression(Expression expression) {
+	public void addPreExpression(Expression expression) {
 		preExpression.add(expression);
 	}
 
-	void addPostExpression(Expression expression) {
+	public void addPostExpression(Expression expression) {
 		postExpression.add(expression);
+	}
+
+	public void setCondition(Expression condition) {
+		check(this.condition != null,
+				"duplicated declaration condition in for");
+
+		this.condition = condition;
+	}
+
+	public void setStatements(Block statements) {
+		check(this.statements != null,
+				"duplicated declaration block in for");
+
+		this.statements = statements;
 	}
 
 	@Override

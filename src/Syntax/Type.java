@@ -8,13 +8,13 @@ import java.util.HashMap;
  */
 public class Type extends AbstractSyntax {
 	// Syntax.Type = int | bool | char | float
-	final static Type INT = new Type("int");
+	public  final static Type INT = new Type("int");
 	public final static Type BOOL = new Type("bool");
-	final static Type CHAR = new Type("char");
-	final static Type FLOAT = new Type("float");
-	final static Type VOID = new Type("void");
-	final static Type TIME = new Type("time");
-	final static Type DATE = new Type("date");
+	public final static Type CHAR = new Type("char");
+	public final static Type FLOAT = new Type("float");
+	public final static Type VOID = new Type("void");
+	public final static Type TIME = new Type("time");
+	public final static Type DATE = new Type("date");
 
 	private String value;
 

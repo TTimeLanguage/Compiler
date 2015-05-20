@@ -36,7 +36,7 @@ public class Program extends AbstractSyntax {
 	 *          전역변수와 함수의 정의들
 	 * @param s int main()의 안에 적혀있는 코드들
 	 */
-	Program(ArrayList<Global> g, Statements s) {
+	public Program(ArrayList<Global> g, Statements s) {
 		globals = g;
 		statements = s;
 	}

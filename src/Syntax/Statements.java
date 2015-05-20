@@ -12,7 +12,7 @@ public class Statements extends AbstractSyntax {
 	protected final ArrayList<Statement> statements;
 	protected final HashMap<String, Init> variableMap = new HashMap<>();
 
-	Statements(ArrayList<Declaration> d, ArrayList<Statement> s) {
+	public Statements(ArrayList<Declaration> d, ArrayList<Statement> s) {
 		declarations = d;
 		statements = s;
 	}

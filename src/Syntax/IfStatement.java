@@ -14,22 +14,22 @@ public class IfStatement extends Statement {
 	protected final ArrayList<IfStatement> elseIfs;
 	protected final Block elses;
 
-	IfStatement(Expression c, Block s, ArrayList<IfStatement> elseIf, Block e) {
+	public IfStatement(Expression c, Block s, ArrayList<IfStatement> elseIf, Block e) {
 		condition = c;
 		statements = s;
 		elseIfs = elseIf;
 		elses = e;
 	}
 
-	IfStatement(Expression c, Block s, ArrayList<IfStatement> elseIfs) {
+	public IfStatement(Expression c, Block s, ArrayList<IfStatement> elseIfs) {
 		this(c, s, elseIfs, null);
 	}
 
-	IfStatement(Expression c, Block s, Block e) {
+	public IfStatement(Expression c, Block s, Block e) {
 		this(c, s, null, e);
 	}
 
-	IfStatement(Expression c, Block s) {
+	public IfStatement(Expression c, Block s) {
 		this(c, s, null, null);
 	}
 

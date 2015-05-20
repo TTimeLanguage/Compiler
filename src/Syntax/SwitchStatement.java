@@ -13,15 +13,20 @@ public class SwitchStatement extends Statement {
 	protected final HashMap<Value, ArrayList<Statement>> cases = new HashMap<>();
 	protected ArrayList<Statement> defaults = null;
 
-	SwitchStatement(Expression condition) {
+	public SwitchStatement(Expression condition) {
 		this.condition = condition;
 	}
 
-	void addCase(Value caseLiteral, ArrayList<Statement> statements) {
+	public void addCase(Value caseLiteral, ArrayList<Statement> statements) {
 		check(cases.containsKey(caseLiteral),
 				"duplicated case literal in switch");
 
 		cases.put(caseLiteral, statements);
+	}
+
+	public void setDefault(ArrayList<Statement> defaults) {
+		check(defaults != null, "duplicated default in switch");
+		this.defaults = defaults;
 	}
 
 	@Override

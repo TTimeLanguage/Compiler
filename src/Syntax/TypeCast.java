@@ -6,11 +6,11 @@ import java.util.HashMap;
  * Abstract Syntax :
  * Syntax.TypeCast = Syntax.Type type; Syntax.Expression
  */
-class TypeCast extends Expression {
+public class TypeCast extends Expression {
 	protected final Type type;
 	protected final Expression expression;
 
-	TypeCast(Type t, Expression e) {
+	public TypeCast(Type t, Expression e) {
 		type = t;
 		expression = e;
 	}

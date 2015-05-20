@@ -9,13 +9,13 @@ import java.util.HashMap;
 public class NoArrayInit extends Init {
 	protected final Expression initial;
 
-	NoArrayInit(Type t, String name, Expression i) {
+	public NoArrayInit(Type t, String name, Expression i) {
 		type = t;
 		this.name = name;
 		initial = i;
 	}
 
-	NoArrayInit(Type t, String name) {
+	public NoArrayInit(Type t, String name) {
 		this(t, name, null);
 	}
 

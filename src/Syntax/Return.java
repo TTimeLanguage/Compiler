@@ -6,14 +6,14 @@ import java.util.HashMap;
  * Abstract Syntax :
  * Syntax.Return = Syntax.Expression?
  */
-class Return extends Statement {
+public class Return extends Statement {
 	protected final Expression returnValue;
 
-	Return(Expression returnValue) {
+	public Return(Expression returnValue) {
 		this.returnValue = returnValue;
 	}
 
-	Return() {
+	public Return() {
 		this(null);
 	}
 

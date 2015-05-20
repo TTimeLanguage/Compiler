@@ -14,7 +14,7 @@ public class FunctionDeclaration extends Global {
 	protected final Statements statements;
 	protected final HashMap<String, Init> paramMap = new HashMap<>();
 
-	FunctionDeclaration(Type t, String name, ArrayList<ParamDeclaration> p, Statements s) {
+	public FunctionDeclaration(Type t, String name, ArrayList<ParamDeclaration> p, Statements s) {
 		type = t;
 		this.name = name;
 		params = p;

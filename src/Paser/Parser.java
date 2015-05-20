@@ -1,9 +1,12 @@
+package Paser;
+
 import Syntax.*;
 import Syntax.ArrayRef;
 import Syntax.Expression;
 import Syntax.Variable;
 import Token.Token;
 import Token.TokenType;
+import Lexer.Lexer;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -339,7 +342,7 @@ public class Parser {
 				defaultStatements.add(statement());
 			}
 
-			result.defaults = defaultStatements;
+			result.setDefault(defaultStatements);
 		}
 		match(TokenType.RightBrace);
 
@@ -360,7 +363,7 @@ public class Parser {
 
 		match(TokenType.Semicolon);
 
-		forStatement.condition = expression();
+		forStatement.setCondition(expression());
 		match(TokenType.Semicolon);
 
 		while (!isSemicolon()) {
@@ -369,7 +372,7 @@ public class Parser {
 
 		match(TokenType.RightParen);
 
-		forStatement.statements = block();
+		forStatement.setStatements(block());
 
 		return forStatement;
 	}
