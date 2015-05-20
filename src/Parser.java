@@ -37,13 +37,11 @@ public class Parser {
 
 		ArrayList<Global> globals = new ArrayList<>();
 		Statements s = null;
-		boolean mainDeclared = false;
 
 		while (isType()) {
 			Type t = type();
 
 			if (t.equals(Type.INT) && isMain()) {
-				mainDeclared = true;
 				match(TokenType.Main);            // int main
 				match(TokenType.LeftParen);        // (
 				match(TokenType.RightParen);    // )
@@ -59,7 +57,7 @@ public class Parser {
 			}
 		}
 
-		if (!mainDeclared) {
+		if (s == null) {
 			error("main is not declared");
 		}
 
