@@ -1,23 +1,20 @@
 package Paser;
 
+import Lexer.Lexer;
 import Syntax.*;
-import Syntax.ArrayRef;
-import Syntax.Expression;
-import Syntax.Variable;
 import Token.Token;
 import Token.TokenType;
-import Lexer.Lexer;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class Parser {
-	private Token token;          // current token from the input stream
+	private Token token;
 	private Lexer lexer;
 
-	public Parser(Lexer ts) { // Open the C++Lite source program
-		lexer = ts;                          // as a token stream, and
-		token = lexer.next();            // retrieve its first Token.Token
+	public Parser(Lexer ts) {
+		lexer = ts;
+		token = lexer.next();
 	}
 
 	private String match(TokenType t) {
@@ -52,10 +49,10 @@ public class Parser {
 			Type t = type();
 
 			if (t.equals(Type.INT) && isMain()) {
-				match(TokenType.Main);            // int main
-				match(TokenType.LeftParen);        // (
-				match(TokenType.RightParen);    // )
-				s = statements();                // Syntax.Statements
+				match(TokenType.Main);				// int main
+				match(TokenType.LeftParen);			// (
+				match(TokenType.RightParen);		// )
+				s = statements();					// Syntax.Statements
 			} else {
 				String id = match(TokenType.Identifier);
 
@@ -221,31 +218,31 @@ public class Parser {
 			match(TokenType.Semicolon);
 			return new Skip();
 
-		} else if (isIf()) {            //if
+		} else if (isIf()) {			//if
 			return IfStatement();
 
-		} else if (isLeftBrace()) {    //block
+		} else if (isLeftBrace()) {		//block
 			return block();
 
-		} else if (token.type().equals(TokenType.While)) {        //while
+		} else if (token.type().equals(TokenType.While)) {		// while
 			return WhileStatement();
 
-		} else if (token.type().equals(TokenType.Switch)) {        //switch
+		} else if (token.type().equals(TokenType.Switch)) {		// switch
 			return SwitchStatement();
 
-		} else if (token.type().equals(TokenType.For)) {        //for
+		} else if (token.type().equals(TokenType.For)) {		// for
 			return ForStatement();
 
-		} else if (token.type().equals(TokenType.Return)) {        //Syntax.Return
+		} else if (token.type().equals(TokenType.Return)) {		// return
 			return Return();
 
-		} else if (token.type().equals(TokenType.Break)) {        //break
+		} else if (token.type().equals(TokenType.Break)) {		// break
 			return Break();
 
-		} else if (token.type().equals(TokenType.Continue)) {    //continue
+		} else if (token.type().equals(TokenType.Continue)) {	// continue
 			return Continue();
 
-		} else {                                                //expression
+		} else {												 // expression
 			return expression();
 		}
 	}
@@ -265,7 +262,7 @@ public class Parser {
 
 		boolean else_appear = false;
 
-		while (isElse()) {    //else if
+		while (isElse()) {
 			if (else_appear) error("else is duplicated (token) : " + token);
 			match(TokenType.Else);
 
@@ -314,7 +311,7 @@ public class Parser {
 		// { 'case' Literal ':' { Statement } }
 		// [ 'default' ':' { Statement } ] '}'
 
-		match(TokenType.Switch);        // switch(?)
+		match(TokenType.Switch);
 		match(TokenType.LeftParen);
 		SwitchStatement result = new SwitchStatement(expression());
 		match(TokenType.RightParen);
