@@ -36,7 +36,7 @@ public class Parser {
 		System.exit(1);
 	}
 
-	/**
+	/*
 	 * ********************************************************************************************************
 	 */
 	public Program program() {
@@ -52,7 +52,7 @@ public class Parser {
 				match(TokenType.Main);				// int main
 				match(TokenType.LeftParen);			// (
 				match(TokenType.RightParen);		// )
-				s = statements();					// Syntax.Statements
+				s = statements();					// Statements
 			} else {
 				String id = match(TokenType.Identifier);
 
@@ -333,7 +333,7 @@ public class Parser {
 
 		if (isDefault()) {
 			match(TokenType.Default);
-			match(TokenType.Comma);
+			match(TokenType.Colon);
 
 			ArrayList<Statement> defaultStatements = new ArrayList<>();
 			while (!isRightBrace()) {
@@ -599,7 +599,7 @@ public class Parser {
 		return new Function(id, params);
 	}
 
-	/**
+	/*
 	 * *************************************OK****************************************
 	 */
 	private Type type() {
