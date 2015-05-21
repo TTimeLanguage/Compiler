@@ -39,7 +39,7 @@ public class Parser {
 	/*
 	 * ********************************************************************************************************
 	 */
-	public Program program() {
+	private Program program() {
 		// Program → { Global } 'int' 'main' '(' ')' Statements
 
 		ArrayList<Global> globals = new ArrayList<>();
@@ -790,6 +790,10 @@ public class Parser {
 
 	private boolean isMain() {
 		return token.type().equals(TokenType.Main);
+	}
+
+	public Program getAST() {
+		return program();
 	}
 
 	public static void main(String args[]) {
