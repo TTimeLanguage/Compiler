@@ -50,6 +50,8 @@ public class ForStatement extends Statement {
 		for (Expression expression : postExpression) {
 			expression.display(lev + 1);
 		}
+
+		statements.display(lev + 1);
 	}
 
 	private void innerV(HashMap<String, Init> declarationMap) {
@@ -58,7 +60,8 @@ public class ForStatement extends Statement {
 
 		check(condition != null,
 				"condition can not be null");
-		check(condition.typeOf(declarationMap) == Type.BOOL,
+		condition.V(declarationMap);
+		check(condition.typeOf(declarationMap).equals(Type.BOOL),
 				"condition type must boolean in for. condition type : " + condition.typeOf(declarationMap));
 
 		for (Expression pre : preExpression) {

@@ -42,8 +42,10 @@ public class Return extends Statement {
 		} else {
 			returnValue.V(declarationMap);
 
-			check(returnValue.typeOf(declarationMap).equals(functionType),
-					"return value's type is not match with declared function return type");
+			Type expressionType = returnValue.typeOf(declarationMap);
+			check(expressionType.equals(functionType),
+					"return value's type is not match with declared function return type." +
+							" return type : [" + expressionType + "], function type : [" + functionType + "]");
 		}
 	}
 }
