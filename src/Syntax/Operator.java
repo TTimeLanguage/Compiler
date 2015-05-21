@@ -236,6 +236,7 @@ public class Operator {
 	final static String boolMap[][] = {
 			{ASSIGN, BOOL_ASSIGN},
 			{EQ, BOOL_EQ}, {NE, BOOL_NE}, {LT, BOOL_LT}, {LE, BOOL_LE}, {GT, BOOL_GT}, {GE, BOOL_GE},
+			{AND, AND}, {OR, OR},
 			{NOT, BOOL_COMP}
 	};
 
@@ -274,6 +275,8 @@ public class Operator {
 					case LE:
 					case GT:
 					case GE:
+					case OR:
+					case AND:
 						return new Operator(aTmap[1], Type.BOOL);
 
 					default:

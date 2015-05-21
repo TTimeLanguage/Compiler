@@ -183,6 +183,7 @@ public class Binary extends Expression {
 
 			check(type2.equals(Type.CHAR),
 					type1 + " value can not have " + op.value + " operator with " + type2 + "type term");
+			op = operator;
 
 		} else if (type1.equals(Type.BOOL)) {
 			Operator operator = Operator.boolMap(op.value);
@@ -192,6 +193,7 @@ public class Binary extends Expression {
 
 			check(type2.equals(Type.BOOL),
 					type1 + " value can not have " + op.value + " operator with " + type2 + "type term");
+			op = operator;
 
 		} else if (type1.equals(Type.FLOAT)) {
 			Operator operator = Operator.floatMap(op.value);
