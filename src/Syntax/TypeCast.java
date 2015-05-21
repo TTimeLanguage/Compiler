@@ -34,7 +34,7 @@ public class TypeCast extends Expression {
 		Type t = expression.typeOf(declarationMap);
 
 		if (type.equals(Type.INT)) {
-			check(t.equals(Type.INT) || t.equals(Type.CHAR) || type.equals(Type.FLOAT) || type.equals(Type.BOOL),
+			check(t.equals(Type.INT) || t.equals(Type.CHAR) || t.equals(Type.FLOAT) || t.equals(Type.BOOL),
 					"can not cast type to " + type);
 
 		} else if (type.equals(Type.FLOAT)) {
