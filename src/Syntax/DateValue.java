@@ -32,8 +32,12 @@ public class DateValue extends Value {
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
 		// todo
+		if (valid) return;
+
 		check(year >= 0, "year can not be negative value");
 		check(month >= 1 && month <= 12, "month value must be between 1 and 12");
 		check(month >= 1 && month <= 12, "month value must be between 1 and 12");
+
+		valid = true;
 	}
 }

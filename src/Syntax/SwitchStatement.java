@@ -45,7 +45,7 @@ public class SwitchStatement extends Statement {
 	}
 
 	@Override
-	public void V(HashMap<String, Init> declarationMap) {
+	void V(HashMap<String, Init> declarationMap, Type functionType) {
 		// todo 확인
 		if (valid) return;
 
@@ -56,16 +56,46 @@ public class SwitchStatement extends Statement {
 					"different type of case literal in switch. case : " + key.typeOf(declarationMap));
 
 			for (Statement statement : cases.get(key)) {
-				statement.V(declarationMap);
+				statement.V(declarationMap, this, functionType);
 			}
 		}
 
 		if (defaults != null) {
 			for (Statement statement : defaults) {
-				statement.V(declarationMap);
+				statement.V(declarationMap, this, functionType);
 			}
 		}
 
 		valid = true;
+	}
+
+	@Override
+	void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
+		// todo 확인
+		if (valid) return;
+
+		switchType = condition.typeOf(declarationMap);
+
+		for (Value key : cases.keySet()) {
+			check(key.typeOf(declarationMap) != switchType,
+					"different type of case literal in switch. case : " + key.typeOf(declarationMap));
+
+			for (Statement statement : cases.get(key)) {
+				statement.V(declarationMap, this);
+			}
+		}
+
+		if (defaults != null) {
+			for (Statement statement : defaults) {
+				statement.V(declarationMap, this);
+			}
+		}
+
+		valid = true;
+	}
+
+	@Override
+	void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
+		V(declarationMap, functionType);
 	}
 }

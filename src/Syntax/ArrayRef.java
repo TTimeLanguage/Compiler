@@ -38,6 +38,7 @@ public class ArrayRef extends VariableRef {
 		check(declare instanceof ArrayInit,
 				"wrong reference. should remove array reference. in " + name);
 
+		index.V(declarationMap);
 		check(index.typeOf(declarationMap) == Type.INT,
 				"index type must be integer. in " + name);
 
@@ -46,6 +47,8 @@ public class ArrayRef extends VariableRef {
 
 	@Override
 	Type typeOf(HashMap<String, Init> declarationMap) {
+		check(valid, "Compiler error. must check validation");
+
 		check(declarationMap.containsKey(this.name),
 				"undefined variable: " + this.name);
 

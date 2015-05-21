@@ -30,7 +30,20 @@ public class Return extends Statement {
 	}
 
 	@Override
-	protected void V(HashMap<String, Init> declarationMap) {
-		// todo
+	void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
+		V(declarationMap, functionType);
+	}
+
+	@Override
+	void V(HashMap<String, Init> declarationMap, Type functionType) {
+		if (returnValue == null) {
+			check(functionType.equals(Type.VOID),
+					"must not have return value in void function.");
+		} else {
+			returnValue.V(declarationMap);
+
+			check(returnValue.typeOf(declarationMap).equals(functionType),
+					"return value's type is not match with declared function return type");
+		}
 	}
 }

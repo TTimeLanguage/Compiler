@@ -17,7 +17,14 @@ public class Continue extends Statement {
 	}
 
 	@Override
-	public void V(HashMap<String, Init> declarationMap) {
-		// todo
+	void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
+		V(declarationMap, loopStatement);
+	}
+
+	@Override
+	void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
+		check(loopStatement instanceof WhileStatement
+				|| loopStatement instanceof ForStatement
+				, "continue must used in loop statement");
 	}
 }

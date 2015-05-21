@@ -1,30 +1,14 @@
 package Semantic;
 
+import Syntax.Type;
+
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Set;
 
 
-public class FunctionSet implements Set<FunctionInformation> {
+public class FunctionSet {
 	private ArrayList<FunctionInformation> array = new ArrayList<>();
 
-	@Override
-	public int size() {
-		return array.size();
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return array.isEmpty();
-	}
-
-	@Override
-	public boolean contains(Object o) {
-		if (!(o instanceof FunctionInformation)) return false;
-
-		FunctionInformation tmp = (FunctionInformation) o;
-
+	public boolean contains(FunctionInformation tmp) {
 		for (FunctionInformation information : array) {
 			if (information.equals(tmp)) return true;
 		}
@@ -32,22 +16,6 @@ public class FunctionSet implements Set<FunctionInformation> {
 		return false;
 	}
 
-	@Override
-	public Iterator iterator() {
-		return null;
-	}
-
-	@Override
-	public Object[] toArray() {
-		return array.toArray();
-	}
-
-	@Override
-	public <T> T[] toArray(T[] a) {
-		return null;
-	}
-
-	@Override
 	public boolean add(FunctionInformation functionInformation) {
 		if (contains(functionInformation)) return false;
 
@@ -56,35 +24,14 @@ public class FunctionSet implements Set<FunctionInformation> {
 		return true;
 	}
 
-	@Override
-	public boolean remove(Object o) {
-		return contains(o) && array.remove(o);
+	public Type getFunctionType(String name, ArrayList<Type> paramType) {
+		for (FunctionInformation function : array) {
+			if (function.name.equals(name) && function.paramType.equals(paramType)) {
+				return function.type;
+			}
+		}
 
-	}
-
-	@Override
-	public boolean addAll(Collection c) {
-		return false;
-	}
-
-	@Override
-	public void clear() {
-
-	}
-
-	@Override
-	public boolean removeAll(Collection c) {
-		return false;
-	}
-
-	@Override
-	public boolean retainAll(Collection c) {
-		return false;
-	}
-
-	@Override
-	public boolean containsAll(Collection c) {
-		return false;
+		return null;
 	}
 
 	@Override

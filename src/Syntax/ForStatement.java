@@ -52,8 +52,7 @@ public class ForStatement extends Statement {
 		}
 	}
 
-	@Override
-	public void V(HashMap<String, Init> declarationMap) {
+	private void innerV(HashMap<String, Init> declarationMap) {
 		// todo 확인
 		if (valid) return;
 
@@ -69,9 +68,28 @@ public class ForStatement extends Statement {
 		for (Expression post : postExpression) {
 			post.V(declarationMap);
 		}
+	}
 
-		statements.V(declarationMap);
+	@Override
+	void V(HashMap<String, Init> declarationMap, Type functionType) {
+		innerV(declarationMap);
+
+		statements.V(declarationMap, this, functionType);
 
 		valid = true;
+	}
+
+	@Override
+	void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
+		innerV(declarationMap);
+
+		statements.V(declarationMap, this);
+
+		valid = true;
+	}
+
+	@Override
+	void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
+		V(declarationMap, functionType);
 	}
 }

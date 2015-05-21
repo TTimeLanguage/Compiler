@@ -31,8 +31,12 @@ public class TimeValue extends Value {
 
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
+		if (valid) return;
+
 		check(hour >= 0 && hour < 24, "hour value must be between 0 and 23");
 		check(minute >= 0 && minute < 60, "minute value must be between 0 and 59");
 		check(second >= 0 && second < 60, "second value must be between 0 and 59");
+
+		valid = true;
 	}
 }

@@ -33,10 +33,10 @@ public class Binary extends Expression {
 	protected void V(HashMap<String, Init> declarationMap) {
 		if (valid) return;
 
-		Type typ1 = term1.typeOf(declarationMap);
-		Type typ2 = term2.typeOf(declarationMap);
 		term1.V(declarationMap);
 		term2.V(declarationMap);
+		Type typ1 = term1.typeOf(declarationMap);
+		Type typ2 = term2.typeOf(declarationMap);
 
 		if (op.ArithmeticOp()) {
 			check(typ1 == typ2 &&
@@ -52,8 +52,6 @@ public class Binary extends Expression {
 		} else if (op.AssignOP()) {
 			// todo 추가
 			check(term1 instanceof VariableRef, term1 + "is not l-value");
-			term1.V(declarationMap);
-			term2.V(declarationMap);
 
 			Type target = term1.typeOf(declarationMap); //ttype = target type; targets are only variables in Clite which are defined in the TypeMap
 			Type source = term2.typeOf(declarationMap); //scrtype = source type; sources are Expressions or Syntax.Statements which are not in the TypeMap
@@ -78,6 +76,8 @@ public class Binary extends Expression {
 	@Override
 	Type typeOf(HashMap<String, Init> declarationMap) {
 		// todo 추가
+		check(valid, "Compiler error. must check validation");
+
 		if (op.ArithmeticOp())
 			if (term1.typeOf(declarationMap) == Type.FLOAT)
 				return (Type.FLOAT);

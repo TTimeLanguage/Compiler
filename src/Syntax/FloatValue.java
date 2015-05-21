@@ -1,7 +1,5 @@
 package Syntax;
 
-import java.util.HashMap;
-
 /**
  * Abstract Syntax :
  * FloatValue = float
@@ -29,9 +27,5 @@ public class FloatValue extends Value {
 		}
 
 		System.out.println("FloatValue " + value);
-	}
-
-	@Override
-	protected void V(HashMap<String, Init> declarationMap) {
 	}
 }

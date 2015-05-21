@@ -71,7 +71,7 @@ public class FunctionDeclaration extends Global {
 		check(globalLength + localLength == localMap.size(),
 				"duplicated declaration in function :" + type + " " + name);
 
-		statements.V(localMap);
+		statements.V(localMap, type);
 
 		valid = true;
 	}

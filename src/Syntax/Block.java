@@ -27,11 +27,33 @@ public class Block extends Statement {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	void V(HashMap<String, Init> declarationMap, Type functionType) {
 		if (valid) return;
 
-		for (Statement i : statements) {
-			i.V(declarationMap);
+		for (Statement statement : statements) {
+			statement.V(declarationMap, functionType);
+		}
+
+		valid = true;
+	}
+
+	@Override
+	void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
+		if (valid) return;
+
+		for (Statement statement : statements) {
+			statement.V(declarationMap, loopStatement);
+		}
+
+		valid = true;
+	}
+
+	@Override
+	void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
+		if (valid) return;
+
+		for (Statement statement : statements) {
+			statement.V(declarationMap, loopStatement, functionType);
 		}
 
 		valid = true;
