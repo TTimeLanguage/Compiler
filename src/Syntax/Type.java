@@ -7,8 +7,8 @@ import java.util.HashMap;
  * Type = 'int' | 'bool' | 'void' | 'char' | 'float' | 'time' | 'date'
  */
 public class Type extends AbstractSyntax {
-	// Syntax.Type = int | bool | char | float
-	public  final static Type INT = new Type("int");
+	// Type = int | bool | char | float
+	public final static Type INT = new Type("int");
 	public final static Type BOOL = new Type("bool");
 	public final static Type CHAR = new Type("char");
 	public final static Type FLOAT = new Type("float");
@@ -44,6 +44,7 @@ public class Type extends AbstractSyntax {
 	}
 
 	@Override
-	public void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
+		check(false, "Compiler error. never reach here. Type class");
 	}
 }

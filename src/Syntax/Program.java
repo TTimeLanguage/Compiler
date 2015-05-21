@@ -95,7 +95,7 @@ public class Program extends AbstractSyntax {
 
 
 	@Override
-	public void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 		for (Global global : globals) {
 			global.V(declarationMap);
 		}

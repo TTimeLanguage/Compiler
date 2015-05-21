@@ -17,7 +17,7 @@ public class Break extends Statement {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
 		check(loopStatement instanceof WhileStatement
 				|| loopStatement instanceof ForStatement
 				|| loopStatement instanceof SwitchStatement
@@ -25,7 +25,7 @@ public class Break extends Statement {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
 		V(declarationMap, loopStatement);
 	}
 }

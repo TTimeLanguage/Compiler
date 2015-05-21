@@ -47,7 +47,7 @@ public class Statements extends AbstractSyntax {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap, Type functionType) {
+	protected void V(HashMap<String, Init> declarationMap, Type functionType) {
 		// todo
 		if (valid) return;
 

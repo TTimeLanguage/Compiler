@@ -61,8 +61,10 @@ public class ForStatement extends Statement {
 		check(condition != null,
 				"condition can not be null");
 		condition.V(declarationMap);
-		check(condition.typeOf(declarationMap).equals(Type.BOOL),
-				"condition type must boolean in for. condition type : " + condition.typeOf(declarationMap));
+
+		Type conditionType = condition.typeOf(declarationMap);
+		check(conditionType.equals(Type.BOOL),
+				"condition type must boolean in for. condition type : " + conditionType);
 
 		for (Expression pre : preExpression) {
 			pre.V(declarationMap);
@@ -74,7 +76,7 @@ public class ForStatement extends Statement {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap, Type functionType) {
+	protected void V(HashMap<String, Init> declarationMap, Type functionType) {
 		innerV(declarationMap);
 
 		statements.V(declarationMap, this, functionType);
@@ -83,7 +85,7 @@ public class ForStatement extends Statement {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
 		innerV(declarationMap);
 
 		statements.V(declarationMap, this);
@@ -92,7 +94,7 @@ public class ForStatement extends Statement {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
 		V(declarationMap, functionType);
 	}
 }

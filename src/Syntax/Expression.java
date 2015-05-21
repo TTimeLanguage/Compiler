@@ -8,17 +8,17 @@ import java.util.HashMap;
  */
 public abstract class Expression extends Statement {
 	@Override
-	final void V(HashMap<String, Init> declarationMap, Type functionType) {
+	protected final void V(HashMap<String, Init> declarationMap, Type functionType) {
 		V(declarationMap);
 	}
 
 	@Override
-	final void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
+	protected final void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
 		V(declarationMap);
 	}
 
 	@Override
-	final void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
+	protected final void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
 		V(declarationMap);
 	}
 

@@ -37,7 +37,7 @@ public class WhileStatement extends Statement {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap, Type functionType) {
+	protected void V(HashMap<String, Init> declarationMap, Type functionType) {
 		innerV(declarationMap);
 
 		statements.V(declarationMap, this, functionType);
@@ -46,7 +46,7 @@ public class WhileStatement extends Statement {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
 		innerV(declarationMap);
 
 		statements.V(declarationMap, loopStatement);
@@ -55,7 +55,7 @@ public class WhileStatement extends Statement {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
 		V(declarationMap, functionType);
 	}
 }

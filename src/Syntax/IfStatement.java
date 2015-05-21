@@ -53,7 +53,7 @@ public class IfStatement extends Statement {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap, Type functionType) {
+	protected void V(HashMap<String, Init> declarationMap, Type functionType) {
 		// todo 확인
 		if (valid) return;
 
@@ -86,7 +86,7 @@ public class IfStatement extends Statement {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
 		// todo 확인
 		if (valid) return;
 
@@ -119,7 +119,7 @@ public class IfStatement extends Statement {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
 		// todo 확인
 		if (valid) return;
 

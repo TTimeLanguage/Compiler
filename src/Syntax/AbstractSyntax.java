@@ -31,7 +31,7 @@ public abstract class AbstractSyntax {
 	 *
 	 * @param declarationMap	이 노드의 범위에서 사용가능한 변수의 map
 	 */
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 		check(false, "Compiler error. never reach here. empty V()");
 	}
 
@@ -41,7 +41,7 @@ public abstract class AbstractSyntax {
 	 * @param declarationMap	이 노드의 범위에서 사용가능한 변수의 map
 	 * @param functionType		타당성 검사 할 함수의 <tt>Type</tt>
 	 */
-	void V(HashMap<String, Init> declarationMap, Type functionType) {
+	protected void V(HashMap<String, Init> declarationMap, Type functionType) {
 		check(false, "Compiler error. never reach here. empty V()");
 	}
 
@@ -51,7 +51,7 @@ public abstract class AbstractSyntax {
 	 * @param declarationMap	이 노드의 범위에서 사용가능한 변수의 map
 	 * @param loopStatement		타당성 검사 할 반복자
 	 */
-	void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
 		check(false, "Compiler error. never reach here. empty V()");
 	}
 
@@ -62,7 +62,7 @@ public abstract class AbstractSyntax {
 	 * @param loopStatement		타당성 검사 할 반복자
 	 * @param functionType		타당성 검사 할 함수의 <tt>Type</tt>
 	 */
-	void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
 		check(false, "Compiler error. never reach here. empty V()");
 	}
 

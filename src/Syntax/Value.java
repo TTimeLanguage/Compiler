@@ -10,7 +10,7 @@ public abstract class Value extends Expression {
 	protected Type type;
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 		valid = true;
 	}
 

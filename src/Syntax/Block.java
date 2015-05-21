@@ -27,7 +27,7 @@ public class Block extends Statement {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap, Type functionType) {
+	protected void V(HashMap<String, Init> declarationMap, Type functionType) {
 		if (valid) return;
 
 		for (Statement statement : statements) {
@@ -38,7 +38,7 @@ public class Block extends Statement {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
 		if (valid) return;
 
 		for (Statement statement : statements) {
@@ -49,7 +49,7 @@ public class Block extends Statement {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
 		if (valid) return;
 
 		for (Statement statement : statements) {

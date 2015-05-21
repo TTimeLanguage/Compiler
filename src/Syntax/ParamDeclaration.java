@@ -25,7 +25,7 @@ public class ParamDeclaration extends Init {
 	}
 
 	@Override
-	public void V(HashMap<String, Init> declarationMap) {
+	protected  void V(HashMap<String, Init> declarationMap) {
 		// todo 확인
 		check(!type.equals(Type.VOID),
 				"variable type can not be void");

@@ -37,7 +37,7 @@ public class ArrayInit extends Init {
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 		// todo 확인
 		if (valid) return;
 

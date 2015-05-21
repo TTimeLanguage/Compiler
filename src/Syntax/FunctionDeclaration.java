@@ -59,7 +59,7 @@ public class FunctionDeclaration extends Global {
 	}
 
 	@Override
-	public void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 		// todo
 		if (valid) return;
 
