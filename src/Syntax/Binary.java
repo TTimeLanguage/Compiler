@@ -38,6 +38,11 @@ public class Binary extends Expression {
 		Type type1 = term1.typeOf(declarationMap);
 		Type type2 = term2.typeOf(declarationMap);
 
+		if (op.isAssignOP()) {
+			check(term1 instanceof VariableRef,
+					"left value of assignment must be l-value");
+		}
+
 		check(!type1.equals(Type.VOID) || !type2.equals(Type.VOID),
 				"Compiler error. expression type can not be void.");
 
