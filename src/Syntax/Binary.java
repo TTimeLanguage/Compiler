@@ -7,8 +7,8 @@ import java.util.HashMap;
  * Binary = Operator; Expression e1, e2
  */
 public class Binary extends Expression {
-	protected final Operator op;
-	protected final Expression term1, term2;
+	protected Operator op;
+	protected Expression term1, term2;
 
 	public Binary(Operator o, Expression l, Expression r) {
 		op = o;
@@ -35,35 +35,203 @@ public class Binary extends Expression {
 
 		term1.V(declarationMap);
 		term2.V(declarationMap);
-		Type typ1 = term1.typeOf(declarationMap);
-		Type typ2 = term2.typeOf(declarationMap);
+		Type type1 = term1.typeOf(declarationMap);
+		Type type2 = term2.typeOf(declarationMap);
 
-		if (op.ArithmeticOp()) {
-			check(typ1 == typ2 &&
-					(typ1 == Type.INT || typ1 == Type.FLOAT)
-					, "type error for " + op);
+		check(!type1.equals(Type.VOID) || !type2.equals(Type.VOID),
+				"Compiler error. expression type can not be void.");
 
-		} else if (op.RelationalOp()) {
-			check(typ1 == typ2, "type error for " + op);
+		if (type1.equals(Type.TIME)) {
+			Operator operator = Operator.timeMap(op.value);
 
-		} else if (op.BooleanOp()) {
-			check(typ1 == Type.BOOL && typ2 == Type.BOOL, op + ": non-bool operand");
+			check(operator != null,
+					type1 + " value can not have " + op.value + " operator");
 
-		} else if (op.AssignOP()) {
-			// todo 추가
-			check(term1 instanceof VariableRef, term1 + "is not l-value");
+			switch (operator.value) {
+				case Operator.TIME_PLUS:
+				case Operator.TIME_MINUS:
+				case Operator.TIME_PLUS_ASSIGN:
+				case Operator.TIME_MINUS_ASSIGN:
+				case Operator.TIME_LT:
+				case Operator.TIME_LE:
+				case Operator.TIME_EQ:
+				case Operator.TIME_NE:
+				case Operator.TIME_GT:
+				case Operator.TIME_GE:
+				case Operator.TIME_ASSIGN:
+					check(type2.equals(Type.TIME),
+							type1 + " value can not have " + op.value + " operator with " + type2 + "type term");
+					op = operator;
+					break;
 
-			if (typ1 != typ2) {
-				if (typ1 == Type.FLOAT) {
-					check(typ2 == Type.INT || typ2 == Type.FLOAT
-							, "mixed mode assignment to " + term1 + " with " + term2);
-				} else if (typ1 == Type.INT) {
-					check(typ2 != Type.DATE || typ2 != Type.TIME || typ2 != Type.VOID,
-							"mixed mode assignment to " + term1 + " with " + term2);
-				} else {
-					check(false, "mixed mode assignment to " + term1 + " with " + term2);
-				}
+				case Operator.TIME_DIV:
+				case Operator.TIME_TIMES:
+				case Operator.TIME_MOD:
+				case Operator.TIME_TIMES_ASSIGN:
+				case Operator.TIME_DIV_ASSIGN:
+				case Operator.TIME_MOD_ASSIGN:
+					check(type2.equals(Type.INT),
+							type1 + " value can not have " + op.value + " operator with " + type2 + "type term");
+					op = operator;
+					break;
+
+				default:
+					check(false, "Compiler error. unknown operator in Binary");
 			}
+
+		} else if (type1.equals(Type.DATE)) {
+			Operator operator = Operator.dateMap(op.value);
+
+			check(operator != null,
+					type1 + " value can not have " + op.value + " operator");
+
+			switch (operator.value) {
+				case Operator.DATE_PLUS:
+				case Operator.DATE_MINUS:
+				case Operator.DATE_PLUS_ASSIGN:
+				case Operator.DATE_MINUS_ASSIGN:
+				case Operator.DATE_LT:
+				case Operator.DATE_LE:
+				case Operator.DATE_EQ:
+				case Operator.DATE_NE:
+				case Operator.DATE_GT:
+				case Operator.DATE_GE:
+				case Operator.DATE_ASSIGN:
+					check(type2.equals(Type.DATE),
+							type1 + " value can not have " + op.value + " operator with " + type2 + "type term");
+					op = operator;
+					break;
+
+				case Operator.DATE_DIV:
+				case Operator.DATE_TIMES:
+				case Operator.DATE_MOD:
+				case Operator.DATE_TIMES_ASSIGN:
+				case Operator.DATE_DIV_ASSIGN:
+				case Operator.DATE_MOD_ASSIGN:
+					check(false,
+							type1 + " value can not have " + op.value + " operator with " + type2 + "type term");
+
+				default:
+					check(false, "Compiler error. unknown operator in Binary");
+			}
+
+		} else if (type1.equals(Type.INT)) {
+			Operator operator = Operator.intMap(op.value);
+
+			check(operator != null,
+					type1 + " value can not have " + op.value + " operator");
+
+			switch (operator.value) {
+				case Operator.INT_PLUS:
+				case Operator.INT_MINUS:
+				case Operator.INT_LT:
+				case Operator.INT_LE:
+				case Operator.INT_EQ:
+				case Operator.INT_NE:
+				case Operator.INT_GT:
+				case Operator.INT_GE:
+					check(type2.equals(Type.INT) || type2.equals(Type.FLOAT),
+							type1 + " value can not have " + op.value + " operator with " + type2 + "type term");
+
+					if (type2.equals(Type.FLOAT)) {
+						term1 = new TypeCast(Type.FLOAT, term1);
+						operator = Operator.floatMap(op.value);
+					}
+					op = operator;
+					break;
+
+				case Operator.INT_PLUS_ASSIGN:
+				case Operator.INT_MINUS_ASSIGN:
+				case Operator.INT_TIMES_ASSIGN:
+				case Operator.INT_DIV_ASSIGN:
+				case Operator.INT_MOD_ASSIGN:
+				case Operator.INT_ASSIGN:
+					check(type2.equals(Type.INT) || type2.equals(Type.FLOAT),
+							type1 + " value can not have " + op.value + " operator with " + type2 + "type term");
+
+					if (type2.equals(Type.FLOAT)) {
+						term2 = new TypeCast(Type.INT, term2);
+					}
+					op = operator;
+					break;
+
+				case Operator.INT_DIV:
+				case Operator.INT_TIMES:
+				case Operator.INT_MOD:
+					check(type2.equals(Type.INT) || type2.equals(Type.FLOAT) || type2.equals(Type.TIME),
+							type1 + " value can not have " + op.value + " operator with " + type2 + "type term");
+
+					if (type2.equals(Type.FLOAT)) {
+						term1 = new TypeCast(Type.FLOAT, term1);
+						operator = Operator.floatMap(op.value);
+
+					} else if (type2.equals(Type.TIME)) {
+						operator = Operator.timeMap(op.value);
+					}
+					op = operator;
+					break;
+
+				default:
+					check(false, "Compiler error. unknown operator in Binary");
+			}
+
+		} else if (type1.equals(Type.CHAR)) {
+			Operator operator = Operator.charMap(op.value);
+
+			check(operator != null,
+					type1 + " value can not have " + op.value + " operator");
+
+			check(type2.equals(Type.CHAR),
+					type1 + " value can not have " + op.value + " operator with " + type2 + "type term");
+
+		} else if (type1.equals(Type.BOOL)) {
+			Operator operator = Operator.boolMap(op.value);
+
+			check(operator != null,
+					type1 + " value can not have " + op.value + " operator");
+
+			check(type2.equals(Type.BOOL),
+					type1 + " value can not have " + op.value + " operator with " + type2 + "type term");
+
+		} else if (type1.equals(Type.FLOAT)) {
+			Operator operator = Operator.floatMap(op.value);
+
+			check(operator != null,
+					type1 + " value can not have " + op.value + " operator");
+
+			switch (operator.value) {
+				case Operator.FLOAT_PLUS:
+				case Operator.FLOAT_MINUS:
+				case Operator.FLOAT_DIV:
+				case Operator.FLOAT_TIMES:
+				case Operator.FLOAT_MOD:
+				case Operator.FLOAT_PLUS_ASSIGN:
+				case Operator.FLOAT_MINUS_ASSIGN:
+				case Operator.FLOAT_TIMES_ASSIGN:
+				case Operator.FLOAT_DIV_ASSIGN:
+				case Operator.FLOAT_MOD_ASSIGN:
+				case Operator.FLOAT_ASSIGN:
+				case Operator.FLOAT_LT:
+				case Operator.FLOAT_LE:
+				case Operator.FLOAT_EQ:
+				case Operator.FLOAT_NE:
+				case Operator.FLOAT_GT:
+				case Operator.FLOAT_GE:
+					check(type2.equals(Type.INT) || type2.equals(Type.FLOAT),
+							type1 + " value can not have " + op.value + " operator with " + type2 + "type term");
+
+					if (type2.equals(Type.INT)) {
+						term2 = new TypeCast(Type.FLOAT, term2);
+						operator = Operator.floatMap(op.value);
+					}
+					op = operator;
+					break;
+
+				default:
+					check(false, "Compiler error. unknown operator in Binary");
+			}
+
+
 		} else throw new IllegalArgumentException("should never reach here BinaryOp error");
 
 		valid = true;
@@ -75,13 +243,6 @@ public class Binary extends Expression {
 		// todo 추가
 		check(valid, "Compiler error. must check validation");
 
-		if (op.ArithmeticOp())
-			if (term1.typeOf(declarationMap) == Type.FLOAT)
-				return (Type.FLOAT);
-			else return (Type.INT);
-		if (op.RelationalOp() || op.BooleanOp())
-			return (Type.BOOL);
-		else
-			return null;
+		return op.type;
 	}
 }
