@@ -53,15 +53,12 @@ public class Binary extends Expression {
 			// todo 추가
 			check(term1 instanceof VariableRef, term1 + "is not l-value");
 
-			Type target = term1.typeOf(declarationMap); //ttype = target type; targets are only variables in Clite which are defined in the TypeMap
-			Type source = term2.typeOf(declarationMap); //scrtype = source type; sources are Expressions or Syntax.Statements which are not in the TypeMap
-
-			if (target != source) {
-				if (target == Type.FLOAT) {
-					check(source == Type.INT || source == Type.FLOAT
+			if (typ1 != typ2) {
+				if (typ1 == Type.FLOAT) {
+					check(typ2 == Type.INT || typ2 == Type.FLOAT
 							, "mixed mode assignment to " + term1 + " with " + term2);
-				} else if (target == Type.INT) {
-					check(source != Type.DATE || source != Type.TIME || source != Type.VOID,
+				} else if (typ1 == Type.INT) {
+					check(typ2 != Type.DATE || typ2 != Type.TIME || typ2 != Type.VOID,
 							"mixed mode assignment to " + term1 + " with " + term2);
 				} else {
 					check(false, "mixed mode assignment to " + term1 + " with " + term2);

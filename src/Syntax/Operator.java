@@ -1,5 +1,7 @@
 package Syntax;
 
+import java.util.HashMap;
+
 /**
  * Abstract Syntax :
  * Operator = BooleanOp | RelationalOp | ArithmeticOp | UnaryOp | AssignOp
@@ -28,6 +30,7 @@ public class Operator {
 	final static String INT = "int";
 	final static String FLOAT = "float";
 	final static String CHAR = "char";
+	final static String BOOL = "bool";
 	// AssignOp
 	final static String PLUSASSIGN = "+=";
 	final static String MINUSASSIGN = "-=";

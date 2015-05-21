@@ -31,8 +31,9 @@ public class WhileStatement extends Statement {
 
 		condition.V(declarationMap);
 
-		check(condition.typeOf(declarationMap) == Type.BOOL,
-				"poorly typed test in while Loop in Conditional: " + condition);
+		Type type = condition.typeOf(declarationMap);
+		check(condition.typeOf(declarationMap).equals(Type.BOOL),
+				"condition statement type must be boolean. condition type : " + type);
 	}
 
 	@Override
