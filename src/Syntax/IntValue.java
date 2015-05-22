@@ -1,7 +1,5 @@
 package Syntax;
 
-import java.util.HashMap;
-
 /**
  * Abstract Syntax :
  * IntValue = int
@@ -29,9 +27,5 @@ public class IntValue extends Value {
 		}
 
 		System.out.println("IntValue " + value);
-	}
-
-	@Override
-	protected void V(HashMap<String, Init> declarationMap) {
 	}
 }

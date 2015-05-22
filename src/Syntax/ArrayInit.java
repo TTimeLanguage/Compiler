@@ -37,7 +37,7 @@ public class ArrayInit extends Init {
 	}
 
 	@Override
-	public void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 		// todo 확인
 		if (valid) return;
 
@@ -49,8 +49,11 @@ public class ArrayInit extends Init {
 
 		if (initList != null) {
 			for (Expression expression : initList) {
+				expression.V(declarationMap);
 				check(expression.typeOf(declarationMap).equals(type),
-						"wrong type initializer in declaration : " + type + " " + name + "[" + size + "]");
+						"wrong type initializer in declaration : "
+								+ type + " " + name + "[" + size + "],"
+								+ " initialize : " + expression);
 			}
 		}
 

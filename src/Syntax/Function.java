@@ -39,7 +39,18 @@ public class Function extends Expression {
 
 	@Override
 	Type typeOf(HashMap<String, Init> declarationMap) {
-		// todo
-		return null;
+		// todo 확인
+
+		check(valid, "Compiler error. must check validation");
+
+		ArrayList<Type> types = new ArrayList<>();
+		for (Expression expression : params) {
+			expression.V(declarationMap);
+			types.add(expression.typeOf(declarationMap));
+		}
+		Type functionType = globalFunctionMap.getFunctionType(name, types);
+		check(functionType != null, "using not declared function. function : " + name);
+
+		return functionType;
 	}
 }

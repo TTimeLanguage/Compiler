@@ -50,17 +50,21 @@ public class ForStatement extends Statement {
 		for (Expression expression : postExpression) {
 			expression.display(lev + 1);
 		}
+
+		statements.display(lev + 1);
 	}
 
-	@Override
-	public void V(HashMap<String, Init> declarationMap) {
+	private void innerV(HashMap<String, Init> declarationMap) {
 		// todo 확인
 		if (valid) return;
 
 		check(condition != null,
 				"condition can not be null");
-		check(condition.typeOf(declarationMap) == Type.BOOL,
-				"condition type must boolean in for. condition type : " + condition.typeOf(declarationMap));
+		condition.V(declarationMap);
+
+		Type conditionType = condition.typeOf(declarationMap);
+		check(conditionType.equals(Type.BOOL),
+				"condition type must boolean in for. condition type : " + conditionType);
 
 		for (Expression pre : preExpression) {
 			pre.V(declarationMap);
@@ -69,9 +73,28 @@ public class ForStatement extends Statement {
 		for (Expression post : postExpression) {
 			post.V(declarationMap);
 		}
+	}
 
-		statements.V(declarationMap);
+	@Override
+	protected void V(HashMap<String, Init> declarationMap, Type functionType) {
+		innerV(declarationMap);
+
+		statements.V(declarationMap, this, functionType);
 
 		valid = true;
+	}
+
+	@Override
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
+		innerV(declarationMap);
+
+		statements.V(declarationMap, this);
+
+		valid = true;
+	}
+
+	@Override
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
+		V(declarationMap, functionType);
 	}
 }

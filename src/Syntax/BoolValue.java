@@ -1,7 +1,5 @@
 package Syntax;
 
-import java.util.HashMap;
-
 /**
  * Abstract Syntax :
  * BoolValue = bool
@@ -33,9 +31,5 @@ public class BoolValue extends Value {
 		}
 
 		System.out.println("BoolValue " + value);
-	}
-
-	@Override
-	protected void V(HashMap<String, Init> declarationMap) {
 	}
 }

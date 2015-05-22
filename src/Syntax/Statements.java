@@ -47,7 +47,7 @@ public class Statements extends AbstractSyntax {
 	}
 
 	@Override
-	public void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap, Type functionType) {
 		// todo
 		if (valid) return;
 
@@ -64,7 +64,7 @@ public class Statements extends AbstractSyntax {
 				"duplicated declaration in main");
 
 		for (Statement statement : statements) {
-			statement.V(localMap);
+			statement.V(localMap, functionType);
 		}
 
 		valid = true;

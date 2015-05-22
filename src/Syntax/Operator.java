@@ -24,10 +24,8 @@ public class Operator {
 	// UnaryOp = !
 	final static String NOT = "!";
 	final static String NEG = "-";
-	// CastOp = int | float | char
-	final static String INT = "int";
-	final static String FLOAT = "float";
-	final static String CHAR = "char";
+	final static String PLUSPLUS = "++";
+	final static String MINUSMINUS = "--";
 	// AssignOp
 	final static String PLUSASSIGN = "+=";
 	final static String MINUSASSIGN = "-=";
@@ -35,9 +33,6 @@ public class Operator {
 	final static String DIVASSIGN = "/=";
 	final static String MODASSIGN = "%=";
 	final static String ASSIGN = "=";
-	// DoubleOp
-	final static String PLUSPLUS = "++";
-	final static String MINUSMINUS = "--";
 
 	// Typed Operators
 	// RelationalOp = < | <= | == | != | >= | >
@@ -47,22 +42,23 @@ public class Operator {
 	final static String INT_NE = "INT!=";
 	final static String INT_GT = "INT>";
 	final static String INT_GE = "INT>=";
-	// ArithmeticOp = + | - | * | / | % | ++ | --
+	// ArithmeticOp = + | - | * | / | %
 	final static String INT_PLUS = "INT+";
 	final static String INT_MINUS = "INT-";
 	final static String INT_TIMES = "INT*";
 	final static String INT_DIV = "INT/";
 	final static String INT_MOD = "INT%";
+	// UnaryOp = - | ++ | --
+	final static String INT_NEG = "-";
 	final static String INT_PP = "INT++";
 	final static String INT_MM = "INT--";
-	// UnaryOp = -
-	final static String INT_NEG = "-";
-	// AssignOp = += | -= | *= | /= | %=
+	// AssignOp = += | -= | *= | /= | %= | =
 	final static String INT_PLUS_ASSIGN = "INT+=";
 	final static String INT_MINUS_ASSIGN = "INT-=";
 	final static String INT_TIMES_ASSIGN = "INT*=";
 	final static String INT_DIV_ASSIGN = "INT/=";
 	final static String INT_MOD_ASSIGN = "INT%=";
+	final static String INT_ASSIGN = "INT=";
 
 	// RelationalOp = < | <= | == | != | >= | > |
 	final static String FLOAT_LT = "FLOAT<";
@@ -71,22 +67,23 @@ public class Operator {
 	final static String FLOAT_NE = "FLOAT!=";
 	final static String FLOAT_GT = "FLOAT>";
 	final static String FLOAT_GE = "FLOAT>=";
-	// ArithmeticOp = + | - | * | / | % | ++ | -
+	// ArithmeticOp = + | - | * | / | %
 	final static String FLOAT_PLUS = "FLOAT+";
 	final static String FLOAT_MINUS = "FLOAT-";
 	final static String FLOAT_TIMES = "FLOAT*";
 	final static String FLOAT_DIV = "FLOAT/";
 	final static String FLOAT_MOD = "FLOAT%";
+	// UnaryOp = - | ++ | --
+	final static String FLOAT_NEG = "-";
 	final static String FLOAT_PP = "FLOAT++";
 	final static String FLOAT_MM = "FLOAT--";
-	// UnaryOp = -
-	final static String FLOAT_NEG = "-";
-	// AssignOp = += | -= | *= | /= | %=
+	// AssignOp = += | -= | *= | /= | %= | =
 	final static String FLOAT_PLUS_ASSIGN = "FLOAT+=";
 	final static String FLOAT_MINUS_ASSIGN = "FLOAT-=";
 	final static String FLOAT_TIMES_ASSIGN = "FLOAT*=";
 	final static String FLOAT_DIV_ASSIGN = "FLOAT/=";
 	final static String FLOAT_MOD_ASSIGN = "FLOAT%=";
+	final static String FLOAT_ASSIGN = "FLOAT=";
 
 	// RelationalOp = < | <= | == | != | >= | > |
 	final static String TIME_LT = "TIME<";
@@ -95,12 +92,13 @@ public class Operator {
 	final static String TIME_NE = "TIME!=";
 	final static String TIME_GT = "TIME>";
 	final static String TIME_GE = "TIME>=";
-	// ArithmeticOp = + | - | * | / | % | ++ | -
+	// ArithmeticOp = + | - | * | / | %
 	final static String TIME_PLUS = "TIME+";
 	final static String TIME_MINUS = "TIME-";
 	final static String TIME_TIMES = "TIME*";
 	final static String TIME_DIV = "TIME/";
 	final static String TIME_MOD = "TIME%";
+	// UnaryOp = ++ | --
 	final static String TIME_PP = "TIME++";
 	final static String TIME_MM = "TIME--";
 	// AssignOp = += | -= | *= | /= | %=
@@ -109,6 +107,7 @@ public class Operator {
 	final static String TIME_TIMES_ASSIGN = "TIME*=";
 	final static String TIME_DIV_ASSIGN = "TIME/=";
 	final static String TIME_MOD_ASSIGN = "TIME%=";
+	final static String TIME_ASSIGN = "TIME=";
 
 	// RelationalOp = < | <= | == | != | >= | > |
 	final static String DATE_LT = "DATE<";
@@ -123,6 +122,7 @@ public class Operator {
 	final static String DATE_TIMES = "DATE*";
 	final static String DATE_DIV = "DATE/";
 	final static String DATE_MOD = "DATE%";
+	// UnaryOp = ++ | --
 	final static String DATE_PP = "DATE++";
 	final static String DATE_MM = "DATE--";
 	// AssignOp = += | -= | *= | /= | %=
@@ -131,6 +131,7 @@ public class Operator {
 	final static String DATE_TIMES_ASSIGN = "DATE*=";
 	final static String DATE_DIV_ASSIGN = "DATE/=";
 	final static String DATE_MOD_ASSIGN = "DATE%=";
+	final static String DATE_ASSIGN = "DATE=";
 
 	// RelationalOp = < | <= | == | != | >= | >
 	final static String CHAR_LT = "CHAR<";
@@ -139,6 +140,8 @@ public class Operator {
 	final static String CHAR_NE = "CHAR!=";
 	final static String CHAR_GT = "CHAR>";
 	final static String CHAR_GE = "CHAR>=";
+	// AssignOp = =
+	final static String CHAR_ASSIGN = "CHAR=";
 
 	// RelationalOp = < | <= | == | != | >= | >
 	final static String BOOL_LT = "BOOL<";
@@ -149,17 +152,19 @@ public class Operator {
 	final static String BOOL_GE = "BOOL>=";
 	// UnaryOp = !
 	final static String BOOL_COMP = "!";
-
-	// Syntax.Type specific cast
-	final static String I2F = "I2F";
-	final static String F2I = "F2I";
-	final static String C2I = "C2I";
-	final static String I2C = "I2C";
+	// AssignOp = =
+	final static String BOOL_ASSIGN = "BOOL=";
 
 	protected final String value;
+	protected Type type;
 
 	public Operator(String s) {
 		value = s;
+	}
+
+	public Operator(String s, Type type) {
+		value = s;
+		this.type = type;
 	}
 
 	public String toString() {
@@ -170,21 +175,21 @@ public class Operator {
 		return obj instanceof Operator && value.equals(obj);
 	}
 
-	boolean BooleanOp() {
+	boolean isBooleanOp() {
 		return value.equals(AND) || value.equals(OR);
 	}
 
-	boolean RelationalOp() {
+	boolean isRelationalOp() {
 		return value.equals(LT) || value.equals(LE) || value.equals(EQ)
 				|| value.equals(NE) || value.equals(GT) || value.equals(GE);
 	}
 
-	boolean ArithmeticOp() {
+	boolean isArithmeticOp() {
 		return value.equals(PLUS) || value.equals(MINUS) || value.equals(TIMES)
 				|| value.equals(DIV) || value.equals(MOD);
 	}
 
-	boolean AssignOP() {
+	boolean isAssignOP() {
 		return value.equals(PLUSASSIGN) || value.equals(MINUSASSIGN) || value.equals(TIMESASSIGN)
 				|| value.equals(MODASSIGN) || value.equals(DIVASSIGN) || value.equals(ASSIGN);
 	}
@@ -197,47 +202,41 @@ public class Operator {
 		return value.equals(NEG);
 	}
 
-	boolean intOp() {
-		return value.equals(INT);
-	}
-
-	boolean floatOp() {
-		return value.equals(FLOAT);
-	}
-
-	boolean charOp() {
-		return value.equals(CHAR);
-	}
-
 	boolean incOp() {
 		return value.equals(PLUSPLUS) || value.equals(MINUSMINUS);
+	}
+
+	protected Type getType() {
+		return type;
 	}
 
 	final static String intMap[][] = {
 			{PLUS, INT_PLUS}, {MINUS, INT_MINUS}, {TIMES, INT_TIMES}, {DIV, INT_DIV}, {MOD, INT_MOD},
 			{PLUSPLUS, INT_PP}, {MINUSMINUS, INT_MM},
 			{PLUSASSIGN, INT_PLUS_ASSIGN}, {MINUSASSIGN, INT_MINUS_ASSIGN}, {TIMESASSIGN, INT_TIMES_ASSIGN},
-			{DIVASSIGN, INT_DIV_ASSIGN}, {MODASSIGN, INT_MOD_ASSIGN},
+			{DIVASSIGN, INT_DIV_ASSIGN}, {MODASSIGN, INT_MOD_ASSIGN}, {ASSIGN, INT_ASSIGN},
 			{EQ, INT_EQ}, {NE, INT_NE}, {LT, INT_LT}, {LE, INT_LE}, {GT, INT_GT}, {GE, INT_GE},
-			{NEG, INT_NEG}, {FLOAT, I2F}, {CHAR, I2C}
+			{NEG, INT_NEG}
 	};
 
 	final static String floatMap[][] = {
 			{PLUS, FLOAT_PLUS}, {MINUS, FLOAT_MINUS}, {TIMES, FLOAT_TIMES}, {DIV, FLOAT_DIV}, {MOD, FLOAT_MOD},
 			{PLUSPLUS, FLOAT_PP}, {MINUSMINUS, FLOAT_MM},
 			{PLUSASSIGN, FLOAT_PLUS_ASSIGN}, {MINUSASSIGN, FLOAT_MINUS_ASSIGN}, {TIMESASSIGN, FLOAT_TIMES_ASSIGN},
-			{DIVASSIGN, FLOAT_DIV_ASSIGN}, {MODASSIGN, FLOAT_MOD_ASSIGN},
+			{DIVASSIGN, FLOAT_DIV_ASSIGN}, {MODASSIGN, FLOAT_MOD_ASSIGN}, {ASSIGN, FLOAT_ASSIGN},
 			{EQ, FLOAT_EQ}, {NE, FLOAT_NE}, {LT, FLOAT_LT}, {LE, FLOAT_LE}, {GT, FLOAT_GT}, {GE, FLOAT_GE},
-			{NEG, FLOAT_NEG}, {INT, F2I}
+			{NEG, FLOAT_NEG}
 	};
 
 	final static String charMap[][] = {
-			{EQ, CHAR_EQ}, {NE, CHAR_NE}, {LT, CHAR_LT}, {LE, CHAR_LE}, {GT, CHAR_GT}, {GE, CHAR_GE},
-			{INT, C2I}
+			{ASSIGN, CHAR_ASSIGN},
+			{EQ, CHAR_EQ}, {NE, CHAR_NE}, {LT, CHAR_LT}, {LE, CHAR_LE}, {GT, CHAR_GT}, {GE, CHAR_GE}
 	};
 
 	final static String boolMap[][] = {
+			{ASSIGN, BOOL_ASSIGN},
 			{EQ, BOOL_EQ}, {NE, BOOL_NE}, {LT, BOOL_LT}, {LE, BOOL_LE}, {GT, BOOL_GT}, {GE, BOOL_GE},
+			{AND, AND}, {OR, OR},
 			{NOT, BOOL_COMP}
 	};
 
@@ -245,7 +244,7 @@ public class Operator {
 			{PLUS, TIME_PLUS}, {MINUS, TIME_MINUS}, {TIMES, TIME_TIMES}, {DIV, TIME_DIV}, {MOD, TIME_MOD},
 			{PLUSPLUS, TIME_PP}, {MINUSMINUS, TIME_MM},
 			{PLUSASSIGN, TIME_PLUS_ASSIGN}, {MINUSASSIGN, TIME_MINUS_ASSIGN}, {TIMESASSIGN, TIME_TIMES_ASSIGN},
-			{DIVASSIGN, TIME_DIV_ASSIGN}, {MODASSIGN, TIME_MOD_ASSIGN},
+			{DIVASSIGN, TIME_DIV_ASSIGN}, {MODASSIGN, TIME_MOD_ASSIGN}, {ASSIGN, TIME_ASSIGN},
 			{EQ, TIME_EQ}, {NE, TIME_NE}, {LT, TIME_LT}, {LE, TIME_LE}, {GT, TIME_GT}, {GE, TIME_GE}
 	};
 
@@ -253,14 +252,36 @@ public class Operator {
 			{PLUS, DATE_PLUS}, {MINUS, DATE_MINUS}, {TIMES, DATE_TIMES}, {DIV, DATE_DIV}, {MOD, DATE_MOD},
 			{PLUSPLUS, DATE_PP}, {MINUSMINUS, DATE_MM},
 			{PLUSASSIGN, DATE_PLUS_ASSIGN}, {MINUSASSIGN, DATE_MINUS_ASSIGN}, {TIMESASSIGN, DATE_TIMES_ASSIGN},
-			{DIVASSIGN, DATE_DIV_ASSIGN}, {MODASSIGN, DATE_MOD_ASSIGN},
+			{DIVASSIGN, DATE_DIV_ASSIGN}, {MODASSIGN, DATE_MOD_ASSIGN}, {ASSIGN, DATE_ASSIGN},
 			{EQ, DATE_EQ}, {NE, DATE_NE}, {LT, DATE_LT}, {LE, DATE_LE}, {GT, DATE_GT}, {GE, DATE_GE}
 	};
 
-	static private Operator map(String[][] tmap, String op) {
+	static private Operator map(String[][] tmap, String op, Type type) {
 		for (String[] aTmap : tmap) {
+
 			if (aTmap[0].equals(op)) {
-				return new Operator(aTmap[1]);
+				switch (op) {
+					case PLUSASSIGN:
+					case MINUSASSIGN:
+					case TIMESASSIGN:
+					case DIVASSIGN:
+					case MODASSIGN:
+					case ASSIGN:
+						return new Operator(aTmap[1], Type.VOID);
+
+					case EQ:
+					case NE:
+					case LT:
+					case LE:
+					case GT:
+					case GE:
+					case OR:
+					case AND:
+						return new Operator(aTmap[1], Type.BOOL);
+
+					default:
+						return new Operator(aTmap[1], type);
+				}
 			}
 		}
 		assert false : "should never reach here";
@@ -268,27 +289,27 @@ public class Operator {
 	}
 
 	static public Operator intMap(String op) {
-		return map(intMap, op);
+		return map(intMap, op, Type.INT);
 	}
 
 	static public Operator floatMap(String op) {
-		return map(floatMap, op);
+		return map(floatMap, op, Type.FLOAT);
 	}
 
 	static public Operator charMap(String op) {
-		return map(charMap, op);
+		return map(charMap, op, Type.CHAR);
 	}
 
 	static public Operator boolMap(String op) {
-		return map(boolMap, op);
+		return map(boolMap, op, Type.BOOL);
 	}
 
 	static public Operator timeMap(String op) {
-		return map(timeMap, op);
+		return map(timeMap, op, Type.TIME);
 	}
 
 	static public Operator dateMap(String op) {
-		return map(dateMap, op);
+		return map(dateMap, op, Type.DATE);
 	}
 
 	void display(int lev) {

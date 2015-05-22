@@ -33,13 +33,14 @@ public class NoArrayInit extends Init {
 	}
 
 	@Override
-	public void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 		// todo 확인
 		if (valid) return;
 
 		check(!type.equals(Type.VOID),
 				"variable type can not be void");
 
+		initial.V(declarationMap);
 		check(initial.typeOf(declarationMap).equals(type),
 				"wrong type initializer in declaration : " + type + " " + name);
 

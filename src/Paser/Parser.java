@@ -39,8 +39,8 @@ public class Parser {
 	/*
 	 * ********************************************************************************************************
 	 */
-	public Program program() {
-		// Program → { Syntax.Global } 'int' 'main' '(' ')' Statements
+	private Program program() {
+		// Program → { Global } 'int' 'main' '(' ')' Statements
 
 		ArrayList<Global> globals = new ArrayList<>();
 		Statements s = null;
@@ -429,6 +429,10 @@ public class Parser {
 			e = new Binary(op, e, term2);
 		}
 
+		if (isAssignOp()) {
+			error("wrong assign direction");
+		}
+
 		return e;
 	}
 
@@ -620,7 +624,7 @@ public class Parser {
 			t = Type.TIME;
 		} else if (token.type().equals(TokenType.Date)) {
 			t = Type.DATE;
-		} else error("Error in Syntax.Type construction");
+		} else error("Error in Type construction");
 		token = lexer.next();
 		return t;
 	}
@@ -786,6 +790,10 @@ public class Parser {
 
 	private boolean isMain() {
 		return token.type().equals(TokenType.Main);
+	}
+
+	public Program getAST() {
+		return program();
 	}
 
 	public static void main(String args[]) {

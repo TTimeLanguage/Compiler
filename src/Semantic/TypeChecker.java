@@ -8,11 +8,24 @@ import Syntax.Program;
  * Created by 병훈 on 2015-05-19.
  */
 public class TypeChecker {
-	public static void main(String[] args) {
-		Parser parser = new Parser(new Lexer(args[0]));
-		Program program = parser.program();
+	Parser parser;
 
-		program.V();
+	public TypeChecker(Parser parser) {
+		this.parser = parser;
+	}
+
+	public Program getAST() {
+		Program unCheckedAST = parser.getAST();
+
+		unCheckedAST.V();
+
+		return unCheckedAST;
+	}
+
+	public static void main(String[] args) {
+		TypeChecker typeChecker = new TypeChecker(new Parser(new Lexer(args[0])));
+		Program program = typeChecker.getAST();
+
 		program.display(0);
 	}
 }

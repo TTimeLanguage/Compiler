@@ -54,6 +54,8 @@ public class Variable extends VariableRef {
 
 	@Override
 	Type typeOf(HashMap<String, Init> declarationMap) {
+		check(valid, "Compiler error. must check validation");
+
 		check(declarationMap.containsKey(name),
 				"undefined variable: " + name);
 

@@ -32,9 +32,9 @@ public class Program extends AbstractSyntax {
 	/**
 	 * <tt>Syntax.Program</tt>객체를 매개변수로 초기화한다.
 	 *
-	 * @param g <tt>Syntax.Global</tt>의 <tt>ArrayList</tt>
+	 * @param g	<tt>Global</tt>의 <tt>ArrayList</tt>
 	 *          전역변수와 함수의 정의들
-	 * @param s int main()의 안에 적혀있는 코드들
+	 * @param s	int main()의 안에 적혀있는 코드들
 	 */
 	public Program(ArrayList<Global> g, Statements s) {
 		globals = g;
@@ -54,7 +54,7 @@ public class Program extends AbstractSyntax {
 						"duplicated declared function " + functionDeclaration.name);
 
 				globalFunctionMap.add(new FunctionInformation(functionDeclaration));
-				tmp = null;
+				tmp = null;		// for garbage collection
 
 			} else if (global instanceof Declaration) {
 
@@ -72,6 +72,7 @@ public class Program extends AbstractSyntax {
 		}
 	}
 
+
 	@Override
 	public void display(int lev) {
 		for (int i = 0; i < lev; i++) {
@@ -87,19 +88,18 @@ public class Program extends AbstractSyntax {
 
 
 	public void V() {
+		mapGlobal();
+		statements.mapVariable();
 		V(globalVariableMap);
 	}
 
 
 	@Override
-	public void V(HashMap<String, Init> declarationMap) {
-		mapGlobal();
-
+	protected void V(HashMap<String, Init> declarationMap) {
 		for (Global global : globals) {
 			global.V(declarationMap);
 		}
 
-		statements.mapVariable();
-		statements.V(declarationMap);
+		statements.V(declarationMap, Type.INT);
 	}
 }

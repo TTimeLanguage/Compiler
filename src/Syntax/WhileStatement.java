@@ -26,16 +26,36 @@ public class WhileStatement extends Statement {
 		statements.display(lev + 1);
 	}
 
-	@Override
-	public void V(HashMap<String, Init> declarationMap) {
+	private void innerV(HashMap<String, Init> declarationMap) {
 		if (valid) return;
 
-		check(condition.typeOf(declarationMap) == Type.BOOL,
-				"poorly typed test in while Loop in Conditional: " + condition);
-
 		condition.V(declarationMap);
-		statements.V(declarationMap);
+
+		Type type = condition.typeOf(declarationMap);
+		check(condition.typeOf(declarationMap).equals(Type.BOOL),
+				"condition statement type must be boolean. condition type : " + type);
+	}
+
+	@Override
+	protected void V(HashMap<String, Init> declarationMap, Type functionType) {
+		innerV(declarationMap);
+
+		statements.V(declarationMap, this, functionType);
 
 		valid = true;
+	}
+
+	@Override
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
+		innerV(declarationMap);
+
+		statements.V(declarationMap, loopStatement);
+
+		valid = true;
+	}
+
+	@Override
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
+		V(declarationMap, functionType);
 	}
 }

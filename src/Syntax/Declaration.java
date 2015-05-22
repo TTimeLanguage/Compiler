@@ -27,7 +27,9 @@ public class Declaration extends Global {
 	}
 
 	@Override
-	public void V(HashMap<String, Init> declarationMap) {
-		// todo 아마 그대로
+	protected void V(HashMap<String, Init> declarationMap) {
+		for (Init init : inits) {
+			init.V(declarationMap);
+		}
 	}
 }
