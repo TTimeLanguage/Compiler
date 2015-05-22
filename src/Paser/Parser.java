@@ -274,7 +274,6 @@ public class Parser {
 				elseIfs.add(new IfStatement(e, block()));
 			} else {
 				else_appear = true;
-				match(TokenType.Else);
 				elseBlock = block();
 			}
 		}
@@ -327,7 +326,6 @@ public class Parser {
 				caseStatements.add(statement());
 			}
 
-			System.out.println(caseStatements);
 			result.addCase(value, caseStatements);
 		}
 

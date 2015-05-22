@@ -70,7 +70,7 @@ public class IfStatement extends Statement {
 
 			for (IfStatement statement : elseIfs) {
 
-				check(conditions.contains(statement.condition),
+				check(!conditions.contains(statement.condition),
 						"duplicated else if condition");
 
 				conditions.add(statement.condition);
