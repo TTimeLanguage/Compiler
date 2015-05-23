@@ -6,22 +6,22 @@ import java.util.ArrayList;
 
 
 /**
- * ÇÔ¼ö Á¤º¸¸¦ ´ã´Â <tt>FunctionInformation</tt>Çü °´Ã¼µéÀÇ containerÀÌ´Ù.
- * Type checking¶§ ÇÔ¼ö°¡ ¿Ã¹Ù¸£°Ô Á¤ÀÇ µÇ¾ú´ÂÁö È®ÀÎÀ» À§ÇØ ¾²ÀÎ´Ù.
+ * í•¨ìˆ˜ ì •ë³´ë¥¼ ë‹´ëŠ” <tt>FunctionInformation</tt>í˜• ê°ì²´ë“¤ì˜ containerì´ë‹¤.
+ * Type checkingë•Œ í•¨ìˆ˜ê°€ ì˜¬ë°”ë¥´ê²Œ ì •ì˜ ë˜ì—ˆëŠ”ì§€ í™•ì¸ì„ ìœ„í•´ ì“°ì¸ë‹¤.
  *
  * @see Syntax.Program
  */
 public class FunctionSet {
 	/**
-	 * ÇÔ¼öÁ¤º¸ÀÎ <tt>FunctionInformation</tt>¸¦ ´ã°íÀÖ´Â <tt>ArrayList</tt>
+	 * í•¨ìˆ˜ì •ë³´ì¸ <tt>FunctionInformation</tt>ë¥¼ ë‹´ê³ ìˆëŠ” <tt>ArrayList</tt>
 	 */
 	private ArrayList<FunctionInformation> array = new ArrayList<>();
 
 	/**
-	 * ÀÎÀÚÀÎ <tt>infoToCheck</tt>ÀÌ ÀÌ set¿¡ ÀÖ´ÂÁö ¿©ºÎ¸¦ ¹İÈ¯.
+	 * ì¸ìì¸ <tt>infoToCheck</tt>ì´ ì´ setì— ìˆëŠ”ì§€ ì—¬ë¶€ë¥¼ ë°˜í™˜.
 	 *
-	 * @param infoToCheck Æ÷ÇÔ ¿©ºÎ¸¦ È®ÀÎÇÒ <tt>FunctionInformation</tt>°´Ã¼
-	 * @return set¿¡ Æ÷ÇÔ µÇ¾îÀÖ´ÂÁö ¿©ºÎ
+	 * @param infoToCheck í¬í•¨ ì—¬ë¶€ë¥¼ í™•ì¸í•  <tt>FunctionInformation</tt>ê°ì²´
+	 * @return setì— í¬í•¨ ë˜ì–´ìˆëŠ”ì§€ ì—¬ë¶€
 	 */
 	public boolean contains(FunctionInformation infoToCheck) {
 		for (FunctionInformation information : array) {
@@ -32,11 +32,11 @@ public class FunctionSet {
 	}
 
 	/**
-	 * set¿¡ <tt>functionInformation</tt>°´Ã¼¸¦ Ãß°¡.
+	 * setì— <tt>functionInformation</tt>ê°ì²´ë¥¼ ì¶”ê°€.
 	 * <p>
-	 * ¸¸¾Ç ÀÌ¹Ì ÀÖ´Ù¸é Ãß°¡ÇÏÁö ¾ÊÀ½ (setÀÇ Æ¯Â¡).
+	 * ë§Œì•… ì´ë¯¸ ìˆë‹¤ë©´ ì¶”ê°€í•˜ì§€ ì•ŠìŒ (setì˜ íŠ¹ì§•).
 	 *
-	 * @param functionInformation set¿¡ Ãß°¡ÇÒ <tt>FunctionInformation</tt>°´Ã¼
+	 * @param functionInformation setì— ì¶”ê°€í•  <tt>FunctionInformation</tt>ê°ì²´
 	 */
 	public void add(FunctionInformation functionInformation) {
 		if (contains(functionInformation)) return;
@@ -45,11 +45,11 @@ public class FunctionSet {
 	}
 
 	/**
-	 * Ã£´Â ÇÔ¼öÀÇ ÀÌ¸§ÀÌ °°°í, ¸Å°³º¯¼öÀÇ ÇüµéÀÌ ÀÏÄ¡ÇÏ´Â ÇÔ¼öÀÇ TypeÀ» ¹İÈ¯ÇÑ´Ù.
+	 * ì°¾ëŠ” í•¨ìˆ˜ì˜ ì´ë¦„ì´ ê°™ê³ , ë§¤ê°œë³€ìˆ˜ì˜ í˜•ë“¤ì´ ì¼ì¹˜í•˜ëŠ” í•¨ìˆ˜ì˜ Typeì„ ë°˜í™˜í•œë‹¤.
 	 *
-	 * @param name      Ã£À» ÇÔ¼öÀÇ ÀÌ¸§
-	 * @param paramType Ã£À» ÇÔ¼öÀÇ ¸Å°³º¯¼ö Çüµé
-	 * @return Ã£´Â ÇÔ¼öÀÇ ¹İÈ¯Çü
+	 * @param name      ì°¾ì„ í•¨ìˆ˜ì˜ ì´ë¦„
+	 * @param paramType ì°¾ì„ í•¨ìˆ˜ì˜ ë§¤ê°œë³€ìˆ˜ í˜•ë“¤
+	 * @return ì°¾ëŠ” í•¨ìˆ˜ì˜ ë°˜í™˜í˜•
 	 */
 	public Type getFunctionType(String name, ArrayList<Type> paramType) {
 		for (FunctionInformation function : array) {
