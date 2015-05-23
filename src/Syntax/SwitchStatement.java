@@ -4,19 +4,42 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
+ * switch를 나타내는 구문
+ * <p>
  * Abstract Syntax :
  * SwitchStatement = Expression condition; (Literal case; Statement*)*; (Statement*)?
  */
 public class SwitchStatement extends Statement {
+	/**
+	 * switch 조건에 쓰이는 변수의 type을 저장하는 변수
+	 */
 	protected Type switchType;
+	/**
+	 * 조건을 나타내는 변수
+	 */
 	protected final Expression condition;
+	/**
+	 * case 문에 값을 저장하는 HashMap, 해당 실행문을 나타내는 ArrayList
+	 */
 	protected final HashMap<Value, ArrayList<Statement>> cases = new HashMap<>();
+	/**
+	 * default 구문을 나타내는 ArrayList
+	 */
 	protected ArrayList<Statement> defaults = null;
+
 
 	public SwitchStatement(Expression condition) {
 		this.condition = condition;
 	}
 
+	/**
+	 * case 구문을 추가하는 함수
+	 * <p>
+	 * 두번 실행도리 경우(구문이 덮어씌여질 경우) 에러가난다.
+	 *
+	 * @param caseLiteral 추가 할 case의 literal
+	 * @param statements  추가 할 case의 실행 부분
+	 */
 	public void addCase(Value caseLiteral, ArrayList<Statement> statements) {
 		check(!cases.containsKey(caseLiteral),
 				"duplicated case literal in switch");
@@ -24,6 +47,13 @@ public class SwitchStatement extends Statement {
 		cases.put(caseLiteral, statements);
 	}
 
+	/**
+	 * default을 설정하는 함수
+	 * <p>
+	 * 두번 실행도리 경우(구문이 덮어씌여질 경우) 에러가난다.
+	 *
+	 * @param defaults	설정할 default의 <tt>Statement</tt>들의 <tt>ArrayList</tt>
+	 */
 	public void setDefault(ArrayList<Statement> defaults) {
 		check(defaults != null, "duplicated default in switch");
 		this.defaults = defaults;

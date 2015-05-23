@@ -3,11 +3,19 @@ package Syntax;
 import java.util.HashMap;
 
 /**
+ * 단항 실행문을 나타내는 구문
+ * <p>
  * Abstract Syntax :
  * Unary = UnaryOperator; Expression
  */
 public class Unary extends Expression {
+	/**
+	 * 연산자를 나타내는 변수
+	 */
 	protected final Operator op;
+	/**
+	 * 실행문을 나타내는 변수
+	 */
 	protected final Expression term;
 	private Type type;
 

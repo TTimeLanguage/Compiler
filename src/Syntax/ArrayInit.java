@@ -4,13 +4,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
+ * 배열을 선언 또는 초기화 하는 구문
+ * <p>
  * Abstract Syntax :
  * ArrayInit = Type; String id; int size; (Expression initList)*
  */
 public class ArrayInit extends Init {
+	/**
+	 * 배열의 크기를 나타내는 변수
+	 */
 	protected final int size;
+	/**
+	 * 배열을 초기화 했을 때 초기값을 표현해주는 <tt>ArrayList</tt>
+	 * <p>
+	 * null일경우 초기화되지않은 배열의 선언이다.
+	 */
 	protected final ArrayList<Expression> initList;
 
+	/**
+	 * 초기화를 해준 배열 생성자
+	 */
 	public ArrayInit(Type t, String name, int s, ArrayList<Expression> i) {
 		type = t;
 		this.name = name;
@@ -18,6 +31,9 @@ public class ArrayInit extends Init {
 		initList = i;
 	}
 
+	/**
+	 * 초기화를 해주지 않은 배열 생성자
+	 */
 	public ArrayInit(Type t, String name, int s) {
 		this(t, name, s, null);
 	}

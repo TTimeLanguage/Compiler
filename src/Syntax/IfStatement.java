@@ -5,15 +5,32 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
+ * if 를 나타내는 구문
+ * <p>
  * Abstract Syntax :
  * IfStatement = Expression condition; Block; (Expression elseif; Block)*; Block?
  */
 public class IfStatement extends Statement {
+	/**
+	 * if의 조건문을 나타내는 변수
+	 */
 	protected final Expression condition;
+	/**
+	 * if내의 실행 부분을 나타내는 변수
+	 */
 	protected final Block statements;
+	/**
+	 * else if 구문들을 나타내는 <tt>ArrayList</tt>
+	 */
 	protected final ArrayList<IfStatement> elseIfs;
+	/**
+	 * else내의 실행 부분을 <tt>Block</tt>객체로 저장
+	 */
 	protected final Block elses;
 
+	/**
+	 * if, else if, else 구문을 포함하고 있는 if구문 생성자
+	 */
 	public IfStatement(Expression c, Block s, ArrayList<IfStatement> elseIf, Block e) {
 		condition = c;
 		statements = s;
@@ -21,14 +38,23 @@ public class IfStatement extends Statement {
 		elses = e;
 	}
 
+	/**
+	 * if, else if 구문을 포함하고 있는 if구문 생성자
+	 */
 	public IfStatement(Expression c, Block s, ArrayList<IfStatement> elseIfs) {
 		this(c, s, elseIfs, null);
 	}
 
+	/**
+	 * if, else 구문을 포함하고 있는 if구문 생성자
+	 */
 	public IfStatement(Expression c, Block s, Block e) {
 		this(c, s, null, e);
 	}
 
+	/**
+	 * if구문을 포함하고 있는 if구문 생성자
+	 */
 	public IfStatement(Expression c, Block s) {
 		this(c, s, null, null);
 	}
@@ -42,12 +68,21 @@ public class IfStatement extends Statement {
 		System.out.println("IfStatement");
 		condition.display(lev + 1);
 		statements.display(lev + 1);
+
 		if (elseIfs != null) {
+			for (int i = 0; i < lev; i++) {
+				System.out.print("\t");
+			}
+			System.out.println("ElseIfStatement");
 			for (IfStatement statement : elseIfs) {
 				statement.display(lev + 1);
 			}
 		}
 		if (elses != null) {
+			for (int i = 0; i < lev; i++) {
+				System.out.print("\t");
+			}
+			System.out.println("ElseStatement");
 			elses.display(lev + 1);
 		}
 	}

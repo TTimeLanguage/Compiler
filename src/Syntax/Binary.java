@@ -3,11 +3,20 @@ package Syntax;
 import java.util.HashMap;
 
 /**
+ * 이항연산을 나타내는 구문
+ * 연산자 <tt>Operator</tt>객체와 피연산자 <tt>Expression</tt>객체 2개를 저장한다.
+ * <p>
  * Abstract Syntax :
  * Binary = Operator; Expression e1, e2
  */
 public class Binary extends Expression {
+	/**
+	 * 연산자를 나타내는 변수
+	 */
 	protected Operator op;
+	/**
+	 * 두개의 항을 나타내는 변수
+	 */
 	protected Expression term1, term2;
 
 	public Binary(Operator o, Expression l, Expression r) {

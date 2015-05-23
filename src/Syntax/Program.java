@@ -30,11 +30,11 @@ public class Program extends AbstractSyntax {
 	protected final Statements statements;
 
 	/**
-	 * <tt>Syntax.Program</tt>객체를 매개변수로 초기화한다.
+	 * <tt>Program</tt>객체를 매개변수로 초기화한다.
 	 *
-	 * @param g	<tt>Global</tt>의 <tt>ArrayList</tt>
+	 * @param g <tt>Global</tt>의 <tt>ArrayList</tt>
 	 *          전역변수와 함수의 정의들
-	 * @param s	int main()의 안에 적혀있는 코드들
+	 * @param s int main()의 안에 적혀있는 코드들
 	 */
 	public Program(ArrayList<Global> g, Statements s) {
 		globals = g;
@@ -54,7 +54,7 @@ public class Program extends AbstractSyntax {
 						"duplicated declared function " + functionDeclaration.name);
 
 				globalFunctionMap.add(new FunctionInformation(functionDeclaration));
-				tmp = null;		// for garbage collection
+				tmp = null;        // for garbage collection
 
 			} else if (global instanceof Declaration) {
 
@@ -87,7 +87,11 @@ public class Program extends AbstractSyntax {
 	}
 
 
-	public void V() {
+	/**
+	 * 이 객체의 타당성을 확인.
+	 * 실행 중 타당성이 성립되지 않는다면 중간에 프로그램이 종료됨.
+	 */
+	public void validation() {
 		mapGlobal();
 		statements.mapVariable();
 		V(globalVariableMap);

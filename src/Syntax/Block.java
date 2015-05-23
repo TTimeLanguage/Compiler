@@ -4,10 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
+ * 중괄호로 둘러쌓인 문장들을 나타내는 구문
+ * 여러 <tt>Statement</tt>객체들을 가지고있다.
+ * <p>
  * Abstract Syntax :
  * Block = Statement*
  */
 public class Block extends Statement {
+	/**
+	 * 실행문들을 나타내는 <tt>ArrayList</tt> 변수
+	 */
 	protected final ArrayList<Statement> statements;
 
 	public Block(ArrayList<Statement> s) {

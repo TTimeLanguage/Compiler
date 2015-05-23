@@ -1,7 +1,7 @@
 package Semantic;
 
 import Lexer.Lexer;
-import Paser.Parser;
+import Parser.Parser;
 import Syntax.Program;
 
 /**
@@ -17,7 +17,7 @@ public class TypeChecker {
 	public Program getAST() {
 		Program unCheckedAST = parser.getAST();
 
-		unCheckedAST.V();
+		unCheckedAST.validation();
 
 		return unCheckedAST;
 	}

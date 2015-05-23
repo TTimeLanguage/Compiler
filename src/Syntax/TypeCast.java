@@ -3,11 +3,19 @@ package Syntax;
 import java.util.HashMap;
 
 /**
+ * 형변환을 나타내는 구문
+ * <p>
  * Abstract Syntax :
  * TypeCast = Type type; Expression
  */
 public class TypeCast extends Expression {
+	/**
+	 * 변환하고자 하는 타입을 나타내는 변수
+	 */
 	protected final Type type;
+	/**
+	 * 변환하고자 하는 실행구문
+	 */
 	protected final Expression expression;
 
 	public TypeCast(Type t, Expression e) {

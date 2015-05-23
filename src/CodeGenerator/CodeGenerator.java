@@ -1,12 +1,10 @@
 package CodeGenerator;
 
 import Lexer.Lexer;
-import Paser.Parser;
+import Parser.Parser;
 import Semantic.TypeChecker;
 
-/**
- * Created by 병훈 on 2015-05-22.
- */
+
 public class CodeGenerator {
 	TypeChecker typeChecker;
 	String outputFile;

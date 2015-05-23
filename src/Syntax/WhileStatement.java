@@ -3,11 +3,19 @@ package Syntax;
 import java.util.HashMap;
 
 /**
+ * While문을 나타내는 구문
+ * <p>
  * Abstract Syntax :
  * WhileStatement = Expression condition; Block
  */
 public class WhileStatement extends Statement {
+	/**
+	 * while문의 반복 조건을 나타내 주는 변수
+	 */
 	protected final Expression condition;
+	/**
+	 * 반복시에 수행 할 block내의 실행문
+	 */
 	protected final Block statements;
 
 	public WhileStatement(Expression c, Block s) {
