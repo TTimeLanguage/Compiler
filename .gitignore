@@ -61,3 +61,4 @@ $RECYCLE.BIN/
 TTime_Compiler.iml
 doc/*
 out/*
+*.iml
