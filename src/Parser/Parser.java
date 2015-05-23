@@ -1,4 +1,4 @@
-package Paser;
+package Parser;
 
 import Lexer.Lexer;
 import Syntax.*;
@@ -36,9 +36,7 @@ public class Parser {
 		System.exit(1);
 	}
 
-	/*
-	 * ********************************************************************************************************
-	 */
+
 	private Program program() {
 		// Program → { Global } 'int' 'main' '(' ')' Statements
 
@@ -207,9 +205,6 @@ public class Parser {
 	}
 
 
-	/**
-	 * ********************************************************************************************************
-	 */
 	private Statement statement() {
 		// Statement → Skip | IfStatement | Block | WhileStatement | SwitchStatement |
 		// ForStatement | Return | Expression | Break | Continue
@@ -601,9 +596,6 @@ public class Parser {
 		return new Function(id, params);
 	}
 
-	/*
-	 * *************************************OK****************************************
-	 */
 	private Type type() {
 		// Type → 'int' | 'float' | 'char' | 'bool' | 'time' | 'date' | ‘void’
 

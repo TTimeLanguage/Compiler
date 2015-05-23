@@ -3,6 +3,8 @@ package Syntax;
 import java.util.HashMap;
 
 /**
+ * 타입을 나타내는 구문
+ *
  * Abstract Syntax :
  * Type = 'int' | 'bool' | 'void' | 'char' | 'float' | 'time' | 'date'
  */
@@ -16,6 +18,9 @@ public class Type extends AbstractSyntax {
 	public final static Type TIME = new Type("time");
 	public final static Type DATE = new Type("date");
 
+	/**
+	 * 타입을 문자열로 저장
+	 */
 	private String value;
 
 	private Type(String t) {

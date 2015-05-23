@@ -3,6 +3,8 @@ package Syntax;
 import java.util.HashMap;
 
 /**
+ * break 를 나타내는 구문
+ * <p>
  * Abstract Syntax :
  * Break =
  */

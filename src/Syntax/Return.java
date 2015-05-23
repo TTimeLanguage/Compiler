@@ -3,16 +3,29 @@ package Syntax;
 import java.util.HashMap;
 
 /**
+ * return 을 나타내는 구문
+ * <p>
  * Abstract Syntax :
  * Return = Expression?
  */
 public class Return extends Statement {
+	/**
+	 * return 해주는 값을 나타내는 구문
+	 * <p>
+	 * null일경우 반환값이 없는 경우
+	 */
 	protected final Expression returnValue;
 
+	/**
+	 * return 값이 있을 때의 생성자
+	 */
 	public Return(Expression returnValue) {
 		this.returnValue = returnValue;
 	}
 
+	/**
+	 * return 값이 없을 때의 생성자
+	 */
 	public Return() {
 		this(null);
 	}

@@ -3,6 +3,8 @@ package Syntax;
 import java.util.HashMap;
 
 /**
+ * 빈 줄을 나타내는 구문
+ * <p>
  * Abstract Syntax :
  * Skip =
  */

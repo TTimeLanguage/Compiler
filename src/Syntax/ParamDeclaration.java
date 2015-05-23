@@ -3,6 +3,8 @@ package Syntax;
 import java.util.HashMap;
 
 /**
+ * 함수 정의에서 전달인자 하나를 나타내는 구문
+ * <p>
  * Abstract Syntax :
  * ParamDeclaration = Type; String Id
  */
@@ -25,7 +27,7 @@ public class ParamDeclaration extends Init {
 	}
 
 	@Override
-	protected  void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap) {
 		// todo 확인
 		check(!type.equals(Type.VOID),
 				"variable type can not be void");

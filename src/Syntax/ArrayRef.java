@@ -4,11 +4,19 @@ package Syntax;
 import java.util.HashMap;
 
 /**
+ * 배열의 특정 인덱스 참조를 나타내는 구문
+ * <p>
  * Abstract Syntax :
  * ArrayRef = String id; Expression index
  */
 public class ArrayRef extends VariableRef {
+	/**
+	 * 배열의 이름
+	 */
 	protected final String name;
+	/**
+	 * 배열의 index를 나타내는 변수
+	 */
 	protected final Expression index;
 
 	public ArrayRef(String n, Expression index) {

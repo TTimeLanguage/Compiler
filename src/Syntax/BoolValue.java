@@ -1,10 +1,15 @@
 package Syntax;
 
 /**
+ * boolean 변수의 값을 나타내는 구문
+ * <p>
  * Abstract Syntax :
  * BoolValue = bool
  */
 public class BoolValue extends Value {
+	/**
+	 * bool 값을 나타내는 변수
+	 */
 	protected final boolean value;
 
 	public BoolValue(boolean v) {

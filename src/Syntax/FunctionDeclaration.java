@@ -4,14 +4,37 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
+ * 함수를 정의하는 구문
+ * <p>
  * Abstract Syntax :
  * FunctionDeclaration = Type; String id; ParamDeclaration*; Statements
  */
 public class FunctionDeclaration extends Global {
+	/**
+	 * 함수의 return 타입을 저장하는 변수
+	 */
 	protected final Type type;
+	/**
+	 * 함수의 이름을 저장하는 변수
+	 */
 	protected final String name;
+	/**
+	 * 함수의 전달인자를 저장하는 <tt>ParamDeclaration</tt>객체의 <tt>ArrayList</tt>
+	 *
+	 * @see ParamDeclaration
+	 */
 	protected final ArrayList<ParamDeclaration> params;
+	/**
+	 * 함수내의 실행 부분을 나타내는 구문
+	 */
 	protected final Statements statements;
+	/**
+	 * 이 함수의 매개변수의 맵
+	 * <p>
+	 * 전달인자의 중복을 확인하기 위해서 <tt>HashMap</tt>형식으로 저장.
+	 * <p>
+	 * 이 객체가 paser에 의해 생성될때는 비어있지만 type checker가 실행될 때 map을 채운다.
+	 */
 	protected final HashMap<String, Init> paramMap = new HashMap<>();
 
 	public FunctionDeclaration(Type t, String name, ArrayList<ParamDeclaration> p, Statements s) {
@@ -33,6 +56,11 @@ public class FunctionDeclaration extends Global {
 		return params;
 	}
 
+	/**
+	 * type checking시간에 호출됨.
+	 * <p>
+	 * <tt>ArrayList</tt>객체인 params를 보고 <tt>HashMap</tt>객체의 paramMap을 채운다.
+	 */
 	protected void mapParams() {
 		for (ParamDeclaration param : params) {
 

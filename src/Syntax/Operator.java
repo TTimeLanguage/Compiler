@@ -1,6 +1,10 @@
 package Syntax;
 
 /**
+ * 연산자를 나타내는 구문
+ * <p>
+ * 연산자를 <tt>String</tt>객체로 나타낸다.
+ * <p>
  * Abstract Syntax :
  * Operator = BooleanOp | RelationalOp | ArithmeticOp | UnaryOp | AssignOp
  */
@@ -155,8 +159,16 @@ public class Operator {
 	// AssignOp = =
 	final static String BOOL_ASSIGN = "BOOL=";
 
+	/**
+	 * 연산자를 문자로 저장
+	 */
 	protected final String value;
-	protected Type type;
+	/**
+	 * 연산자로 연산 후 결과의 type을 <tt>Type</tt>객체로 저장.
+	 *
+	 * @see Type
+	 */
+	protected Type type = null;
 
 	public Operator(String s) {
 		value = s;
@@ -206,7 +218,19 @@ public class Operator {
 		return value.equals(PLUSPLUS) || value.equals(MINUSMINUS);
 	}
 
+	/**
+	 * 이 연산자의 연산 후 결과의 형을 <tt>Type</tt>객체로 반환
+	 * <p>
+	 * 만약 type변수가 null이라면 에러 출력
+	 *
+	 * @return 이 연산자의 연산 후 결과의 type
+	 */
 	protected Type getType() {
+		if (type == null) {
+			System.err.println("Compiler error. never reach here. in Operator. type is null");
+			System.exit(1);
+		}
+
 		return type;
 	}
 
@@ -256,6 +280,16 @@ public class Operator {
 			{EQ, DATE_EQ}, {NE, DATE_NE}, {LT, DATE_LT}, {LE, DATE_LE}, {GT, DATE_GT}, {GE, DATE_GE}
 	};
 
+	/**
+	 * 매개변수로 주어진 tmap에서 op을 찾아서 알맞은 type의 operator를 반환
+	 * <p>
+	 * 찾지못한경우 에러 출력
+	 *
+	 * @param tmap 주어진 map
+	 * @param op   찾을 연산자
+	 * @param type 연산자의 type
+	 * @return 매개변수에 맞는 알맞은 연산자 <tt>Operator</tt>객체
+	 */
 	static private Operator map(String[][] tmap, String op, Type type) {
 		for (String[] aTmap : tmap) {
 
@@ -284,30 +318,68 @@ public class Operator {
 				}
 			}
 		}
-		assert false : "should never reach here";
+
+		System.err.println("Compiler error. never reach here. in Operator. wrong operation");
+		System.exit(1);
 		return null;
 	}
 
+	/**
+	 * 매개변수에 해당하는 연산자를 int형 연산자를 반환한다.
+	 *
+	 * @param op 변한될 매개변수
+	 * @return 변환한 int형 매개변수
+	 */
 	static public Operator intMap(String op) {
 		return map(intMap, op, Type.INT);
 	}
 
+	/**
+	 * 매개변수에 해당하는 연산자를 float형 연산자를 반환한다.
+	 *
+	 * @param op 변한될 매개변수
+	 * @return 변환한 float형 매개변수
+	 */
 	static public Operator floatMap(String op) {
 		return map(floatMap, op, Type.FLOAT);
 	}
 
+	/**
+	 * 매개변수에 해당하는 연산자를 char형 연산자를 반환한다.
+	 *
+	 * @param op 변한될 매개변수
+	 * @return 변환한 char형 매개변수
+	 */
 	static public Operator charMap(String op) {
 		return map(charMap, op, Type.CHAR);
 	}
 
+	/**
+	 * 매개변수에 해당하는 연산자를 bool형 연산자를 반환한다.
+	 *
+	 * @param op 변한될 매개변수
+	 * @return 변환한 bool형 매개변수
+	 */
 	static public Operator boolMap(String op) {
 		return map(boolMap, op, Type.BOOL);
 	}
 
+	/**
+	 * 매개변수에 해당하는 연산자를 time형 연산자를 반환한다.
+	 *
+	 * @param op 변한될 매개변수
+	 * @return 변환한 time형 매개변수
+	 */
 	static public Operator timeMap(String op) {
 		return map(timeMap, op, Type.TIME);
 	}
 
+	/**
+	 * 매개변수에 해당하는 연산자를 date형 연산자를 반환한다.
+	 *
+	 * @param op 변한될 매개변수
+	 * @return 변환한 date형 매개변수
+	 */
 	static public Operator dateMap(String op) {
 		return map(dateMap, op, Type.DATE);
 	}

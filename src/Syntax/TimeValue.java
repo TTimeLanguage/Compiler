@@ -3,10 +3,15 @@ package Syntax;
 import java.util.HashMap;
 
 /**
+ * time 값을 나타내는 구문
+ * <p>
  * Abstract Syntax :
  * TimeValue = String hour, minute, second
  */
 public class TimeValue extends Value {
+	/**
+	 * 시간, 분, 초 를 저장하는 변수
+	 */
 	protected final int hour, minute, second;
 
 	public TimeValue(String h, String m, String s) {

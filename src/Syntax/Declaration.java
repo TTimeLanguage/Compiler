@@ -4,10 +4,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
+ * 변수 선언들을 나타내는 구문
+ * 한 줄의 변수 선언에 하나의 <tt>Declaration</tt>객체를 가진다.
+ * <tt>Init</tt>객체들을 하나의 선언으로 가지고있다.
+ * <p>
  * Abstract Syntax :
  * Declaration = Init*
+ *
+ * @see Init
  */
 public class Declaration extends Global {
+	/**
+	 * 초기값을 나타내는 <tt>ArrayList</tt> 배열
+	 */
 	protected final ArrayList<Init> inits;
 
 	public Declaration(ArrayList<Init> init) {

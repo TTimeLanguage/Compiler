@@ -2,22 +2,28 @@ package Syntax;
 
 import java.util.HashMap;
 
-
 /**
+ * 일반 변수참조를 나타내는 구문
+ * <p>
  * Abstract Syntax :
  * Variable = String id
  */
 public class Variable extends VariableRef {
+	/**
+	 * 변수의 이름을 저장하는 변수
+	 */
 	protected final String name;
 
 	public Variable(String name) {
 		this.name = name;
 	}
 
+	@Override
 	public String toString() {
 		return name;
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Variable) {
 			String s = ((Variable) obj).name;
@@ -25,6 +31,7 @@ public class Variable extends VariableRef {
 		} else return false;
 	}
 
+	@Override
 	public int hashCode() {
 		return name.hashCode();
 	}

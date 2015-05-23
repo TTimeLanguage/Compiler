@@ -3,10 +3,15 @@ package Syntax;
 import java.util.HashMap;
 
 /**
+ * date 값을 나타내는 구문
+ * <p>
  * Abstract Syntax :
  * DateValue = String year, month, day
  */
 public class DateValue extends Value {
+	/**
+	 * 년, 월, 일을 나타내는 변수
+	 */
 	protected final int year, month, day;
 
 	public DateValue(String y, String m, String d) {

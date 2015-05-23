@@ -1,8 +1,5 @@
 package Token;
 
-/**
- * Created by 병훈 on 2015-05-06.
- */
 public enum TokenType {
 	Void, Bool, Int, Char, Float, Date, Time, Main, True, False, If, Else, While, For, Switch, Case, Default, Break,
 	Continue, Return, Eof,

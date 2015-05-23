@@ -20,7 +20,7 @@ public class Lexer {
 	private final char eofCh = '\004';
 
 
-	public Lexer(String fileName) { // source filename
+	public Lexer(String fileName) {
 		try {
 			input = new BufferedReader(new FileReader(fileName));
 		} catch (FileNotFoundException e) {
@@ -29,31 +29,37 @@ public class Lexer {
 		}
 	}
 
-	private char nextChar() { // Syntax.Return next char
-		if (ch == eofCh)
+	private char nextChar() {
+		if (ch == eofCh) {
 			error("Attempt to read past end of file");
+		}
+
 		col++;
+
 		if (col >= line.length()) {
 			try {
 				line = input.readLine();
 			} catch (IOException e) {
 				e.printStackTrace();
 				System.exit(1);
-			} // try
-			if (line == null) // at end of file
+			}
+
+			if (line == null) {
 				line = "" + eofCh;
-			else {
+			} else {
 				// System.out.println(lineno + ":\t" + line);
 				lineno++;
 				line += eolnCh;
-			} // if line
+			}
+
 			col = 0;
-		} // if col
+		}
+
 		return line.charAt(col);
 	}
 
 
-	public Token next() { // Syntax.Return next token
+	public Token next() {
 		do {
 			if (isLetter(ch)) { // ident or keyword
 				String spelling = concat(letters + digits);
@@ -98,7 +104,7 @@ public class Lexer {
 					ch = nextChar();
 					break;
 
-				case '/':  // divide or comment or /=
+				case '/':
 					ch = nextChar();
 					if (ch != '/') {
 						if (ch != '=') {
@@ -154,15 +160,12 @@ public class Lexer {
 				case ';':
 					ch = nextChar();
 					return Token.semicolonTok;
-				// + ++ += - -- -= * *= % %= ( ) { } ; ,
-
 				case '&':
 					check('&');
 					return Token.andTok;
 				case '|':
 					check('|');
 					return Token.orTok;
-
 				case '=':
 					return chkOpt('=', Token.assignTok, Token.eqeqTok);
 				case '<':
@@ -180,9 +183,9 @@ public class Lexer {
 
 				default:
 					error("Illegal character " + ch);
-			} // switch
+			}
 		} while (true);
-	} // next
+	}
 
 
 	private boolean isLetter(char c) {
@@ -205,6 +208,7 @@ public class Lexer {
 		if (c == ch) {
 			ch = nextChar();
 			return two;
+
 		} else {
 			return one;
 		}
@@ -215,9 +219,11 @@ public class Lexer {
 		if (c1 == ch) {
 			ch = nextChar();
 			return three;
+
 		} else if (c2 == ch) {
 			ch = nextChar();
 			return two;
+
 		} else {
 			return one;
 		}
@@ -225,10 +231,12 @@ public class Lexer {
 
 	private String concat(String set) {
 		String r = "";
+
 		do {
 			r += ch;
 			ch = nextChar();
 		} while (set.indexOf(ch) >= 0);
+
 		return r;
 	}
 
@@ -241,11 +249,11 @@ public class Lexer {
 	static public void main(String[] argv) {
 		Lexer lexer = new Lexer(argv[0]);
 		Token tok = lexer.next();
+
 		while (tok != Token.eofTok) {
 			System.out.println(tok.toString());
 			tok = lexer.next();
 		}
-	} // main
-
+	}
 }
 
