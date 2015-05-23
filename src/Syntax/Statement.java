@@ -1,11 +1,11 @@
 package Syntax;
 
-import Syntax.AbstractSyntax;
-
 /**
+ * 프로그램에서 정의를 뺀 실행구문들의 abstract class
+ * <p>
  * Abstract Syntax :
- * Syntax.Statement = Syntax.Skip | Syntax.IfStatement | Syntax.Block | Syntax.WhileStatement | Syntax.SwitchStatement
- * | Syntax.ForStatement | Syntax.Return | Syntax.Expression | Syntax.Break | Syntax.Continue
+ * Statement = Skip | IfStatement | Block | WhileStatement | SwitchStatement
+ * | ForStatement | Return | Expression | Break | Continue
  */
 abstract public class Statement extends AbstractSyntax {
 }

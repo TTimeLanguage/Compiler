@@ -3,21 +3,36 @@ package Syntax;
 import java.util.HashMap;
 
 /**
+ * break 를 나타내는 구문
+ * <p>
  * Abstract Syntax :
- * Syntax.Break =
+ * Break =
  */
 public class Break extends Statement {
 	@Override
-	public void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.Break");
+		System.out.println("Break");
 	}
 
 	@Override
-	public void V(HashMap<String, Init> declarationMap) {
-		// todo
+	protected void V(HashMap<String, Init> declarationMap, Type functionType) {
+		check(false, "wrong statement. break keyword is not to be here");
+	}
+
+	@Override
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
+		check(loopStatement instanceof WhileStatement
+				|| loopStatement instanceof ForStatement
+				|| loopStatement instanceof SwitchStatement
+				, "break must used in loop or switch statement");
+	}
+
+	@Override
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
+		V(declarationMap, loopStatement);
 	}
 }

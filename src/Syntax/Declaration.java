@@ -4,30 +4,41 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
+ * 변수 선언들을 나타내는 구문
+ * 한 줄의 변수 선언에 하나의 <tt>Declaration</tt>객체를 가진다.
+ * <tt>Init</tt>객체들을 하나의 선언으로 가지고있다.
+ * <p>
  * Abstract Syntax :
- * Syntax.Declaration = Syntax.Init*
+ * Declaration = Init*
+ *
+ * @see Init
  */
 public class Declaration extends Global {
+	/**
+	 * 초기값을 나타내는 <tt>ArrayList</tt> 배열
+	 */
 	protected final ArrayList<Init> inits;
 
-	Declaration(ArrayList<Init> init) {
+	public Declaration(ArrayList<Init> init) {
 		this.inits = init;
 	}
 
 	@Override
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println(this.getClass().getName());
+		System.out.println("Declaration");
 		for (Init init : inits) {
-			init.display(k + 1);
+			init.display(lev + 1);
 		}
 	}
 
 	@Override
-	public void V(HashMap<String, Init> declarationMap) {
-		// todo 아마 그대로
+	protected void V(HashMap<String, Init> declarationMap) {
+		for (Init init : inits) {
+			init.V(declarationMap);
+		}
 	}
 }

@@ -1,0 +1,66 @@
+int k = 1, m = 10, f[10] = { 0, 1, 3 };
+time ti = 1:3:1;
+date da = 2014.5.18;
+
+void ssre(int a, date t) {
+	int i = 0, s = 2;
+	//int a;
+
+	ssre(a + 1, t);
+}
+
+int main() {
+	char c;
+	int i = 0;
+	int even = 0;
+
+	i += 2;
+	i -= 2;
+	i++;
+	i--;
+	i += 4;
+	i /= 2;
+	i *= 3;
+	i = 0;
+
+	while (i < 10) {
+		i = i++;
+		if (i == (i / 2) * 2) {
+			even += 1;
+		}
+	}
+	while (i > 0) {
+		i = i--;
+		if (i == (i / 2) * 2) {
+			even -= 1;
+		}
+	}
+	even = 1;
+	while (i < 10) {
+		i = i + 1;
+
+		if (i == (i / 2) * 2) {
+			even *= 2;
+
+		}
+	}
+	while (i > 0) {
+		i = i - 1;
+		if (i == (i / 2) * 2) {
+			even /= 2;
+		}
+	}
+	i = even + 23;
+}
+
+void ssre(int t) {
+	int l = 1;
+
+	return ssre(l + 1);
+}
+
+void ssre(int t) {
+	int l = 2;
+
+	return ssre(l + 1);
+}

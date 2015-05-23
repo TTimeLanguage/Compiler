@@ -1,0 +1,35 @@
+int main()
+{
+	int term1,term2;
+	int result;
+	int i ; 
+	
+	
+
+	term1 = 1;
+	term2 = 10;
+	
+	for(i=0;i<10;i++)
+	{
+		if(i<3)
+		{
+			term2 =10;
+		}
+		term1 += 1;
+		
+	}
+	
+	result = term1 + term2 ;
+		if(term1 = 5)
+		{
+			term2 -= 5;
+		}
+		else if (term2 < 0)
+		{
+			break;
+		}
+		Else
+		term1 =2;
+	
+
+}

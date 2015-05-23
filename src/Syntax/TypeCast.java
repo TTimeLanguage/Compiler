@@ -3,47 +3,70 @@ package Syntax;
 import java.util.HashMap;
 
 /**
+ * 형변환을 나타내는 구문
+ * <p>
  * Abstract Syntax :
- * Syntax.TypeCast = Syntax.Type type; Syntax.Expression
+ * TypeCast = Type type; Expression
  */
-class TypeCast extends Expression {
+public class TypeCast extends Expression {
+	/**
+	 * 변환하고자 하는 타입을 나타내는 변수
+	 */
 	protected final Type type;
+	/**
+	 * 변환하고자 하는 실행구문
+	 */
 	protected final Expression expression;
 
-	TypeCast(Type t, Expression e) {
+	public TypeCast(Type t, Expression e) {
 		type = t;
 		expression = e;
 	}
 
 	@Override
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.TypeCast " + type);
-		expression.display(k + 1);
+		System.out.println("TypeCast " + type);
+		expression.display(lev + 1);
 	}
 
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
-		// todo 추가
+		// todo 확인
 		if (valid) return;
 
 		expression.V(declarationMap);
 		Type t = expression.typeOf(declarationMap);
 
-		if (type == Type.INT) {
-			check(t == Type.INT || t == Type.CHAR,
-					"can not transform type to " + type);
-
-		} else if (type == Type.FLOAT) {
-			check(t == Type.FLOAT || t == Type.INT || t == Type.CHAR,
+		if (type.equals(Type.INT)) {
+			check(t.equals(Type.INT) || t.equals(Type.CHAR) || t.equals(Type.FLOAT) || t.equals(Type.BOOL),
 					"can not cast type to " + type);
 
-		} else if (type == Type.CHAR) {
+		} else if (type.equals(Type.FLOAT)) {
+			check(type.equals(Type.FLOAT) || t.equals(Type.INT),
+					"can not cast type to " + type);
 
-		} else if (type == Type.BOOL) {
+		} else if (type.equals(Type.CHAR)) {
+			check(t.equals(Type.CHAR) || type.equals(Type.INT),
+					"can not cast type to " + type);
+
+		} else if (type.equals(Type.BOOL)) {
+			check(type.equals(Type.BOOL) || t.equals(Type.INT),
+					"can not cast type to " + type);
+
+		} else if (type.equals(Type.TIME)) {
+			check(type.equals(Type.TIME),
+					"can not cast type to " + type);
+
+		} else if (type.equals(Type.DATE)) {
+			check(type.equals(Type.DATE),
+					"can not cast type to " + type);
+
+		} else if (type.equals(Type.VOID)) {
+			check(false, "expression can not cast type to void");
 
 		} else {
 			throw new IllegalArgumentException("should never reach here Syntax.TypeCast error");
@@ -54,6 +77,10 @@ class TypeCast extends Expression {
 
 	@Override
 	Type typeOf(HashMap<String, Init> declarationMap) {
+		// todo 확인
+
+		check(valid, "Compiler error. must check validation");
+
 		return this.type;
 	}
 }

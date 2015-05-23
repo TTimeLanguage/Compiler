@@ -1,8 +1,10 @@
 package Syntax;
 
 /**
+ * 일반 변수나 배열 참조를 나타내는 구문의 abstract class
+ * <p>
  * Abstract Syntax :
- * Syntax.VariableRef = Syntax.Variable | Syntax.ArrayRef
+ * VariableRef = Variable | ArrayRef
  */
 public abstract class VariableRef extends Expression {
 }

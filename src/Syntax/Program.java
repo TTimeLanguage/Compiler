@@ -1,16 +1,16 @@
 package Syntax;
 
+import Semantic.FunctionInformation;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * Created by 병훈 on 2015-05-20.
- */
+
 /**
  * AST의 투르 노드
  * <p>
  * Abstract Syntax :
- * Syntax.Program = Syntax.Global*; Syntax.Statements
+ * Program = Global*; Statements
  *
  * @see AbstractSyntax
  */
@@ -30,13 +30,13 @@ public class Program extends AbstractSyntax {
 	protected final Statements statements;
 
 	/**
-	 * <tt>Syntax.Program</tt>객체를 매개변수로 초기화한다.
+	 * <tt>Program</tt>객체를 매개변수로 초기화한다.
 	 *
-	 * @param g <tt>Syntax.Global</tt>의 <tt>ArrayList</tt>
+	 * @param g <tt>Global</tt>의 <tt>ArrayList</tt>
 	 *          전역변수와 함수의 정의들
 	 * @param s int main()의 안에 적혀있는 코드들
 	 */
-	Program(ArrayList<Global> g, Statements s) {
+	public Program(ArrayList<Global> g, Statements s) {
 		globals = g;
 		statements = s;
 	}
@@ -48,10 +48,13 @@ public class Program extends AbstractSyntax {
 				FunctionDeclaration functionDeclaration = (FunctionDeclaration) global;
 				functionDeclaration.mapParams();
 
-				check(!globalFunctionMap.contains(global),
+				FunctionInformation tmp = new FunctionInformation(functionDeclaration);
+
+				check(!globalFunctionMap.contains(tmp),
 						"duplicated declared function " + functionDeclaration.name);
 
-				globalFunctionMap.add(functionDeclaration);
+				globalFunctionMap.add(new FunctionInformation(functionDeclaration));
+				tmp = null;        // for garbage collection
 
 			} else if (global instanceof Declaration) {
 
@@ -69,34 +72,38 @@ public class Program extends AbstractSyntax {
 		}
 	}
 
+
 	@Override
-	public void display(int k) {
-		for (int w = 0; w < k; w++) {
+	public void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.Program");
+		System.out.println("Program");
 		for (Global g : globals) {
-			g.display(k + 1);
+			g.display(lev + 1);
 		}
-		statements.display(k + 1);
+		statements.display(lev + 1);
 	}
 
 
-	public void V() {
+	/**
+	 * 이 객체의 타당성을 확인.
+	 * 실행 중 타당성이 성립되지 않는다면 중간에 프로그램이 종료됨.
+	 */
+	public void validation() {
+		mapGlobal();
+		statements.mapVariable();
 		V(globalVariableMap);
 	}
 
 
 	@Override
-	public void V(HashMap<String, Init> declarationMap) {
-		mapGlobal();
-
+	protected void V(HashMap<String, Init> declarationMap) {
 		for (Global global : globals) {
 			global.V(declarationMap);
 		}
 
-		statements.mapVariable();
-		statements.V(declarationMap);
+		statements.V(declarationMap, Type.INT);
 	}
 }
