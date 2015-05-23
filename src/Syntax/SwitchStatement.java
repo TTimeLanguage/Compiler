@@ -69,7 +69,7 @@ public class SwitchStatement extends Statement {
 		for (Value value : cases.keySet()) {
 			value.display(lev + 1);
 			for (Statement statement : cases.get(value)) {
-				statement.display(lev + 1);
+				statement.display(lev + 2);
 			}
 		}
 	}

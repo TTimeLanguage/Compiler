@@ -21,6 +21,17 @@ public class TimeValue extends Value {
 		second = Integer.parseInt(s);
 	}
 
+	@Override
+	public int hashCode() {
+		return Integer.hashCode(hour) + Integer.hashCode(minute) + Integer.hashCode(second);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof TimeValue && obj.hashCode() == this.hashCode();
+	}
+
+	@Override
 	public String toString() {
 		return "" + hour + "/" + minute + "/" + second;
 	}

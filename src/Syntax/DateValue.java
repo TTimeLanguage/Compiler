@@ -21,6 +21,17 @@ public class DateValue extends Value {
 		day = Integer.parseInt(d);
 	}
 
+	@Override
+	public int hashCode() {
+		return Integer.hashCode(year) + Integer.hashCode(month) + Integer.hashCode(day);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof DateValue && obj.hashCode() == this.hashCode();
+	}
+
+	@Override
 	public String toString() {
 		return "" + year + "/" + month + "/" + day;
 	}
