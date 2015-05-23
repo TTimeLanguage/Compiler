@@ -17,6 +17,11 @@ public class Break extends Statement {
 	}
 
 	@Override
+	protected void V(HashMap<String, Init> declarationMap, Type functionType) {
+		check(false, "wrong statement. break keyword is not to be here");
+	}
+
+	@Override
 	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
 		check(loopStatement instanceof WhileStatement
 				|| loopStatement instanceof ForStatement

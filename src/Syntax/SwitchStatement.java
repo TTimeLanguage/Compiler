@@ -25,7 +25,7 @@ public class SwitchStatement extends Statement {
 	}
 
 	public void setDefault(ArrayList<Statement> defaults) {
-		check(defaults == null, "duplicated default in switch");
+		check(defaults != null, "duplicated default in switch");
 		this.defaults = defaults;
 	}
 
@@ -49,10 +49,12 @@ public class SwitchStatement extends Statement {
 		// todo 확인
 		if (valid) return;
 
+		condition.V(declarationMap);
 		switchType = condition.typeOf(declarationMap);
 
 		for (Value key : cases.keySet()) {
-			check(key.typeOf(declarationMap) != switchType,
+			key.V(declarationMap);
+			check(key.typeOf(declarationMap).equals(switchType),
 					"different type of case literal in switch. case : " + key.typeOf(declarationMap));
 
 			for (Statement statement : cases.get(key)) {
@@ -74,9 +76,11 @@ public class SwitchStatement extends Statement {
 		// todo 확인
 		if (valid) return;
 
+		condition.V(declarationMap);
 		switchType = condition.typeOf(declarationMap);
 
 		for (Value key : cases.keySet()) {
+			key.V(declarationMap);
 			check(key.typeOf(declarationMap) != switchType,
 					"different type of case literal in switch. case : " + key.typeOf(declarationMap));
 
