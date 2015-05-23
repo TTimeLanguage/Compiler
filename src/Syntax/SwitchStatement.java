@@ -102,7 +102,7 @@ public class SwitchStatement extends Statement {
 	}
 
 	@Override
-	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
 		// todo 확인
 		if (valid) return;
 
@@ -116,26 +116,21 @@ public class SwitchStatement extends Statement {
 
 		for (Value key : cases.keySet()) {
 			key.V(declarationMap);
-			check(key.typeOf(declarationMap) != switchType,
+			check(key.typeOf(declarationMap).equals(switchType),
 					"different type of case literal in switch. case : " + key.typeOf(declarationMap));
 
 			for (Statement statement : cases.get(key)) {
 
-				statement.V(declarationMap, nextLoop);
+				statement.V(declarationMap, nextLoop, functionType);
 			}
 		}
 
 		if (defaults != null) {
 			for (Statement statement : defaults) {
-				statement.V(declarationMap, nextLoop);
+				statement.V(declarationMap, nextLoop, functionType);
 			}
 		}
 
 		valid = true;
-	}
-
-	@Override
-	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
-		V(declarationMap, functionType);
 	}
 }

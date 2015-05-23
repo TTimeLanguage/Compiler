@@ -22,18 +22,6 @@ public abstract class Expression extends Statement {
 	}
 
 	/**
-	 * Expression에서는 loop문 내부 여부를 신겅쓰지 않고 검사해도 무방하다.
-	 * 따라서 <tt>V(HashMap<String, Init> declarationMap)</tt>메소드로 redirect한다.
-	 *
-	 * @param declarationMap 이 노드의 범위에서 사용가능한 변수의 map
-	 * @param loopStatement  타당성 검사 할 반복자
-	 */
-	@Override
-	protected final void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
-		V(declarationMap);
-	}
-
-	/**
 	 * Expression에서는 함수의 Type이나 loop문 내부 여부를 신겅쓰지 않고 검사해도 무방하다.
 	 * 따라서 <tt>V(HashMap<String, Init> declarationMap)</tt>메소드로 redirect한다.
 	 *

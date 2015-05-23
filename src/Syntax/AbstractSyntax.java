@@ -56,16 +56,6 @@ public abstract class AbstractSyntax {
 	}
 
 	/**
-	 * AST에서 노드(객체)의 타당성을 반복자의 범위안에서 확인함
-	 *
-	 * @param declarationMap 이 노드의 범위에서 사용가능한 변수의 map
-	 * @param loopStatement  타당성 검사 할 반복자
-	 */
-	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
-		check(false, "Compiler error. never reach here. empty V()");
-	}
-
-	/**
 	 * AST에서 노드(객체)의 타당성을 반복자의 범위와 <tt>Type</tt>의 타입을 가지는 함수안에서 확인함
 	 *
 	 * @param declarationMap 이 노드의 범위에서 사용가능한 변수의 map
