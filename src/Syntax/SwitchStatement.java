@@ -106,6 +106,11 @@ public class SwitchStatement extends Statement {
 		// todo 확인
 		if (valid) return;
 
+		Statement nextLoop = this;
+		if (loopStatement instanceof WhileStatement || loopStatement instanceof ForStatement) {
+			nextLoop = loopStatement;
+		}
+
 		condition.V(declarationMap);
 		switchType = condition.typeOf(declarationMap);
 
@@ -115,13 +120,14 @@ public class SwitchStatement extends Statement {
 					"different type of case literal in switch. case : " + key.typeOf(declarationMap));
 
 			for (Statement statement : cases.get(key)) {
-				statement.V(declarationMap, this);
+
+				statement.V(declarationMap, nextLoop);
 			}
 		}
 
 		if (defaults != null) {
 			for (Statement statement : defaults) {
-				statement.V(declarationMap, this);
+				statement.V(declarationMap, nextLoop);
 			}
 		}
 
