@@ -22,7 +22,7 @@ public class CodeGenerator {
 
 	public static void main(String[] args) {
 		if (args.length != 2) {
-			System.err.println("must have two parameter");
+			System.err.println("initialize error. must have two parameter");
 			System.exit(1);
 		}
 		CodeGenerator codeGen = new CodeGenerator(args[0], args[1]);
