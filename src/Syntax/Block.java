@@ -44,17 +44,6 @@ public class Block extends Statement {
 	}
 
 	@Override
-	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
-		if (valid) return;
-
-		for (Statement statement : statements) {
-			statement.V(declarationMap, loopStatement);
-		}
-
-		valid = true;
-	}
-
-	@Override
 	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
 		if (valid) return;
 
