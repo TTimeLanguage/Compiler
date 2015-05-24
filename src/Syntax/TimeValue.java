@@ -23,7 +23,7 @@ public class TimeValue extends Value {
 
 	@Override
 	public int hashCode() {
-		return Integer.hashCode(hour) + Integer.hashCode(minute) + Integer.hashCode(second);
+		return Integer.hashCode(hour * 3600 + minute * 60 + second);
 	}
 
 	@Override

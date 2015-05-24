@@ -23,7 +23,7 @@ public class DateValue extends Value {
 
 	@Override
 	public int hashCode() {
-		return Integer.hashCode(year) + Integer.hashCode(month) + Integer.hashCode(day);
+		return Integer.hashCode(year * 10000 + month * 100 + day);
 	}
 
 	@Override
