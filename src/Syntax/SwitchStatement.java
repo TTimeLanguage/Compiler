@@ -64,12 +64,36 @@ public class SwitchStatement extends Statement {
 		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
-
 		System.out.println("SwitchStatement");
-		for (Value value : cases.keySet()) {
-			value.display(lev + 1);
-			for (Statement statement : cases.get(value)) {
-				statement.display(lev + 2);
+
+		for (int i = 0; i < lev; i++) {
+			System.out.print("\t");
+		}
+		System.out.println("Condition :");
+		condition.display(lev + 1);
+
+		if (cases.size() > 0) {
+			for (int i = 0; i < lev; i++) {
+				System.out.print("\t");
+			}
+			System.out.println("Cases :");
+
+			for (Value value : cases.keySet()) {
+				value.display(lev + 1);
+				for (Statement statement : cases.get(value)) {
+					statement.display(lev + 2);
+				}
+			}
+		}
+
+		if (defaults != null) {
+			for (int i = 0; i < lev; i++) {
+				System.out.print("\t");
+			}
+			System.out.println("Default :");
+
+			for (Statement statement : defaults) {
+				statement.display(lev + 1);
 			}
 		}
 	}
