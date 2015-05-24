@@ -1,3 +1,6 @@
+int print(int s, int g, char g) {
+}
+
 int main()
 {
 	int x,y,z,a;
@@ -27,19 +30,22 @@ int main()
 	}
 
 
-	switch (a > 10)
+for (x; x < 10; x++)
+{
+	switch (a)
 	{
-	case a : return 2; break;
-	case 2 :
+	case 10 : return 2; break;
 		return 1; break;
-	case 2.3 : break;
-	case 1.2.3 : break;
-	case 1:2:3 : break;
+	case 2 : break;
+	case 1 : break;
+	case 3 : break;
+	case 4 : continue;
 	}
 
-	while (a--)
+	while (a-- != 0)
 	{
 		return 100;
 	}
+}
 
 }
