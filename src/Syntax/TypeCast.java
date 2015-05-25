@@ -83,4 +83,9 @@ public class TypeCast extends Expression {
 
 		return this.type;
 	}
+
+	@Override
+	public void genCode() {
+		// todo
+	}
 }

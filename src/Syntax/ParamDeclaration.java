@@ -32,4 +32,13 @@ public class ParamDeclaration extends Init {
 		check(!type.equals(Type.VOID),
 				"variable type can not be void");
 	}
+
+	@Override
+	public int sizeOf() {
+		return type.sizeOf();
+	}
+
+	@Override
+	protected void init() {
+	}
 }

@@ -1,5 +1,7 @@
 package Syntax;
 
+import CodeGenerator.CodeGenerator;
+
 /**
  * float 값을 나타내는 구문
  * <p>
@@ -32,5 +34,11 @@ public class FloatValue extends Value {
 		}
 
 		System.out.println("FloatValue " + value);
+	}
+
+	@Override
+	public void genCode() {
+		CodeGenerator.ldc((int) value);
+		// todo
 	}
 }

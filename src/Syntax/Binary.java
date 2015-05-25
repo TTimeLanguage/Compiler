@@ -261,4 +261,9 @@ public class Binary extends Expression {
 
 		return op.type;
 	}
+
+	@Override
+	public void genCode() {
+		// todo
+	}
 }

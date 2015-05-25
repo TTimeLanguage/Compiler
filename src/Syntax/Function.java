@@ -61,4 +61,9 @@ public class Function extends Expression {
 
 		return functionType;
 	}
+
+	@Override
+	public void genCode() {
+		// todo
+	}
 }

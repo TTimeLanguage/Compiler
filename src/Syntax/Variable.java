@@ -1,5 +1,7 @@
 package Syntax;
 
+import CodeGenerator.CodeGenerator;
+
 import java.util.HashMap;
 
 /**
@@ -67,5 +69,10 @@ public class Variable extends VariableRef {
 				"undefined variable: " + name);
 
 		return declarationMap.get(name).type;
+	}
+
+	@Override
+	public void genCode() {
+		CodeGenerator.lod(name);
 	}
 }

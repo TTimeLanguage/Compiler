@@ -1,5 +1,7 @@
 package Syntax;
 
+import CodeGenerator.CodeGenerator;
+
 /**
  * boolean 변수의 값을 나타내는 구문
  * <p>
@@ -36,5 +38,10 @@ public class BoolValue extends Value {
 		}
 
 		System.out.println("BoolValue " + value);
+	}
+
+	@Override
+	public void genCode() {
+		CodeGenerator.ldc(intValue());
 	}
 }

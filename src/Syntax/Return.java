@@ -53,6 +53,9 @@ public class Return extends Statement {
 			check(functionType.equals(Type.VOID),
 					"must not have return value in void function.");
 		} else {
+			 check(!functionType.equals(Type.VOID),
+					 "void function can not have return value");
+
 			returnValue.V(declarationMap);
 
 			Type expressionType = returnValue.typeOf(declarationMap);
@@ -60,5 +63,10 @@ public class Return extends Statement {
 					"return value's type is not match with declared function return type." +
 							" return type : [" + expressionType + "], function type : [" + functionType + "]");
 		}
+	}
+
+	@Override
+	public void genCode() {
+		// todo
 	}
 }

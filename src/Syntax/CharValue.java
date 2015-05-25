@@ -1,5 +1,7 @@
 package Syntax;
 
+import CodeGenerator.CodeGenerator;
+
 /**
  * char 값을 나타내는 구문
  * <p>
@@ -32,5 +34,10 @@ public class CharValue extends Value {
 		}
 
 		System.out.println("CharValue " + value);
+	}
+
+	@Override
+	public void genCode() {
+		CodeGenerator.ldc((int) value);
 	}
 }

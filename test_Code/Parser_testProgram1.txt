@@ -53,13 +53,13 @@ int main() {
 	i = even + 23;
 }
 
-void ssre(int t) {
+int ssre(int t) {
 	int l = 1;
 
 	return ssre(l + 1);
 }
 
-void ssre(int t) {
+int ssre(date t) {
 	int l = 2;
 
 	return ssre(l + 1);

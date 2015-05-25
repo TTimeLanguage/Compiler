@@ -41,4 +41,26 @@ public class Declaration extends Global {
 			init.V(declarationMap);
 		}
 	}
+
+	@Override
+	public void genCode() {
+		for (Init init : inits) {
+			init.genCode();
+		}
+	}
+
+	/**
+	 * 이 객체에서 선언한 모든 변수의 크기를 반환한다.
+	 *
+	 * @return 이 객체에서 선언한 모든 변수의 크기
+	 */
+	protected int sizeOf() {
+		int sum = 0;
+
+		for (Init init : inits) {
+			sum += init.sizeOf();
+		}
+
+		return sum;
+	}
 }

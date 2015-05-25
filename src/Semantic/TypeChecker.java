@@ -4,9 +4,7 @@ import Lexer.Lexer;
 import Parser.Parser;
 import Syntax.Program;
 
-/**
- * Created by 병훈 on 2015-05-19.
- */
+
 public class TypeChecker {
 	Parser parser;
 

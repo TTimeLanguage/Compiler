@@ -29,4 +29,9 @@ public class Continue extends Statement {
 				|| loopStatement instanceof ForStatement
 				, "continue must used in loop statement");
 	}
+
+	@Override
+	public void genCode() {
+		// todo
+	}
 }

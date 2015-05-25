@@ -1,5 +1,7 @@
 package Syntax;
 
+import CodeGenerator.CodeGenerator;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -38,6 +40,12 @@ public class ArrayInit extends Init {
 		this(t, name, s, null);
 	}
 
+
+	@Override
+	public int sizeOf() {
+		return type.sizeOf() * size;
+	}
+
 	@Override
 	void display(int lev) {
 		for (int i = 0; i < lev; i++) {
@@ -74,5 +82,14 @@ public class ArrayInit extends Init {
 		}
 
 		valid = true;
+	}
+
+	@Override
+	protected void init() {
+		if (initList != null) {
+			for (Expression init : initList) {
+				CodeGenerator.addInit(init);
+			}
+		}
 	}
 }
