@@ -112,7 +112,7 @@ public class Binary extends Expression {
 				case Operator.DATE_GE:
 				case Operator.DATE_ASSIGN:
 					check(type2.equals(Type.DATE),
-							type1 + " value can not have " + op.value + " operator with " + type2 + "type term");
+							type1 + " value can not have " + op.value + " operator with " + type2 + " type term");
 					op = operator;
 					break;
 
@@ -123,7 +123,7 @@ public class Binary extends Expression {
 				case Operator.DATE_DIV_ASSIGN:
 				case Operator.DATE_MOD_ASSIGN:
 					check(false,
-							type1 + " value can not have " + op.value + " operator with " + type2 + "type term");
+							type1 + " value can not have " + op.value + " operator with " + type2 + " type term");
 
 				default:
 					check(false, "Compiler error. unknown operator in Binary");
@@ -145,7 +145,7 @@ public class Binary extends Expression {
 				case Operator.INT_GT:
 				case Operator.INT_GE:
 					check(type2.equals(Type.INT) || type2.equals(Type.FLOAT),
-							type1 + " value can not have " + op.value + " operator with " + type2 + "type term");
+							type1 + " value can not have " + op.value + " operator with " + type2 + " type term");
 
 					if (type2.equals(Type.FLOAT)) {
 						term1 = new TypeCast(Type.FLOAT, term1);
@@ -161,7 +161,7 @@ public class Binary extends Expression {
 				case Operator.INT_MOD_ASSIGN:
 				case Operator.INT_ASSIGN:
 					check(type2.equals(Type.INT) || type2.equals(Type.FLOAT),
-							type1 + " value can not have " + op.value + " operator with " + type2 + "type term");
+							type1 + " value can not have " + op.value + " operator with " + type2 + " type term");
 
 					if (type2.equals(Type.FLOAT)) {
 						term2 = new TypeCast(Type.INT, term2);
@@ -173,7 +173,7 @@ public class Binary extends Expression {
 				case Operator.INT_TIMES:
 				case Operator.INT_MOD:
 					check(type2.equals(Type.INT) || type2.equals(Type.FLOAT) || type2.equals(Type.TIME),
-							type1 + " value can not have " + op.value + " operator with " + type2 + "type term");
+							type1 + " value can not have " + op.value + " operator with " + type2 + " type term");
 
 					if (type2.equals(Type.FLOAT)) {
 						term1 = new TypeCast(Type.FLOAT, term1);
@@ -196,7 +196,7 @@ public class Binary extends Expression {
 					type1 + " value can not have " + op.value + " operator");
 
 			check(type2.equals(Type.CHAR),
-					type1 + " value can not have " + op.value + " operator with " + type2 + "type term");
+					type1 + " value can not have " + op.value + " operator with " + type2 + " type term");
 			op = operator;
 
 		} else if (type1.equals(Type.BOOL)) {
@@ -206,7 +206,7 @@ public class Binary extends Expression {
 					type1 + " value can not have " + op.value + " operator");
 
 			check(type2.equals(Type.BOOL),
-					type1 + " value can not have " + op.value + " operator with " + type2 + "type term");
+					type1 + " value can not have " + op.value + " operator with " + type2 + " type term");
 			op = operator;
 
 		} else if (type1.equals(Type.FLOAT)) {
@@ -234,7 +234,7 @@ public class Binary extends Expression {
 				case Operator.FLOAT_GT:
 				case Operator.FLOAT_GE:
 					check(type2.equals(Type.INT) || type2.equals(Type.FLOAT),
-							type1 + " value can not have " + op.value + " operator with " + type2 + "type term");
+							type1 + " value can not have " + op.value + " operator with " + type2 + " type term");
 
 					if (type2.equals(Type.INT)) {
 						term2 = new TypeCast(Type.FLOAT, term2);
