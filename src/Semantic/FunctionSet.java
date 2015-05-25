@@ -6,25 +6,25 @@ import java.util.ArrayList;
 
 
 /**
- * 함수 정보를 담는 <tt>FunctionInformation</tt>형 객체들의 container이다.
+ * 함수 정보를 담는 <tt>FunctionInfo</tt>형 객체들의 container이다.
  * Type checking때 함수가 올바르게 정의 되었는지 확인을 위해 쓰인다.
  *
  * @see Syntax.Program
  */
 public class FunctionSet {
 	/**
-	 * 함수정보인 <tt>FunctionInformation</tt>를 담고있는 <tt>ArrayList</tt>
+	 * 함수정보인 <tt>FunctionInfo</tt>를 담고있는 <tt>ArrayList</tt>
 	 */
-	private ArrayList<FunctionInformation> array = new ArrayList<>();
+	private ArrayList<FunctionInfo> array = new ArrayList<>();
 
 	/**
 	 * 인자인 <tt>infoToCheck</tt>이 이 set에 있는지 여부를 반환.
 	 *
-	 * @param infoToCheck 포함 여부를 확인할 <tt>FunctionInformation</tt>객체
+	 * @param infoToCheck 포함 여부를 확인할 <tt>FunctionInfo</tt>객체
 	 * @return set에 포함 되어있는지 여부
 	 */
-	public boolean contains(FunctionInformation infoToCheck) {
-		for (FunctionInformation information : array) {
+	public boolean contains(FunctionInfo infoToCheck) {
+		for (FunctionInfo information : array) {
 			if (information.equals(infoToCheck)) return true;
 		}
 
@@ -32,16 +32,16 @@ public class FunctionSet {
 	}
 
 	/**
-	 * set에 <tt>functionInformation</tt>객체를 추가.
+	 * set에 <tt>functionInfo</tt>객체를 추가.
 	 * <p>
 	 * 만악 이미 있다면 추가하지 않음 (set의 특징).
 	 *
-	 * @param functionInformation set에 추가할 <tt>FunctionInformation</tt>객체
+	 * @param functionInfo set에 추가할 <tt>FunctionInfo</tt>객체
 	 */
-	public void add(FunctionInformation functionInformation) {
-		if (contains(functionInformation)) return;
+	public void add(FunctionInfo functionInfo) {
+		if (contains(functionInfo)) return;
 
-		array.add(functionInformation);
+		array.add(functionInfo);
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class FunctionSet {
 	 * @return 찾는 함수의 반환형
 	 */
 	public Type getFunctionType(String name, ArrayList<Type> paramType) {
-		for (FunctionInformation function : array) {
+		for (FunctionInfo function : array) {
 			if (function.name.equals(name) && function.paramType.equals(paramType)) {
 				return function.type;
 			}
@@ -67,7 +67,7 @@ public class FunctionSet {
 	public String toString() {
 		StringBuilder result = new StringBuilder("");
 
-		for (FunctionInformation information : array) {
+		for (FunctionInfo information : array) {
 			result.append(information.toString()).append("\n");
 		}
 

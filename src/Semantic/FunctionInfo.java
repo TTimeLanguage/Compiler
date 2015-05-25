@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * @see	Parser.Parser
  * @see FunctionSet
  */
-public class FunctionInformation {
+public class FunctionInfo {
 	/**
 	 * 함수의 반환 타입
 	 */
@@ -28,7 +28,7 @@ public class FunctionInformation {
 	 */
 	protected ArrayList<Type> paramType;
 
-	public FunctionInformation(FunctionDeclaration declaration) {
+	public FunctionInfo(FunctionDeclaration declaration) {
 		type = declaration.getType();
 		name = declaration.getName();
 		paramType = new ArrayList<>();
@@ -40,9 +40,9 @@ public class FunctionInformation {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof FunctionInformation)) return false;
+		if (!(obj instanceof FunctionInfo)) return false;
 
-		FunctionInformation tmp = (FunctionInformation) obj;
+		FunctionInfo tmp = (FunctionInfo) obj;
 
 		return name.equals(tmp.name) && paramType.equals(tmp.paramType);
 	}

@@ -1,8 +1,9 @@
 package Syntax;
 
-import CodeGenerator.SymbolTableElement;
+import Semantic.FunctionInfo;
 import Semantic.FunctionSet;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
@@ -29,13 +30,18 @@ public abstract class AbstractSyntax {
 
 	/**
 	 * 함수 테이블.
-	 * 함수의 정보(<tt>FunctionInformation</tt>)의 set.
+	 * 함수의 정보(<tt>FunctionInfo</tt>)의 set.
 	 * <p>
 	 * Type Check시간에 사용됨.
 	 *
-	 * @see Semantic.FunctionInformation
+	 * @see FunctionInfo
 	 */
 	protected final static FunctionSet globalFunctionMap = new FunctionSet();
+
+	/**
+	 * code generate시간에 overload된 함수들의 중복된 함수이름 라벨을 피하기위해 type check시간에 맵을 채움.
+	 */
+	protected final static HashMap<String, ArrayList<FunctionInfo>> overloadMap = new HashMap<>();
 
 
 	/**

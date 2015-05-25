@@ -2,6 +2,7 @@ package Syntax;
 
 import CodeGenerator.CodeGenerator;
 import CodeGenerator.SymbolTableElement;
+import Semantic.FunctionInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,11 +36,12 @@ public class FunctionDeclaration extends Global {
 	/**
 	 * 이 함수의 매개변수의 맵
 	 * <p>
-	 * 전달인자의 중복을 확인하기 위해서 <tt>HashMap</tt>형식으로 저장.
+	 * 전달인자의 중복을 확인하기 위해서 <tt>LinkedHashMap</tt>형식으로 저장.
 	 * <p>
 	 * 이 객체가 paser에 의해 생성될때는 비어있지만 type checker가 실행될 때 map을 채운다.
 	 */
-	protected final HashMap<String, Init> paramMap = new HashMap<>();
+	protected final LinkedHashMap<String, Init> paramMap = new LinkedHashMap<>();
+	protected FunctionInfo information;
 
 
 	public FunctionDeclaration(Type t, String name, ArrayList<ParamDeclaration> p, Statements s) {
@@ -59,6 +61,10 @@ public class FunctionDeclaration extends Global {
 
 	public ArrayList<ParamDeclaration> getParams() {
 		return params;
+	}
+
+	protected void setInfo(FunctionInfo info) {
+		information = info;
 	}
 
 	/**
@@ -118,7 +124,10 @@ public class FunctionDeclaration extends Global {
 			localVariableSize += param.sizeOf();
 		}
 		localVariableSize += statements.variableSize();
-		CodeGenerator.proc(name, localVariableSize);
+
+		String realName = name + overloadMap.get(name).indexOf(information);
+
+		CodeGenerator.proc(realName, localVariableSize);
 
 
 		for (ParamDeclaration param : params) {
