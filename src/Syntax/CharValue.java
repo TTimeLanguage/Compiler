@@ -21,17 +21,6 @@ public class CharValue extends Value {
 		return value;
 	}
 
-	@Override
-	public int hashCode() {
-		return Character.hashCode(value);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		return obj instanceof CharValue && obj.hashCode() == this.hashCode();
-	}
-
-	@Override
 	public String toString() {
 		return "" + value;
 	}

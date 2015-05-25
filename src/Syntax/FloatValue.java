@@ -10,28 +10,17 @@ public class FloatValue extends Value {
 	/**
 	 * float 값을 저장하는 변수
 	 */
-	protected final double value;
+	protected final float value;
 
-	public FloatValue(double v) {
+	public FloatValue(float v) {
 		type = Type.FLOAT;
 		value = v;
 	}
 
-	double floatValue() {
+	float floatValue() {
 		return value;
 	}
 
-	@Override
-	public int hashCode() {
-		return Double.hashCode(value);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		return obj instanceof FloatValue && obj.hashCode() == this.hashCode();
-	}
-
-	@Override
 	public String toString() {
 		return "" + value;
 	}

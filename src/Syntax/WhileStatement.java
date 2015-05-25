@@ -54,6 +54,15 @@ public class WhileStatement extends Statement {
 	}
 
 	@Override
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
+		innerV(declarationMap);
+
+		statements.V(declarationMap, loopStatement);
+
+		valid = true;
+	}
+
+	@Override
 	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
 		V(declarationMap, functionType);
 	}

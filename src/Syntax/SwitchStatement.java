@@ -64,35 +64,11 @@ public class SwitchStatement extends Statement {
 		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
+
 		System.out.println("SwitchStatement");
-
-		for (int i = 0; i < lev; i++) {
-			System.out.print("\t");
-		}
-		System.out.println("Condition :");
-		condition.display(lev + 1);
-
-		if (cases.size() > 0) {
-			for (int i = 0; i < lev; i++) {
-				System.out.print("\t");
-			}
-			System.out.println("Cases :");
-
-			for (Value value : cases.keySet()) {
-				value.display(lev + 1);
-				for (Statement statement : cases.get(value)) {
-					statement.display(lev + 2);
-				}
-			}
-		}
-
-		if (defaults != null) {
-			for (int i = 0; i < lev; i++) {
-				System.out.print("\t");
-			}
-			System.out.println("Default :");
-
-			for (Statement statement : defaults) {
+		for (Value value : cases.keySet()) {
+			value.display(lev + 1);
+			for (Statement statement : cases.get(value)) {
 				statement.display(lev + 1);
 			}
 		}
@@ -126,35 +102,34 @@ public class SwitchStatement extends Statement {
 	}
 
 	@Override
-	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
 		// todo 확인
 		if (valid) return;
-
-		Statement nextLoop = this;
-		if (loopStatement instanceof WhileStatement || loopStatement instanceof ForStatement) {
-			nextLoop = loopStatement;
-		}
 
 		condition.V(declarationMap);
 		switchType = condition.typeOf(declarationMap);
 
 		for (Value key : cases.keySet()) {
 			key.V(declarationMap);
-			check(key.typeOf(declarationMap).equals(switchType),
+			check(key.typeOf(declarationMap) != switchType,
 					"different type of case literal in switch. case : " + key.typeOf(declarationMap));
 
 			for (Statement statement : cases.get(key)) {
-
-				statement.V(declarationMap, nextLoop, functionType);
+				statement.V(declarationMap, this);
 			}
 		}
 
 		if (defaults != null) {
 			for (Statement statement : defaults) {
-				statement.V(declarationMap, nextLoop, functionType);
+				statement.V(declarationMap, this);
 			}
 		}
 
 		valid = true;
+	}
+
+	@Override
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
+		V(declarationMap, functionType);
 	}
 }

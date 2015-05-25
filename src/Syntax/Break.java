@@ -24,10 +24,15 @@ public class Break extends Statement {
 	}
 
 	@Override
-	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
 		check(loopStatement instanceof WhileStatement
 				|| loopStatement instanceof ForStatement
 				|| loopStatement instanceof SwitchStatement
 				, "break must used in loop or switch statement");
+	}
+
+	@Override
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
+		V(declarationMap, loopStatement);
 	}
 }

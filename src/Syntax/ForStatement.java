@@ -127,6 +127,15 @@ public class ForStatement extends Statement {
 	}
 
 	@Override
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
+		innerV(declarationMap);
+
+		statements.V(declarationMap, this);
+
+		valid = true;
+	}
+
+	@Override
 	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
 		V(declarationMap, functionType);
 	}
