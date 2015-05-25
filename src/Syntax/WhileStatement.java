@@ -57,4 +57,9 @@ public class WhileStatement extends Statement {
 	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
 		V(declarationMap, functionType);
 	}
+
+	@Override
+	public void genCode() {
+		// todo
+	}
 }

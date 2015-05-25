@@ -62,4 +62,9 @@ public class ArrayRef extends VariableRef {
 
 		return declarationMap.get(this.name).type;
 	}
+
+	@Override
+	public void genCode() {
+
+	}
 }

@@ -53,4 +53,11 @@ public class Block extends Statement {
 
 		valid = true;
 	}
+
+	@Override
+	public void genCode() {
+		for (Statement statement : statements) {
+			statement.genCode();
+		}
+	}
 }

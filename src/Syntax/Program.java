@@ -1,9 +1,11 @@
 package Syntax;
 
+import CodeGenerator.CodeGenerator;
 import Semantic.FunctionInformation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 
 /**
@@ -16,10 +18,9 @@ import java.util.HashMap;
  */
 public class Program extends AbstractSyntax {
 	/**
-	 * Global들을 모아놓은 리스트
+	 * <tt>Global</tt>객체들을 모아놓은 리스트
 	 *
 	 * @see Global
-	 * @see ArrayList
 	 */
 	protected final ArrayList<Global> globals;
 	/**
@@ -88,13 +89,24 @@ public class Program extends AbstractSyntax {
 
 
 	/**
-	 * 이 객체의 타당성을 확인.
+	 * 전체 AST의 타당성을 확인.
+	 * <p>
 	 * 실행 중 타당성이 성립되지 않는다면 중간에 프로그램이 종료됨.
 	 */
 	public void validation() {
 		mapGlobal();
 		statements.mapVariable();
 		V(globalVariableMap);
+	}
+
+
+	/**
+	 * <tt>globalVariableMap</tt>객체를 코드 생성을 위해 반환.
+	 *
+	 * @return 전역변수의 맵
+	 */
+	public LinkedHashMap<String, Init> getGlobalVariableMap() {
+		return globalVariableMap;
 	}
 
 
@@ -105,5 +117,29 @@ public class Program extends AbstractSyntax {
 		}
 
 		statements.V(declarationMap, Type.INT);
+	}
+
+	@Override
+	public void genCode() {
+		for (Global global : globals) {
+			if (global instanceof Declaration) {
+				global.genCode();
+			}
+		}
+
+		CodeGenerator.bgn();
+		CodeGenerator.finishGlobalDeclaration();
+		CodeGenerator.ldp();
+		CodeGenerator.call("main");
+		CodeGenerator.end();
+
+		for (Global global : globals) {
+			if (global instanceof FunctionDeclaration) {
+				global.genCode();
+			}
+		}
+
+		CodeGenerator.proc("main", statements.variableSize());
+		statements.genCode();
 	}
 }

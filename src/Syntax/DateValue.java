@@ -1,5 +1,7 @@
 package Syntax;
 
+import CodeGenerator.CodeGenerator;
+
 import java.util.HashMap;
 
 /**
@@ -55,5 +57,10 @@ public class DateValue extends Value {
 		check(month >= 1 && month <= 12, "month value must be between 1 and 12");
 
 		valid = true;
+	}
+
+	@Override
+	public void genCode() {
+		CodeGenerator.ldc(year * 10000 + month * 100 + day);
 	}
 }

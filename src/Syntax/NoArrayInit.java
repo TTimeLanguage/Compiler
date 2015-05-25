@@ -1,5 +1,7 @@
 package Syntax;
 
+import CodeGenerator.CodeGenerator;
+
 import java.util.HashMap;
 
 /**
@@ -32,6 +34,11 @@ public class NoArrayInit extends Init {
 		this(t, name, null);
 	}
 
+
+	public int sizeOf() {
+		return type.sizeOf();
+	}
+
 	@Override
 	void display(int lev) {
 		for (int i = 0; i < lev; i++) {
@@ -60,5 +67,12 @@ public class NoArrayInit extends Init {
 		}
 
 		valid = true;
+	}
+
+	@Override
+	protected void init() {
+		if (initial != null) {
+			CodeGenerator.addInit(initial);
+		}
 	}
 }

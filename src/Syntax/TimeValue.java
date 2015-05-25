@@ -1,5 +1,7 @@
 package Syntax;
 
+import CodeGenerator.CodeGenerator;
+
 import java.util.HashMap;
 
 /**
@@ -54,5 +56,10 @@ public class TimeValue extends Value {
 		check(second >= 0 && second < 60, "second value must be between 0 and 59");
 
 		valid = true;
+	}
+
+	@Override
+	public void genCode() {
+		CodeGenerator.ldc(hour * 3600 + minute * 60 + second);
 	}
 }

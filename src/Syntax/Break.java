@@ -30,4 +30,9 @@ public class Break extends Statement {
 				|| loopStatement instanceof SwitchStatement
 				, "break must used in loop or switch statement");
 	}
+
+	@Override
+	public void genCode() {
+		// todo
+	}
 }

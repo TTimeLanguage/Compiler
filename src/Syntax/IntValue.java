@@ -1,5 +1,7 @@
 package Syntax;
 
+import CodeGenerator.CodeGenerator;
+
 /**
  * int 값을 나타내는 구문
  * <p>
@@ -43,5 +45,10 @@ public class IntValue extends Value {
 		}
 
 		System.out.println("IntValue " + value);
+	}
+
+	@Override
+	public void genCode() {
+		CodeGenerator.ldc(value);
 	}
 }

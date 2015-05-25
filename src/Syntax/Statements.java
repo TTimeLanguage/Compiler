@@ -1,5 +1,7 @@
 package Syntax;
 
+import CodeGenerator.CodeGenerator;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -13,13 +15,13 @@ public class Statements extends AbstractSyntax {
 	/**
 	 * 변수 정의를 해주는 구문들을 나타내는 <tt>ArrayList</tt>
 	 *
-	 * @see    Declaration
+	 * @see Declaration
 	 */
 	protected final ArrayList<Declaration> declarations;
 	/**
 	 * 실행 구문들을 나타내는 <tt>ArrayList</tt>
 	 *
-	 * @see    Statement
+	 * @see Statement
 	 */
 	protected final ArrayList<Statement> statements;
 	/**
@@ -92,5 +94,34 @@ public class Statements extends AbstractSyntax {
 		}
 
 		valid = true;
+	}
+
+
+	/**
+	 * <tt>declarations</tt>에 정의된 모든 변수의 크기를 반환한다.
+	 *
+	 * @return <tt>declarations</tt>에 정의된 모든 변수의 크기
+	 */
+	protected int variableSize() {
+		int sum = 0;
+
+		for (Declaration declaration : declarations) {
+			sum += declaration.sizeOf();
+		}
+
+		return sum;
+	}
+
+	@Override
+	public void genCode() {
+		for (Declaration declaration : declarations) {
+			declaration.genCode();
+		}
+
+		CodeGenerator.finishLocalDeclaration();
+
+		for (Statement statement : statements) {
+			statement.genCode();
+		}
 	}
 }

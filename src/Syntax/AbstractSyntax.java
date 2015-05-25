@@ -1,28 +1,37 @@
 package Syntax;
 
+import CodeGenerator.SymbolTableElement;
 import Semantic.FunctionSet;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public abstract class AbstractSyntax {
 	/**
 	 * 객체의 타당할경우 <tt>true</tt>
 	 * 객체가 타당성을 <tt>V</tt>함수를 통해 확인 됐다면,
 	 * 다음 <tt>V</tt>합수를 실행할때 다시 타당성을 확인하지 않는다.
+	 * 또한 Expression객체일 때 타당성을 확인하지않고 타입을 가져오는<tt>typeOf</tt>함수를 사용하는지 확인하는데 쓰인다.
+	 * <p>
+	 * Type Check시간에 사용됨.
 	 */
 	protected boolean valid = false;
 
 	/**
 	 * 전역변수 테이블.
 	 * 전역변수 이름(<tt>String</tt>)를 Key로, 전역변수 객체를 <tt>Init</tt>으로 가지는 map객체
+	 * <p>
+	 * Type Check시간에 사용됨.
 	 *
 	 * @see Init
 	 */
-	protected final static HashMap<String, Init> globalVariableMap = new HashMap<>();
+	protected final static LinkedHashMap<String, Init> globalVariableMap = new LinkedHashMap<>();
 
 	/**
 	 * 함수 테이블.
 	 * 함수의 정보(<tt>FunctionInformation</tt>)의 set.
+	 * <p>
+	 * Type Check시간에 사용됨.
 	 *
 	 * @see Semantic.FunctionInformation
 	 */
@@ -35,6 +44,12 @@ public abstract class AbstractSyntax {
 	 * @param k 노드의 레벨
 	 */
 	abstract void display(int k);
+
+
+	/**
+	 * 자신의 객체에 해당하는 U-code를 생성한다.
+	 */
+	public abstract void genCode();
 
 	/**
 	 * AST에서 노드(객체)의 타당성을 확인함

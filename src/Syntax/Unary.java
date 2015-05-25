@@ -70,4 +70,9 @@ public class Unary extends Expression {
 
 		return type;
 	}
+
+	@Override
+	public void genCode() {
+		// todo
+	}
 }

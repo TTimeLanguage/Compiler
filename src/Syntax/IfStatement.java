@@ -152,4 +152,9 @@ public class IfStatement extends Statement {
 
 		valid = true;
 	}
+
+	@Override
+	public void genCode() {
+		// todo
+	}
 }

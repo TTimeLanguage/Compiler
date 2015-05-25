@@ -1,7 +1,11 @@
 package Syntax;
 
+import CodeGenerator.CodeGenerator;
+import CodeGenerator.SymbolTableElement;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * 함수를 정의하는 구문
@@ -36,6 +40,7 @@ public class FunctionDeclaration extends Global {
 	 * 이 객체가 paser에 의해 생성될때는 비어있지만 type checker가 실행될 때 map을 채운다.
 	 */
 	protected final HashMap<String, Init> paramMap = new HashMap<>();
+
 
 	public FunctionDeclaration(Type t, String name, ArrayList<ParamDeclaration> p, Statements s) {
 		type = t;
@@ -102,5 +107,26 @@ public class FunctionDeclaration extends Global {
 		statements.V(localMap, type);
 
 		valid = true;
+	}
+
+	@Override
+	public void genCode() {
+		LinkedHashMap<String, SymbolTableElement> localMap = new LinkedHashMap<>();
+		int localVariableSize = 0;
+
+		for (ParamDeclaration param : params) {
+			localVariableSize += param.sizeOf();
+		}
+		localVariableSize += statements.variableSize();
+		CodeGenerator.proc(name, localVariableSize);
+
+
+		for (ParamDeclaration param : params) {
+			param.genCode();
+		}
+
+		statements.genCode();
+
+		CodeGenerator.end();
 	}
 }

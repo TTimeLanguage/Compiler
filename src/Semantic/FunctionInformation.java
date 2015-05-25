@@ -44,7 +44,7 @@ public class FunctionInformation {
 
 		FunctionInformation tmp = (FunctionInformation) obj;
 
-		return type.equals(tmp.type) && name.equals(tmp.name) && paramType.equals(tmp.paramType);
+		return name.equals(tmp.name) && paramType.equals(tmp.paramType);
 	}
 
 	@Override
