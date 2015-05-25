@@ -59,7 +59,7 @@ void ssre(int t) {
 	return ssre(l + 1);
 }
 
-void ssre(int t) {
+void ssre(date t) {
 	int l = 2;
 
 	return ssre(l + 1);
