@@ -130,6 +130,8 @@ public class FunctionDeclaration extends Global {
 		CodeGenerator.proc(realName, localVariableSize);
 
 
+		CodeGenerator.startLocalDeclaration();
+
 		for (ParamDeclaration param : params) {
 			param.genCode();
 		}

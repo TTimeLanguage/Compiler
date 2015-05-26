@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 
 public class CodeGenerator {
@@ -20,7 +21,7 @@ public class CodeGenerator {
 	 * <p>
 	 * Code Generate시간에 사용됨.
 	 */
-	protected static HashMap<String, SymbolTableElement> globalSymbolTable = null;
+	protected static final HashMap<String, SymbolTableElement> globalSymbolTable = new HashMap<>();
 
 	/**
 	 * 지역변수들의 map.
@@ -28,14 +29,19 @@ public class CodeGenerator {
 	 * <p>
 	 * Code Generate시간에 사용됨.
 	 */
-	protected static HashMap<String, SymbolTableElement> currentSymbolTable = null;
+	protected static final HashMap<String, SymbolTableElement> currentSymbolTable = new HashMap<>();
+
+	/**
+	 * sym으로 정의가 끝난 후 초기화를 진행해야하는 초기값을 가진 변수들을 초기화할때 사용한다.
+	 * <p>
+	 * key로 <tt>String</tt>형 변수의 이름과, value로 초기화 값을 <tt>Expression</tt>의 객체로 가진다.
+	 */
+	private static LinkedHashMap<String, ArrayList<Expression>> initList = new LinkedHashMap<>();
 
 	private static boolean finishGlobalDecl = false;
 	private static int variableOffset = 0;
-	private static ArrayList<Expression> initList = new ArrayList<>();
 	private TypeChecker typeChecker;
 	String outputFile;
-	private File file;
 	private static FileWriter writer;
 
 	public CodeGenerator(String inputFile, String outPutFile) {
@@ -43,8 +49,7 @@ public class CodeGenerator {
 		this.outputFile = outPutFile;
 
 		try {
-			file = new File(outPutFile);
-			writer = new FileWriter(file);
+			writer = new FileWriter(new File(outPutFile));
 		} catch (IOException e) {
 			System.out.println("error in open or create file");
 			e.printStackTrace();
@@ -112,9 +117,19 @@ public class CodeGenerator {
 		return !finishGlobalDecl;
 	}
 
+	public static void startLocalDeclaration() {
+		currentSymbolTable.clear();
+		currentSymbolTable.putAll(globalSymbolTable);
+	}
+
 	public static void finishLocalDeclaration() {
-		for (Expression expression : initList) {
-			expression.genCode();
+		for (String id : initList.keySet()) {
+			int i = 0;
+			for (Expression exp : initList.get(id)) {
+				exp.genCode();
+
+				str(id, i++);
+			}
 		}
 
 		initList.clear();
@@ -125,11 +140,17 @@ public class CodeGenerator {
 	public static void finishGlobalDeclaration() {
 		finishGlobalDecl = true;
 
+		globalSymbolTable.putAll(currentSymbolTable);
+
 		finishLocalDeclaration();
 	}
 
-	public static void addInit(Expression init) {
-		initList.add(init);
+	public static void addInit(String id, Expression init) {
+		if (!initList.containsKey(id)) {
+			initList.put(id, new ArrayList<>());
+		}
+
+		initList.get(id).add(init);
 	}
 
 
@@ -219,6 +240,11 @@ public class CodeGenerator {
 		genCode("str", element.getBlockNum(), element.getStartAddress());
 	}
 
+	public static void str(String id, int index) {
+		SymbolTableElement element = currentSymbolTable.get(id);
+		genCode("str", element.getBlockNum(), element.getStartAddress() + index);
+	}
+
 	public static void ldc(int val) {
 		genCode("ldc", val);
 	}
@@ -278,9 +304,9 @@ public class CodeGenerator {
 		genCode("ldp");
 	}
 
-	public static void proc(String name, int size) {
+	public static void proc(String id, int size) {
 		try {
-			writer.write(name);
+			writer.write(id);
 			genCode("proc", size, 2, 2);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -296,8 +322,11 @@ public class CodeGenerator {
 		finishGlobalDecl = true;
 	}
 
-	public static void sym(int block, int size) {
+	public static void sym(String id, int block, int size) {
 		genCode("sym", block, variableOffset + 1, size);
+
+		currentSymbolTable.put(id, new SymbolTableElement(block, variableOffset + 1, size));
+
 		variableOffset += size;
 	}
 }

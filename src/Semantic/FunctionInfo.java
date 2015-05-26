@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * <p>
  * 함수 정의 타당성 확인을 위해 사용됨.
  *
- * @see	Parser.Parser
+ * @see Parser.Parser
  * @see FunctionSet
  */
 public class FunctionInfo {
@@ -36,6 +36,16 @@ public class FunctionInfo {
 		for (ParamDeclaration param : declaration.getParams()) {
 			paramType.add(param.getType());
 		}
+	}
+
+
+	/**
+	 * 이 객체가 가리키는 함수의 반환형을 <tt>Type</tt>형으로 반환한다.
+	 *
+	 * @return 이 객체가 가리키는 함수의 반환형
+	 */
+	public Type getType() {
+		return type;
 	}
 
 	@Override

@@ -17,7 +17,6 @@ public class Unary extends Expression {
 	 * 실행문을 나타내는 변수
 	 */
 	protected final Expression term;
-	private Type type;
 
 	public Unary(Operator o, Expression e) {
 		op = o;

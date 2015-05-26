@@ -256,10 +256,12 @@ public class Binary extends Expression {
 
 	@Override
 	Type typeOf(HashMap<String, Init> declarationMap) {
-		// todo 추가
+		// todo 확인
 		check(valid, "Compiler error. must check validation");
 
-		return op.type;
+		type = op.type;
+
+		return type;
 	}
 
 	@Override

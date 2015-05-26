@@ -68,7 +68,9 @@ public class Variable extends VariableRef {
 		check(declarationMap.containsKey(name),
 				"undefined variable: " + name);
 
-		return declarationMap.get(name).type;
+		type = declarationMap.get(name).type;
+
+		return type;
 	}
 
 	@Override

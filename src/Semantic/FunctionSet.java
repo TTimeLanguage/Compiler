@@ -44,22 +44,21 @@ public class FunctionSet {
 		array.add(functionInfo);
 	}
 
+
 	/**
-	 * 찾는 함수의 이름이 같고, 매개변수의 형들이 일치하는 함수의 Type을 반환한다.
+	 * 찾는 함수의 이름이 같고, 매개변수의 타입들이 일치하는 함수의 <tt>FunctionInfo</tt>객체를 반환한다.
 	 *
 	 * @param name      찾을 함수의 이름
 	 * @param paramType 찾을 함수의 매개변수 형들
-	 * @return 찾는 함수의 반환형
+	 * @return 찾는 함수의 <tt>FunctionInfo</tt>객체
 	 */
-	public Type getFunctionType(String name, ArrayList<Type> paramType) {
+	public FunctionInfo getFunctionInfo(String name, ArrayList<Type> paramType) {
 		for (FunctionInfo function : array) {
 			if (function.name.equals(name) && function.paramType.equals(paramType)) {
-				return function.type;
+				return function;
 			}
 		}
 
-		System.err.println("Compiler error in FunctionSet. can not find such function");
-		System.exit(1);
 		return null;
 	}
 
