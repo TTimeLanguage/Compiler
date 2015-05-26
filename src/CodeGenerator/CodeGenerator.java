@@ -170,7 +170,11 @@ public class CodeGenerator {
 	}
 
 	public static String getElseIfBranch(int ifLabelNum) {
-		return "$ELIF" + ifLabelNum + "-" + lastElseIfBranchNumber;
+		return getElseIfBranch(ifLabelNum, lastElseIfBranchNumber);
+	}
+
+	public static String getElseIfBranch(int ifLabelNum, int label) {
+		return "$ELIF" + ifLabelNum + "-" + label;
 	}
 
 	public static String getIfExitBranch(int ifLabelNum) {
@@ -327,8 +331,12 @@ public class CodeGenerator {
 		genCode("lda", element.getBlockNum(), element.getStartAddress());
 	}
 
-	public static void ujp() {
-		genCode("ujp");
+	public static void ujp(String label) {
+		try {
+			writer.write("\tujp\t" + label + "\r\n");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void tjp(String label) {
