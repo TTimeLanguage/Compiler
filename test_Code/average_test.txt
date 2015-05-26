@@ -1,0 +1,19 @@
+float num[5] = {1.1,2.2,3.3,4.4,5.5};
+float avg = 0.0;
+float sum = 0;
+int average(int count){
+	while (count != 10)
+    {	
+        sum += num[count];
+        count++;
+    }
+    return count;
+}
+int main()
+{
+    int count = 1;
+    count=average(count);
+    avg = sum / count;
+}
+
+	
