@@ -1,0 +1,37 @@
+time i = 5:0:1;
+date j = 2000.5.28;
+int A(int a){
+	for(a=0;a<10;a++)
+	{
+		i++;
+		j--;
+	}
+	return a;
+}
+void B(int b){
+	while(b!=1){
+	i+=1;
+	j-=1;
+	b--;
+	}
+}
+int main(){
+	int a=0;
+	a= A(a);
+	B(a);
+
+	if(i>4:0:0){
+	i=5:0:1;
+	}
+	else{
+	i=5:61:1;   // when treat exception, error
+	}
+	if(j>2000.4.01){
+	j=2000.5.28;
+	}
+	else{
+	j=2000.13.22; // when treat exception, error 
+	}
+		
+	
+}
