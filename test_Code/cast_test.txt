@@ -1,0 +1,17 @@
+int main(){
+	int prev1 = 7;
+	int prev2 = 15;
+	
+	float next;
+	char charprev1 = 'a';
+
+	int intnext;
+	
+	next = prev2/prev1;
+	
+	next = (float)prev2/prev1;
+
+	intnext=charprev1;    // error... if comment this , not error. 
+
+	intnext=(int)charprev1;
+}
