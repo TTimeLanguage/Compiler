@@ -52,7 +52,7 @@ abstract public class Init extends AbstractSyntax {
 	protected void checkInitType(Expression init, Type variableType) {
 		if (variableType.equals(Type.FLOAT)) {
 			check(type.equals(Type.FLOAT) || type.equals(Type.INT),
-					"float type variable can not have initialize with " + type + " value");
+					"float type variable can not initialize with " + type + " value");
 
 			if (type.equals(Type.INT)) {
 				init = new TypeCast(Type.FLOAT, init);
@@ -60,23 +60,23 @@ abstract public class Init extends AbstractSyntax {
 
 		} else if (variableType.equals(Type.BOOL)) {
 			check(type.equals(Type.BOOL),
-					"bool type variable can not have initialize with " + type + " value");
+					"bool type variable can not initialize with " + type + " value");
 
 		} else if (variableType.equals(Type.CHAR)) {
 			check(type.equals(Type.CHAR),
-					"char type variable can not have initialize with " + type + " value");
+					"char type variable can not initialize with " + type + " value");
 
 		} else if (variableType.equals(Type.DATE)) {
 			check(type.equals(Type.DATE),
-					"date type variable can not have initialize with " + type + " value");
+					"date type variable can not initialize with " + type + " value");
 
 		} else if (variableType.equals(Type.TIME)) {
 			check(type.equals(Type.TIME),
-					"time type variable can not have initialize with " + type + " value");
+					"time type variable can not initialize with " + type + " value");
 
 		} else if (variableType.equals(Type.INT)) {
 			check(type.equals(Type.FLOAT) || type.equals(Type.INT),
-					"int type variable can not have initialize with " + type + " value");
+					"int type variable can not initialize with " + type + " value");
 
 			if (type.equals(Type.FLOAT)) {
 				init = new TypeCast(Type.INT, init);
