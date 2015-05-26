@@ -11,10 +11,10 @@ import java.util.ArrayList;
  * <p>
  * ÇÔ¼ö Á¤ÀÇ Å¸´ç¼º È®ÀÎÀ» À§ÇØ »ç¿ëµÊ.
  *
- * @see	Parser.Parser
+ * @see Parser.Parser
  * @see FunctionSet
  */
-public class FunctionInformation {
+public class FunctionInfo {
 	/**
 	 * ÇÔ¼öÀÇ ¹İÈ¯ Å¸ÀÔ
 	 */
@@ -28,7 +28,7 @@ public class FunctionInformation {
 	 */
 	protected ArrayList<Type> paramType;
 
-	public FunctionInformation(FunctionDeclaration declaration) {
+	public FunctionInfo(FunctionDeclaration declaration) {
 		type = declaration.getType();
 		name = declaration.getName();
 		paramType = new ArrayList<>();
@@ -38,11 +38,21 @@ public class FunctionInformation {
 		}
 	}
 
+
+	/**
+	 * ì´ ê°ì²´ê°€ ê°€ë¦¬í‚¤ëŠ” í•¨ìˆ˜ì˜ ë°˜í™˜í˜•ì„ <tt>Type</tt>í˜•ìœ¼ë¡œ ë°˜í™˜í•œë‹¤.
+	 *
+	 * @return ì´ ê°ì²´ê°€ ê°€ë¦¬í‚¤ëŠ” í•¨ìˆ˜ì˜ ë°˜í™˜í˜•
+	 */
+	public Type getType() {
+		return type;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof FunctionInformation)) return false;
+		if (!(obj instanceof FunctionInfo)) return false;
 
-		FunctionInformation tmp = (FunctionInformation) obj;
+		FunctionInfo tmp = (FunctionInfo) obj;
 
 		return name.equals(tmp.name) && paramType.equals(tmp.paramType);
 	}

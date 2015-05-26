@@ -162,7 +162,9 @@ public class Parser {
 			}
 		}
 
-		match(TokenType.Semicolon);
+		while (isSemicolon()) {
+			match(TokenType.Semicolon);
+		}
 
 		return new Declaration(declaration);
 	}

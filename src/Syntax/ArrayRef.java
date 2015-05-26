@@ -60,7 +60,9 @@ public class ArrayRef extends VariableRef {
 		check(declarationMap.containsKey(this.name),
 				"undefined variable: " + this.name);
 
-		return declarationMap.get(this.name).type;
+		type = declarationMap.get(this.name).type;
+
+		return type;
 	}
 
 	@Override

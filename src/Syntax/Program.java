@@ -1,7 +1,7 @@
 package Syntax;
 
 import CodeGenerator.CodeGenerator;
-import Semantic.FunctionInformation;
+import Semantic.FunctionInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,26 +49,42 @@ public class Program extends AbstractSyntax {
 				FunctionDeclaration functionDeclaration = (FunctionDeclaration) global;
 				functionDeclaration.mapParams();
 
-				FunctionInformation tmp = new FunctionInformation(functionDeclaration);
+				FunctionInfo info = new FunctionInfo(functionDeclaration);
 
-				check(!globalFunctionMap.contains(tmp),
-						"duplicated declared function " + functionDeclaration.name);
+				check(!globalFunctionMap.contains(info),
+						"duplicate declared function " + functionDeclaration.name);
 
-				globalFunctionMap.add(new FunctionInformation(functionDeclaration));
-				tmp = null;        // for garbage collection
+
+				globalFunctionMap.add(info);
+
+
+				String functionName = functionDeclaration.getName();
+				ArrayList<FunctionInfo> map;
+
+				if (!overloadMap.containsKey(functionName)) {
+					map = new ArrayList<>();
+					overloadMap.put(functionName, map);
+
+				} else {
+					map = overloadMap.get(functionName);
+				}
+
+				map.add(info);
+
+				functionDeclaration.setInfo(info);
 
 			} else if (global instanceof Declaration) {
 
 				for (Init init : ((Declaration) global).inits) {
 
 					check(!globalVariableMap.containsKey(init.name),
-							"duplicated declaration in global " + init.name);
+							"duplicate declared variable in global " + init.name);
 
 					globalVariableMap.put(init.name, init);
 				}
 
 			} else {
-				check(false, "never reach here");
+				check(false, "Compiler error. never reach here");
 			}
 		}
 	}

@@ -88,7 +88,7 @@ public class ArrayInit extends Init {
 	protected void init() {
 		if (initList != null) {
 			for (Expression init : initList) {
-				CodeGenerator.addInit(init);
+				CodeGenerator.addInit(name, init);
 			}
 		}
 	}

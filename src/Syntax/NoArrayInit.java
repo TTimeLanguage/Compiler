@@ -72,7 +72,7 @@ public class NoArrayInit extends Init {
 	@Override
 	protected void init() {
 		if (initial != null) {
-			CodeGenerator.addInit(initial);
+			CodeGenerator.addInit(name, initial);
 		}
 	}
 }

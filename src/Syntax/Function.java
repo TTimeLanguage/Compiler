@@ -1,5 +1,8 @@
 package Syntax;
 
+import CodeGenerator.CodeGenerator;
+import Semantic.FunctionInfo;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -19,9 +22,22 @@ public class Function extends Expression {
 	 */
 	protected final ArrayList<Expression> params;
 
+	/**
+	 * 이 객체가 호출 할 함수의 파라미터들의 타입의 리스트
+	 */
+	protected final ArrayList<Type> paramTypes;
+
+	/**
+	 * 이 객체가 호출 할 함수를 가리키는 <tt>FunctionInfo</tt>객체.
+	 * <p>
+	 * type checking할때 생성하며, code generate할때 사용한다.
+	 */
+	protected FunctionInfo functionInfo;
+
 	public Function(String id, ArrayList<Expression> params) {
 		name = id;
 		this.params = params;
+		this.paramTypes = new ArrayList<>();
 	}
 
 	@Override
@@ -40,7 +56,18 @@ public class Function extends Expression {
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
 		if (valid) return;
-		// todo
+		// todo 확인
+
+		for (Expression expression : params) {
+			expression.V(declarationMap);
+			paramTypes.add(expression.typeOf(declarationMap));
+		}
+
+		functionInfo = globalFunctionMap.getFunctionInfo(name, paramTypes);
+
+		check(functionInfo != null, "can not find function name : " + name);
+
+		type = functionInfo.getType();
 
 		valid = true;
 	}
@@ -51,19 +78,16 @@ public class Function extends Expression {
 
 		check(valid, "Compiler error. must check validation");
 
-		ArrayList<Type> types = new ArrayList<>();
-		for (Expression expression : params) {
-			expression.V(declarationMap);
-			types.add(expression.typeOf(declarationMap));
-		}
-		Type functionType = globalFunctionMap.getFunctionType(name, types);
-		check(functionType != null, "using not declared function. function : " + name);
-
-		return functionType;
+		return type;
 	}
 
 	@Override
 	public void genCode() {
-		// todo
+		// todo 개선
+		CodeGenerator.ldp();
+
+		String realName = name + overloadMap.get(name).indexOf(functionInfo);
+
+		CodeGenerator.call(realName);
 	}
 }

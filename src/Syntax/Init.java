@@ -44,7 +44,7 @@ abstract public class Init extends AbstractSyntax {
 			block = 1;
 		}
 
-		CodeGenerator.sym(block, size);
+		CodeGenerator.sym(name, block, size);
 
 		init();
 	}
