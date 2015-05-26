@@ -654,13 +654,14 @@ public class Parser {
 	}
 
 	private boolean isAddOp() {
-		return token.type().equals(TokenType.Plus) ||
-				token.type().equals(TokenType.Minus);
+		return token.type().equals(TokenType.Plus)
+				|| token.type().equals(TokenType.Minus);
 	}
 
 	private boolean isMultiplyOp() {
-		return token.type().equals(TokenType.Multiply) ||
-				token.type().equals(TokenType.Divide);
+		return token.type().equals(TokenType.Multiply)
+				|| token.type().equals(TokenType.Divide)
+				|| token.type().equals(TokenType.Mod);
 	}
 
 	private boolean isAssignOp() {
