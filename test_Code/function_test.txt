@@ -1,0 +1,20 @@
+int i = 5;
+float j = 4;
+int A(int a){
+	float k;
+	k=i/a;
+	a=B(k);
+	return a;
+}
+int B(float b){
+	b*=j;
+	return (int)b;
+}
+int main(){
+	int t=0;
+	t++;
+	t=t+1;
+	if(t==2){
+	t=A(t);
+	}
+}
