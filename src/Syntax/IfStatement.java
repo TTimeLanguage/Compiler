@@ -170,6 +170,8 @@ public class IfStatement extends Statement {
 
 			int len = elseIfs.size();
 			for (int i = 0; i < len; i++) {
+				CodeGenerator.makeElseIfBranch(ifNum);
+
 				elseIfs.get(i).condition.genCode();
 
 				elseIfs.get(i).statements.genCode();

@@ -1,7 +1,10 @@
 ﻿package Syntax;
 
+import CodeGenerator.CodeGenerator;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * switch를 나타내는 구문
@@ -19,9 +22,9 @@ public class SwitchStatement extends Statement {
 	 */
 	protected final Expression condition;
 	/**
-	 * case 문에 값을 저장하는 HashMap, 해당 실행문을 나타내는 ArrayList
+	 * case 문에 값을 저장하는 <tt>LinkedHashMap</tt>, 해당 실행문을 나타내는 <tt>ArrayList</tt>
 	 */
-	protected final HashMap<Value, ArrayList<Statement>> cases = new HashMap<>();
+	protected final LinkedHashMap<Value, ArrayList<Statement>> cases = new LinkedHashMap<>();
 	/**
 	 * default 구문을 나타내는 ArrayList
 	 */
@@ -161,5 +164,40 @@ public class SwitchStatement extends Statement {
 	@Override
 	public void genCode() {
 		// todo
+
+		int ifNum = CodeGenerator.getIfNum();
+
+		condition.genCode();
+
+		int len = cases.size();
+		int i = 0;
+		for (Value value : cases.keySet()) {
+
+			if (i < len - 1) {
+				CodeGenerator.dup();
+			}
+			value.genCode();
+			CodeGenerator.eq();
+
+			if (i < len - 1) {
+				CodeGenerator.fjp(CodeGenerator.getElseIfBranch(ifNum, i++));
+			} else {
+				CodeGenerator.fjp(CodeGenerator.getIfExitBranch(ifNum));
+			}
+		}
+
+		for (Value value : cases.keySet()) {
+			CodeGenerator.makeElseIfBranch(ifNum);
+
+			for (Statement statement : cases.get(value)) {
+				statement.genCode();
+			}
+		}
+
+		CodeGenerator.makeIfExitBranch(ifNum);
+
+		for (Statement statement : defaults) {
+			statement.genCode();
+		}
 	}
 }

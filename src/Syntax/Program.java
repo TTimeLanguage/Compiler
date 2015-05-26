@@ -157,5 +157,6 @@ public class Program extends AbstractSyntax {
 
 		CodeGenerator.proc("main", statements.variableSize());
 		statements.genCode();
+		CodeGenerator.end();
 	}
 }

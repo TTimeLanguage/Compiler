@@ -283,7 +283,7 @@ public class Parser {
 			}
 		} else {
 			if (else_appear) {
-				return new IfStatement(condition, block, elseIfs, elseBlock);// student exercise
+				return new IfStatement(condition, block, elseIfs, elseBlock);
 			} else {
 				return new IfStatement(condition, block, elseIfs);
 			}
@@ -454,7 +454,7 @@ public class Parser {
 			e = new Binary(op, e, term2);
 		}
 
-		return e;  // student exercise
+		return e;
 	}
 
 	private Expression equality() {
