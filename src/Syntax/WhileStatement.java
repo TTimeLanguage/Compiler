@@ -1,5 +1,7 @@
 package Syntax;
 
+import CodeGenerator.CodeGenerator;
+
 import java.util.HashMap;
 
 /**
@@ -69,6 +71,18 @@ public class WhileStatement extends Statement {
 
 	@Override
 	public void genCode() {
-		// todo
+		// todo 확인
+
+		int loopNum = CodeGenerator.makeLoopStartBranch();
+
+		condition.genCode();
+
+		CodeGenerator.fjp(CodeGenerator.getLoopEndBranch(loopNum));
+
+		statements.genCode();
+
+		CodeGenerator.ujp(CodeGenerator.getLoopStartBranch(loopNum));
+
+		CodeGenerator.makeLoopEndBranch(loopNum);
 	}
 }

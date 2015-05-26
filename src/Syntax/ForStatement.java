@@ -1,5 +1,7 @@
 package Syntax;
 
+import CodeGenerator.CodeGenerator;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -142,6 +144,25 @@ public class ForStatement extends Statement {
 
 	@Override
 	public void genCode() {
-		// todo
+		// todo 확인
+
+		for (Expression pre : preExpression) {
+			pre.genCode();
+		}
+
+		int loopNum = CodeGenerator.makeLoopStartBranch();
+
+		condition.genCode();
+		CodeGenerator.fjp(CodeGenerator.getLoopEndBranch(loopNum));
+
+		statements.genCode();
+
+		for (Expression post : postExpression) {
+			post.genCode();
+		}
+
+		CodeGenerator.ujp(CodeGenerator.getLoopStartBranch(loopNum));
+
+		CodeGenerator.makeLoopEndBranch(loopNum);
 	}
 }

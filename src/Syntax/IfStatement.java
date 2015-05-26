@@ -1,5 +1,7 @@
 package Syntax;
 
+import CodeGenerator.CodeGenerator;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -188,6 +190,37 @@ public class IfStatement extends Statement {
 
 	@Override
 	public void genCode() {
-		// todo
+		// todo tjp, tjp 유동적 기능 추가
+
+		int ifNum = CodeGenerator.getIfNum();
+
+		condition.genCode();
+
+		statements.genCode();
+
+		if (elseIfs != null) {
+			CodeGenerator.fjp(CodeGenerator.getElseIfBranch(ifNum));
+
+			int len = elseIfs.size();
+			for (int i = 0; i < len; i++) {
+				CodeGenerator.makeElseIfBranch(ifNum);
+
+				elseIfs.get(i).condition.genCode();
+
+				elseIfs.get(i).statements.genCode();
+
+				if (i != len - 1) {
+					CodeGenerator.fjp(CodeGenerator.getElseIfBranch(ifNum));
+				}
+			}
+		}
+
+		CodeGenerator.fjp(CodeGenerator.getIfExitBranch(ifNum));
+
+		CodeGenerator.makeIfExitBranch(ifNum);
+
+		if (elses != null) {
+			elses.genCode();
+		}
 	}
 }
