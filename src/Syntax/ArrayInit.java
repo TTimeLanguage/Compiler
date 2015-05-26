@@ -74,10 +74,10 @@ public class ArrayInit extends Init {
 		if (initList != null) {
 			for (Expression expression : initList) {
 				expression.V(declarationMap);
-				check(expression.typeOf(declarationMap).equals(type),
-						"wrong type initializer in declaration : "
-								+ type + " " + name + "[" + size + "],"
-								+ " initialize : " + expression);
+
+				Type declaredType = expression.typeOf(declarationMap);
+
+				checkInitType(expression, declaredType);
 			}
 		}
 
