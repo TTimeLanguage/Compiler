@@ -1,4 +1,4 @@
-﻿package Parser;
+package Parser;
 
 import Lexer.Lexer;
 import Syntax.*;
@@ -8,7 +8,7 @@ import Token.TokenType;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-public class Parser { 
+public class Parser {
 	private Token token;
 	private Lexer lexer;
 
@@ -38,7 +38,7 @@ public class Parser {
 
 
 	private Program program() {
-		// Program �넂 { Global } 'int' 'main' '(' ')' Statements
+		// Program → { Global } 'int' 'main' '(' ')' Statements
 
 		ArrayList<Global> globals = new ArrayList<>();
 		Statements s = null;
@@ -75,7 +75,7 @@ public class Parser {
 
 
 	private FunctionDeclaration functionDeclaration(Type type, String id) {
-		// FunctionDeclaration �넂 Type Id '(' ParamDeclarations ��)�� Statements
+		// FunctionDeclaration → Type Id '(' ParamDeclarations ’)’ Statements
 
 		ArrayList<ParamDeclaration> params = new ArrayList<>();
 
@@ -98,7 +98,7 @@ public class Parser {
 	}
 
 	private ParamDeclaration paramDeclaration() {
-		// ParamDeclarations �넂 ParamDeclaration { ',' ParamDeclaration } | 琯
+		// ParamDeclarations → ParamDeclaration { ',' ParamDeclaration } | ε
 
 		Type type = type();
 		String id = match(TokenType.Identifier);
@@ -108,7 +108,7 @@ public class Parser {
 
 
 	private Statements statements() {
-		//Statements �넂 ��{�� { Declarations } { Statement } ��}��
+		//Statements → ‘{‘ { Declarations } { Statement } ‘}’
 
 		ArrayList<Declaration> declarations = new ArrayList<>();
 		ArrayList<Statement> statements = new ArrayList<>();
@@ -131,7 +131,7 @@ public class Parser {
 
 
 	private Declaration declaration() {
-		// Declarations �넂 Type Init { ',' Init } ';'
+		// Declarations → Type Init { ',' Init } ';'
 
 		Type type = type();
 		String id = match(TokenType.Identifier);
@@ -141,7 +141,7 @@ public class Parser {
 
 
 	private Declaration declaration(Type type, String id) {
-		// Declarations �넂 Type Init { ',' Init } ';'
+		// Declarations → Type Init { ',' Init } ';'
 
 		ArrayList<Init> declaration = new ArrayList<>();
 
@@ -162,14 +162,16 @@ public class Parser {
 			}
 		}
 
-		match(TokenType.Semicolon);
+		while (isSemicolon()) {
+			match(TokenType.Semicolon);
+		}
 
 		return new Declaration(declaration);
 	}
 
 
 	private ArrayInit arrayInit(Type type, String id) {
-		// ArrayInit �넂 Id '[' Integer ']' [ '=' '{' Expression { ',' Expression } '}' ]
+		// ArrayInit → Id '[' Integer ']' [ '=' '{' Expression { ',' Expression } '}' ]
 
 		match(TokenType.LeftBracket);
 		int size = Integer.parseInt(match(TokenType.IntLiteral));
@@ -195,7 +197,7 @@ public class Parser {
 	}
 
 	private NoArrayInit noArrayInit(Type type, String id) {
-		// NoArrayInit �넂 Id [ '=' Expression ]
+		// NoArrayInit → Id [ '=' Expression ]
 
 		if (isAssign()) {
 			match(TokenType.Assign);
@@ -206,7 +208,7 @@ public class Parser {
 
 
 	private Statement statement() {
-		// Statement �넂 Skip | IfStatement | Block | WhileStatement | SwitchStatement |
+		// Statement → Skip | IfStatement | Block | WhileStatement | SwitchStatement |
 		// ForStatement | Return | Expression | Break | Continue
 
 		if (isSemicolon()) {
@@ -243,12 +245,13 @@ public class Parser {
 	}
 
 	private Statement IfStatement() {
-		// IfStatement �넂 'if' '(' Expression ')' Block { 'else' 'if' '(' Expression ')' Block } [ 'else' Block ]
+		// IfStatement → 'if' '(' Expression ')' Block { 'else' 'if' '(' Expression ')' Block } [ 'else' Block ]
 
 		match(TokenType.If);
 		match(TokenType.LeftParen);
 		Expression condition = expression();
 		match(TokenType.RightParen);
+
 		Block block = block();
 
 		ArrayList<IfStatement> elseIfs = new ArrayList<>();
@@ -288,7 +291,7 @@ public class Parser {
 	}
 
 	private Statement WhileStatement() {
-		// WhileStatement �넂 'while' '(' Expression ')' Block
+		// WhileStatement → 'while' '(' Expression ')' Block
 
 		match(TokenType.While);
 		match(TokenType.LeftParen);
@@ -300,7 +303,7 @@ public class Parser {
 	}
 
 	private Statement SwitchStatement() {
-		// SwitchStatement �넂 'switch' '(' Expression ')' '{'
+		// SwitchStatement → 'switch' '(' Expression ')' '{'
 		// { 'case' Literal ':' { Statement } }
 		// [ 'default' ':' { Statement } ] '}'
 
@@ -340,7 +343,7 @@ public class Parser {
 	}
 
 	private Statement ForStatement() {
-		// ForStatement �넂 'for' '(' InnerForStatement ';' Expression ';' InnerForStatement ')' Block
+		// ForStatement → 'for' '(' InnerForStatement ';' Expression ';' InnerForStatement ')' Block
 
 		match(TokenType.For);
 		match(TokenType.LeftParen);
@@ -370,7 +373,7 @@ public class Parser {
 	}
 
 	private Block block() {
-		// Block �넂 '{' { Statement } '}'
+		// Block → '{' { Statement } '}'
 
 		ArrayList<Statement> statements = new ArrayList<>();
 
@@ -385,7 +388,7 @@ public class Parser {
 
 
 	private Statement Return() {
-		// Return �넂 'return' [ Expression ] ';'
+		// Return → 'return' [ Expression ] ';'
 
 		match(TokenType.Return);
 		if (!isSemicolon()) {
@@ -395,7 +398,7 @@ public class Parser {
 	}
 
 	private Statement Break() {
-		// Break �넂 'break' ';'
+		// Break → 'break' ';'
 
 		match(TokenType.Break);
 		match(TokenType.Semicolon);
@@ -403,7 +406,7 @@ public class Parser {
 	}
 
 	private Statement Continue() {
-		// Continue �넂 'continue' ';'
+		// Continue → 'continue' ';'
 
 		match(TokenType.Continue);
 		match(TokenType.Semicolon);
@@ -412,7 +415,7 @@ public class Parser {
 
 
 	private Expression expression() {
-		// Expression �넂 [ Disjunction AssignmentOp ] Disjunction
+		// Expression → [ Disjunction AssignmentOp ] Disjunction
 
 		Expression e = disjunction();
 		if (isAssignOp()) {
@@ -519,7 +522,7 @@ public class Parser {
 	}
 
 	private Expression factor() {
-		// Factor �넂 [ UnaryOp ] Primary
+		// Factor → [ UnaryOp ] Primary
 
 		if (isUnaryOp()) {
 			Operator op = new Operator(match(token.type()));
@@ -531,7 +534,7 @@ public class Parser {
 	}
 
 	private Expression primary() {
-		// Primary �넂 VariableRef | Literal | ��(�� Expression ��)�� | Function | ��(�� Type ��)�� Expression
+		// Primary → VariableRef | Literal | ‘(‘ Expression ‘)’ | Function | ‘(‘ Type ’)’ Expression
 
 		if (isLeftParen()) {
 			match(TokenType.LeftParen);
@@ -576,8 +579,8 @@ public class Parser {
 	}
 
 	private Expression function(String id) {
-		// Function �넂 Id ��(�� Params ��)��
-		// Params �넂 Expression { ��,�� Expression } | 琯
+		// Function → Id ‘(‘ Params ‘)’
+		// Params → Expression { ‘,’ Expression } | ε
 
 		match(TokenType.LeftParen);
 
@@ -596,7 +599,7 @@ public class Parser {
 	}
 
 	private Type type() {
-		// Type �넂 'int' | 'float' | 'char' | 'bool' | 'time' | 'date' | �쁵oid��
+		// Type → 'int' | 'float' | 'char' | 'bool' | 'time' | 'date' | ‘void’
 
 		Type t = null;
 		if (token.type().equals(TokenType.Int)) {
@@ -651,14 +654,14 @@ public class Parser {
 	}
 
 	private boolean isAddOp() {
-		return token.type().equals(TokenType.Plus) ||
-				token.type().equals(TokenType.Minus);
+		return token.type().equals(TokenType.Plus)
+				|| token.type().equals(TokenType.Minus);
 	}
 
 	private boolean isMultiplyOp() {
-		return token.type().equals(TokenType.Multiply) ||
-				token.type().equals(TokenType.Divide)||
-				token.type().equals(TokenType.Mod);
+		return token.type().equals(TokenType.Multiply)
+				|| token.type().equals(TokenType.Divide)
+				|| token.type().equals(TokenType.Mod);
 	}
 
 	private boolean isAssignOp() {

@@ -1,19 +1,38 @@
 ﻿package Syntax;
 
+import CodeGenerator.CodeGenerator;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
 /**
+ * if 를 나타내는 구문
+ * <p>
  * Abstract Syntax :
- * Syntax.IfStatement = Syntax.Expression condition; Syntax.Block; (Syntax.Expression elseif; Syntax.Block)*; Syntax.Block?
+ * IfStatement = Expression condition; Block; (Expression elseif; Block)*; Block?
  */
 public class IfStatement extends Statement {
+	/**
+	 * if의 조건문을 나타내는 변수
+	 */
 	protected final Expression condition;
+	/**
+	 * if내의 실행 부분을 나타내는 변수
+	 */
 	protected final Block statements;
+	/**
+	 * else if 구문들을 나타내는 <tt>ArrayList</tt>
+	 */
 	protected final ArrayList<IfStatement> elseIfs;
+	/**
+	 * else내의 실행 부분을 <tt>Block</tt>객체로 저장
+	 */
 	protected final Block elses;
 
+	/**
+	 * if, else if, else 구문을 포함하고 있는 if구문 생성자
+	 */
 	public IfStatement(Expression c, Block s, ArrayList<IfStatement> elseIf, Block e) {
 		condition = c;
 		statements = s;
@@ -21,78 +40,100 @@ public class IfStatement extends Statement {
 		elses = e;
 	}
 
+	/**
+	 * if, else if 구문을 포함하고 있는 if구문 생성자
+	 */
 	public IfStatement(Expression c, Block s, ArrayList<IfStatement> elseIfs) {
 		this(c, s, elseIfs, null);
 	}
 
+	/**
+	 * if, else 구문을 포함하고 있는 if구문 생성자
+	 */
 	public IfStatement(Expression c, Block s, Block e) {
 		this(c, s, null, e);
 	}
 
+	/**
+	 * if구문을 포함하고 있는 if구문 생성자
+	 */
 	public IfStatement(Expression c, Block s) {
 		this(c, s, null, null);
 	}
 
 	@Override
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.IfStatement");
-		condition.display(k + 1);
-		statements.display(k + 1);
+		System.out.println("IfStatement");
+		condition.display(lev + 1);
+		statements.display(lev + 1);
+
 		if (elseIfs != null) {
+			for (int i = 0; i < lev; i++) {
+				System.out.print("\t");
+			}
+			System.out.println("ElseIfStatement");
 			for (IfStatement statement : elseIfs) {
-				statement.display(k + 1);
+				statement.display(lev + 1);
 			}
 		}
 		if (elses != null) {
-			elses.display(k + 1);
+			for (int i = 0; i < lev; i++) {
+				System.out.print("\t");
+			}
+			System.out.println("ElseStatement");
+			elses.display(lev + 1);
 		}
 	}
 
 	@Override
-	protected void V(HashMap<String, Init> declarationMap) {
-		// todo �솗�씤
+	protected void V(HashMap<String, Init> declarationMap, Type functionType) {
+		// todo 확인
 		if (valid) return;
-
-		check(condition.typeOf(declarationMap) == Type.BOOL,
-				"\'if\'\'s condition must boolean type. declared : " + condition.typeOf(declarationMap));
 
 		condition.V(declarationMap);
-		statements.V(declarationMap,this);
+
+		check(condition.typeOf(declarationMap) == Type.BOOL,
+				"\'if\'\'s condition must boolean type. declared : " + condition.typeOf(declarationMap));
+
+		statements.V(declarationMap, functionType);
+
 		if (elseIfs != null) {
 			HashSet<Expression> conditions = new HashSet<>();
 			conditions.add(condition);
 
 			for (IfStatement statement : elseIfs) {
 
-				check(conditions.contains(statement.condition),
+				check(!conditions.contains(statement.condition),
 						"duplicated else if condition");
 
 				conditions.add(statement.condition);
-				statement.V(declarationMap,this);
+				statement.V(declarationMap, functionType);
 			}
 		}
 
 		if (elses != null) {
-			elses.V(declarationMap,this);
+			elses.V(declarationMap, functionType);
 		}
 
 		valid = true;
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap, Statement s) {
-		// TODO Auto-generated method stub
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
+		// todo 확인
 		if (valid) return;
+
+		condition.V(declarationMap);
 
 		check(condition.typeOf(declarationMap) == Type.BOOL,
 				"\'if\'\'s condition must boolean type. declared : " + condition.typeOf(declarationMap));
 
-		condition.V(declarationMap); 
-		statements.V(declarationMap,this);
+		statements.V(declarationMap, loopStatement, functionType);
+
 		if (elseIfs != null) {
 			HashSet<Expression> conditions = new HashSet<>();
 			conditions.add(condition);
@@ -103,15 +144,48 @@ public class IfStatement extends Statement {
 						"duplicated else if condition");
 
 				conditions.add(statement.condition);
-				statement.V(declarationMap,this);
+				statement.V(declarationMap, loopStatement, functionType);
 			}
 		}
 
 		if (elses != null) {
-			elses.V(declarationMap,this);
+			elses.V(declarationMap, loopStatement, functionType);
 		}
 
 		valid = true;
 	}
-	
+
+	@Override
+	public void genCode() {
+		// todo tjp, tjp 유동적 기능 추가
+
+		int ifNum = CodeGenerator.getIfNum();
+
+		condition.genCode();
+
+		statements.genCode();
+
+		if (elseIfs != null) {
+			CodeGenerator.fjp(CodeGenerator.getElseIfBranch(ifNum));
+
+			int len = elseIfs.size();
+			for (int i = 0; i < len; i++) {
+				elseIfs.get(i).condition.genCode();
+
+				elseIfs.get(i).statements.genCode();
+
+				if (i != len - 1) {
+					CodeGenerator.fjp(CodeGenerator.getElseIfBranch(ifNum));
+				}
+			}
+		}
+
+		CodeGenerator.fjp(CodeGenerator.getIfExitBranch(ifNum));
+
+		CodeGenerator.makeIfExitBranch(ifNum);
+
+		if (elses != null) {
+			elses.genCode();
+		}
+	}
 }

@@ -1,25 +1,26 @@
 package Syntax;
 
+import CodeGenerator.CodeGenerator;
+import Semantic.FunctionInfo;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
-/**
- * Created by 병훈 on 2015-05-20.
- */
+
 /**
  * AST의 투르 노드
  * <p>
  * Abstract Syntax :
- * Syntax.Program = Syntax.Global*; Syntax.Statements
+ * Program = Global*; Statements
  *
  * @see AbstractSyntax
  */
 public class Program extends AbstractSyntax {
 	/**
-	 * Global들을 모아놓은 리스트
+	 * <tt>Global</tt>객체들을 모아놓은 리스트
 	 *
 	 * @see Global
-	 * @see ArrayList
 	 */
 	protected final ArrayList<Global> globals;
 	/**
@@ -30,13 +31,13 @@ public class Program extends AbstractSyntax {
 	protected final Statements statements;
 
 	/**
-	 * <tt>Syntax.Program</tt>객체를 매개변수로 초기화한다.
+	 * <tt>Program</tt>객체를 매개변수로 초기화한다.
 	 *
-	 * @param g <tt>Syntax.Global</tt>의 <tt>ArrayList</tt>
+	 * @param g <tt>Global</tt>의 <tt>ArrayList</tt>
 	 *          전역변수와 함수의 정의들
 	 * @param s int main()의 안에 적혀있는 코드들
 	 */
-	Program(ArrayList<Global> g, Statements s) {
+	public Program(ArrayList<Global> g, Statements s) {
 		globals = g;
 		statements = s;
 	}
@@ -48,55 +49,113 @@ public class Program extends AbstractSyntax {
 				FunctionDeclaration functionDeclaration = (FunctionDeclaration) global;
 				functionDeclaration.mapParams();
 
-				check(!globalFunctionMap.contains(global),
-						"duplicated declared function " + functionDeclaration.name);
+				FunctionInfo info = new FunctionInfo(functionDeclaration);
 
-				globalFunctionMap.add(functionDeclaration);
+				check(!globalFunctionMap.contains(info),
+						"duplicate declared function " + functionDeclaration.name);
+
+
+				globalFunctionMap.add(info);
+
+
+				String functionName = functionDeclaration.getName();
+				ArrayList<FunctionInfo> map;
+
+				if (!overloadMap.containsKey(functionName)) {
+					map = new ArrayList<>();
+					overloadMap.put(functionName, map);
+
+				} else {
+					map = overloadMap.get(functionName);
+				}
+
+				map.add(info);
+
+				functionDeclaration.setInfo(info);
 
 			} else if (global instanceof Declaration) {
 
 				for (Init init : ((Declaration) global).inits) {
 
 					check(!globalVariableMap.containsKey(init.name),
-							"duplicated declaration in global " + init.name);
+							"duplicate declared variable in global " + init.name);
 
 					globalVariableMap.put(init.name, init);
 				}
 
 			} else {
-				check(false, "never reach here");
+				check(false, "Compiler error. never reach here");
 			}
 		}
 	}
 
+
 	@Override
-	public void display(int k) {
-		for (int w = 0; w < k; w++) {
+	public void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.Program");
+		System.out.println("Program");
 		for (Global g : globals) {
-			g.display(k + 1);
+			g.display(lev + 1);
 		}
-		statements.display(k + 1);
+		statements.display(lev + 1);
 	}
 
 
-	public void V() {
+	/**
+	 * 전체 AST의 타당성을 확인.
+	 * <p>
+	 * 실행 중 타당성이 성립되지 않는다면 중간에 프로그램이 종료됨.
+	 */
+	public void validation() {
+		mapGlobal();
+		statements.mapVariable();
 		V(globalVariableMap);
 	}
 
 
-	@Override
-	public void V(HashMap<String, Init> declarationMap) {
-		mapGlobal();
+	/**
+	 * <tt>globalVariableMap</tt>객체를 코드 생성을 위해 반환.
+	 *
+	 * @return 전역변수의 맵
+	 */
+	public LinkedHashMap<String, Init> getGlobalVariableMap() {
+		return globalVariableMap;
+	}
 
+
+	@Override
+	protected void V(HashMap<String, Init> declarationMap) {
 		for (Global global : globals) {
 			global.V(declarationMap);
 		}
 
-		statements.mapVariable();
-		statements.V(declarationMap);
+		statements.V(declarationMap, Type.INT);
+	}
+
+	@Override
+	public void genCode() {
+		for (Global global : globals) {
+			if (global instanceof Declaration) {
+				global.genCode();
+			}
+		}
+
+		CodeGenerator.bgn();
+		CodeGenerator.finishGlobalDeclaration();
+		CodeGenerator.ldp();
+		CodeGenerator.call("main");
+		CodeGenerator.end();
+
+		for (Global global : globals) {
+			if (global instanceof FunctionDeclaration) {
+				global.genCode();
+			}
+		}
+
+		CodeGenerator.proc("main", statements.variableSize());
+		statements.genCode();
 	}
 }

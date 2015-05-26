@@ -3,11 +3,19 @@
 import java.util.HashMap;
 
 /**
+ * 단항 실행문을 나타내는 구문
+ * <p>
  * Abstract Syntax :
- * Syntax.Unary = UnaryOperator; Syntax.Expression
+ * Unary = UnaryOperator; Expression
  */
 public class Unary extends Expression {
+	/**
+	 * 연산자를 나타내는 변수
+	 */
 	protected final Operator op;
+	/**
+	 * 실행문을 나타내는 변수
+	 */
 	protected final Expression term;
 
 	public Unary(Operator o, Expression e) {
@@ -16,34 +24,36 @@ public class Unary extends Expression {
 	}
 
 	@Override
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.Unary");
+		System.out.println("Unary");
 
-		op.display(k + 1);
-		term.display(k + 1);
+		op.display(lev + 1);
+		term.display(lev + 1);
 	}
 
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
+		// todo 확인
+
 		if (valid) return;
 
-		Type type = term.typeOf(declarationMap); //start here
 		term.V(declarationMap);
+		type = term.typeOf(declarationMap);
+
 		if (op.NotOp()) {
-			check((type == Type.BOOL), "type error for NotOp " + op);
+			check(type.equals(Type.BOOL), "type error for NotOp " + op);
 
 		} else if (op.NegateOp()) {
-			check((type.equals(Type.INT) || type == (Type.FLOAT)),
+			check(type.equals(Type.INT) || type.equals(Type.FLOAT),
 					"type error for NegateOp " + op);
 
 		} else if (op.incOp()) {
-			if(type.equals(Type.BOOL)) check(!(type.equals(Type.BOOL)),"type error for increase or decrease Op");
-			else if(type.equals(Type.VOID))check(!(type.equals(Type.VOID)),"type error for increase or decrease Op");
-			
+			check(!(type.equals(Type.BOOL) && type.equals(Type.VOID)),
+					"type error for increase or decrease Op");
 		} else {
 			throw new IllegalArgumentException("should never reach here UnaryOp error");
 		}
@@ -53,24 +63,15 @@ public class Unary extends Expression {
 
 	@Override
 	Type typeOf(HashMap<String, Init> declarationMap) {
-		// todo 수정
-		if (op.NotOp()){
-			if(term.typeOf(declarationMap)==Type.BOOL) return (Type.BOOL);
-			else return null;
-		}
-		else if (op.NegateOp()){
-			if(term.typeOf(declarationMap)==Type.INT || 
-			term.typeOf(declarationMap)==Type.FLOAT) return term.typeOf(declarationMap); 
-			else return null;
-		}
-		else if (op.incOp()){
-			if(term.typeOf(declarationMap)==Type.INT) return (Type.INT);
-			else if(term.typeOf(declarationMap)==Type.FLOAT) return (Type.FLOAT);
-			else if(term.typeOf(declarationMap)==Type.TIME) return (Type.TIME);
-			else if(term.typeOf(declarationMap)==Type.DATE) return (Type.DATE);
-			else return null;
-		}
-		else return null;
+		// todo 확인
+
+		check(valid, "Compiler error. must check validation");
+
+		return type;
 	}
 
+	@Override
+	public void genCode() {
+		// todo
+	}
 }

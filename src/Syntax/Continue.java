@@ -3,21 +3,30 @@ package Syntax;
 import java.util.HashMap;
 
 /**
+ * continue 를 나타내는 구문
+ * <p>
  * Abstract Syntax :
- * Syntax.Continue =
+ * Continue =
  */
 public class Continue extends Statement {
 	@Override
-	public void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.Continue");
+		System.out.println("Continue");
 	}
 
 	@Override
-	public void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
+		check(loopStatement instanceof WhileStatement
+				|| loopStatement instanceof ForStatement
+				, "continue must used in loop statement");
+	}
+
+	@Override
+	public void genCode() {
 		// todo
 	}
 

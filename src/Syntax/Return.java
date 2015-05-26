@@ -3,40 +3,70 @@ package Syntax;
 import java.util.HashMap;
 
 /**
+ * return 을 나타내는 구문
+ * <p>
  * Abstract Syntax :
- * Syntax.Return = Syntax.Expression?
+ * Return = Expression?
  */
 public class Return extends Statement {
+	/**
+	 * return 해주는 값을 나타내는 구문
+	 * <p>
+	 * null일경우 반환값이 없는 경우
+	 */
 	protected final Expression returnValue;
 
+	/**
+	 * return 값이 있을 때의 생성자
+	 */
 	public Return(Expression returnValue) {
 		this.returnValue = returnValue;
 	}
 
+	/**
+	 * return 값이 없을 때의 생성자
+	 */
 	public Return() {
 		this(null);
 	}
 
 	@Override
-	void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.Return");
+		System.out.println("Return");
 		if (returnValue != null) {
-			returnValue.display(k + 1);
+			returnValue.display(lev + 1);
 		}
 	}
 
 	@Override
-	protected void V(HashMap<String, Init> declarationMap) {
-		// todo
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
+		V(declarationMap, functionType);
 	}
 
 	@Override
-	void V(HashMap<String, Init> declarationMap, Statement s) {
-		// TODO Auto-generated method stub
-		
+	protected void V(HashMap<String, Init> declarationMap, Type functionType) {
+		if (returnValue == null) {
+			check(functionType.equals(Type.VOID),
+					"must not have return value in void function.");
+		} else {
+			 check(!functionType.equals(Type.VOID),
+					 "void function can not have return value");
+
+			returnValue.V(declarationMap);
+
+			Type expressionType = returnValue.typeOf(declarationMap);
+			check(expressionType.equals(functionType),
+					"return value's type is not match with declared function return type." +
+							" return type : [" + expressionType + "], function type : [" + functionType + "]");
+		}
+	}
+
+	@Override
+	public void genCode() {
+		// todo
 	}
 }

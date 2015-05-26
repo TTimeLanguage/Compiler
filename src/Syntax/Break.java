@@ -3,7 +3,7 @@ package Syntax;
 import java.util.HashMap;
 
 /**
- * break 
+ * break 를 나타내는 구문
  * <p>
  * Abstract Syntax :
  * Break =
@@ -20,7 +20,7 @@ public class Break extends Statement {
 
 	@Override
 	protected void V(HashMap<String, Init> declarationMap, Type functionType) {
-		check(true, "wrong statement. break keyword is not to be here");
+		check(false, "wrong statement. break keyword is not to be here");
 	}
 
 	@Override

@@ -1,23 +1,13 @@
 package Syntax;
 
-import java.util.HashMap;
-
-import Syntax.AbstractSyntax;
-
 /**
+ * í”„ë¡œê·¸ë¨ì—ì„œ ì •ì˜ë¥¼ ëº€ ì‹¤í–‰êµ¬ë¬¸ë“¤ì˜ abstract class
+ * <p>
  * Abstract Syntax :
- * Syntax.Statement = Syntax.Skip | Syntax.IfStatement | Syntax.Block | Syntax.WhileStatement | Syntax.SwitchStatement
- * | Syntax.ForStatement | Syntax.Return | Syntax.Expression | Syntax.Break | Syntax.Continue
+ * Statement = Skip | IfStatement | Block | WhileStatement | SwitchStatement
+ * | ForStatement | Return | Expression | Break | Continue
  */
-abstract public class Statement extends AbstractSyntax {	
-	abstract void V(HashMap<String, Init> declarationMap, Statement s);    // validation
-
-	/**
-	 * <tt>test</tt>¸¦ È®ÀÎÇØ¼­ false¸é <tt>msg</tt>¸¦ Ãâ·ÂÇÏ°í Á¾·áÇÔ
-	 *
-	 * @param test È®ÀÎ ÇÏ°í ½ÍÀº ½ÄÀÌ³ª º¯¼ö
-	 * @param msg  <tt>test</tt>°¡ ¸¸Á·ÇÏÁö ¸ø ÇÒ °æ¿ì Ãâ·Â ÇÒ ¸Ş½ÃÁö
-	 */
-
+abstract public class Statement extends AbstractSyntax {
 }
+
 
