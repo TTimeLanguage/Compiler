@@ -3,30 +3,36 @@ package Syntax;
 import java.util.HashMap;
 
 /**
+ * break 
+ * <p>
  * Abstract Syntax :
- * Syntax.Break =
+ * Break =
  */
 public class Break extends Statement {
 	@Override
-	public void display(int k) {
-		for (int w = 0; w < k; w++) {
+	void display(int lev) {
+		for (int i = 0; i < lev; i++) {
 			System.out.print("\t");
 		}
 
-		System.out.println("Syntax.Break");
+		System.out.println("Break");
 	}
 
 	@Override
-	public void V(HashMap<String, Init> declarationMap) {
+	protected void V(HashMap<String, Init> declarationMap, Type functionType) {
+		check(true, "wrong statement. break keyword is not to be here");
+	}
+
+	@Override
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
+		check(loopStatement instanceof WhileStatement
+				|| loopStatement instanceof ForStatement
+				|| loopStatement instanceof SwitchStatement
+				, "break must used in loop or switch statement");
+	}
+
+	@Override
+	public void genCode() {
 		// todo
-	}
-
-	@Override
-	void V(HashMap<String, Init> declarationMap, Statement s) {
-		
-		check(s instanceof WhileStatement || s instanceof ForStatement || s instanceof SwitchStatement || s instanceof IfStatement,
-				"can not reach here Break ");
-		// TODO Auto-generated method stub
-		
 	}
 }
