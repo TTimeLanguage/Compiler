@@ -12,17 +12,37 @@ public class FloatValue extends Value {
 	/**
 	 * float 값을 저장하는 변수
 	 */
-	protected final float value;
+	protected final double value;
 
-	public FloatValue(float v) {
+	public FloatValue(double v) {
 		type = Type.FLOAT;
 		value = v;
 	}
 
-	float floatValue() {
+	double floatValue() {
 		return value;
 	}
 
+	int intValue() {
+		return (int) value;
+	}
+
+	int decimalValue() {
+		double decimal = value - (int) value;
+		return (int) (decimal * 100000000);
+	}
+
+	@Override
+	public int hashCode() {
+		return Double.hashCode(value);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof FloatValue && obj.hashCode() == this.hashCode();
+	}
+
+	@Override
 	public String toString() {
 		return "" + value;
 	}
@@ -38,7 +58,7 @@ public class FloatValue extends Value {
 
 	@Override
 	public void genCode() {
-		CodeGenerator.ldc((int) value);
-		// todo
+		CodeGenerator.ldc(decimalValue());
+		CodeGenerator.ldc(intValue());
 	}
 }

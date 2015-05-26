@@ -5,6 +5,7 @@ import Parser.Parser;
 import Semantic.TypeChecker;
 import Syntax.Expression;
 import Syntax.Program;
+import Syntax.Type;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -32,14 +33,27 @@ public class CodeGenerator {
 	protected static final HashMap<String, SymbolTableElement> currentSymbolTable = new HashMap<>();
 
 	/**
-	 * sym으로 정의가 끝난 후 초기화를 진행해야하는 초기값을 가진 변수들을 초기화할때 사용한다.
+	 * <tt>sym</tt>으로 정의가 끝난 후 초기화를 진행해야하는 초기값을 가진 변수들을 초기화할때 사용한다.
 	 * <p>
 	 * key로 <tt>String</tt>형 변수의 이름과, value로 초기화 값을 <tt>Expression</tt>의 객체로 가진다.
 	 */
 	private static LinkedHashMap<String, ArrayList<Expression>> initList = new LinkedHashMap<>();
 
-	private static boolean finishGlobalDecl = false;
+	/**
+	 * 전역변수 선언부의 U-code가 완성됐는지 여부.
+	 * <p>
+	 * 전역 변수 선언이 끝나면 초기화가 있는 변수를 초기화할때 쓴다.
+	 */
+	private static boolean finishGlobalDec = false;
+
+	/**
+	 * 현재 선언중인 부분의 마지막 offset.
+	 * <p>
+	 * sym할때 2번째 매개변수인 변수의 시작주소를 주기 위해 쓴다.
+	 */
 	private static int variableOffset = 0;
+
+
 	private TypeChecker typeChecker;
 	String outputFile;
 	private static FileWriter writer;
@@ -114,7 +128,7 @@ public class CodeGenerator {
 	}
 
 	public static boolean isInGlobalDeclaration() {
-		return !finishGlobalDecl;
+		return !finishGlobalDec;
 	}
 
 	public static void startLocalDeclaration() {
@@ -129,6 +143,10 @@ public class CodeGenerator {
 				exp.genCode();
 
 				str(id, i++);
+
+				if (exp.getType().equals(Type.FLOAT)) {
+					str(id, i++);
+				}
 			}
 		}
 
@@ -138,7 +156,7 @@ public class CodeGenerator {
 	}
 
 	public static void finishGlobalDeclaration() {
-		finishGlobalDecl = true;
+		finishGlobalDec = true;
 
 		globalSymbolTable.putAll(currentSymbolTable);
 
@@ -319,7 +337,7 @@ public class CodeGenerator {
 
 	public static void bgn() {
 		genCode("bgn", variableOffset);
-		finishGlobalDecl = true;
+		finishGlobalDec = true;
 	}
 
 	public static void sym(String id, int block, int size) {
@@ -328,5 +346,11 @@ public class CodeGenerator {
 		currentSymbolTable.put(id, new SymbolTableElement(block, variableOffset + 1, size));
 
 		variableOffset += size;
+	}
+
+
+	public static void floatInit(String id) {
+
+
 	}
 }

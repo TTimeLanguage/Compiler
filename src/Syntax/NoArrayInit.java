@@ -16,7 +16,7 @@ public class NoArrayInit extends Init {
 	 * <p>
 	 * null일경우 초기화되지않은 변수의 선언이다.
 	 */
-	protected final Expression initial;
+	protected Expression initial;
 
 	/**
 	 * 초기화를 해주는 변수의 구문을 나타내는 생성자
@@ -62,8 +62,10 @@ public class NoArrayInit extends Init {
 
 		if (initial != null) {
 			initial.V(declarationMap);
-			check(initial.typeOf(declarationMap).equals(type),
-					"wrong type initializer in declaration : " + type + " " + name);
+
+			Type declaredType = initial.typeOf(declarationMap);
+
+			checkInitType(initial, declaredType);
 		}
 
 		valid = true;
