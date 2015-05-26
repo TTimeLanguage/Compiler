@@ -53,6 +53,12 @@ public class CodeGenerator {
 	 */
 	private static int variableOffset = 0;
 
+	private static int lastLoopBranchNumber = 0;
+
+	private static int lastIfBranchNumber = 0;
+
+	private static int lastElseIfBranchNumber = 0;
+
 
 	private TypeChecker typeChecker;
 	String outputFile;
@@ -114,7 +120,7 @@ public class CodeGenerator {
 		}
 	}
 
-	private void genLabel(String label) {
+	private static void genLabel(String label) {
 		StringBuilder result = new StringBuilder(label);
 
 		result.append("\tnop\r\n");
@@ -126,6 +132,55 @@ public class CodeGenerator {
 			e.printStackTrace();
 		}
 	}
+
+
+	public static int makeLoopStartBranch() {
+		genLabel(getLoopStartBranch(lastLoopBranchNumber));
+
+		lastLoopBranchNumber++;
+
+		return lastLoopBranchNumber - 1;
+	}
+
+	public static void makeLoopEndBranch(int labelStartNum) {
+		genLabel(getLoopEndBranch(labelStartNum));
+	}
+
+	public static String getLoopEndBranch(int labelStartNum) {
+		return "$LOOPE" + labelStartNum;
+	}
+
+	public static String getLoopStartBranch(int labelStartNum) {
+		return "$LOOP" + labelStartNum;
+	}
+
+
+	public static int getIfNum() {
+		lastIfBranchNumber++;
+
+		lastElseIfBranchNumber = 0;
+
+		return lastIfBranchNumber - 1;
+	}
+
+	public static void makeElseIfBranch(int ifLabelNum) {
+		genLabel(getElseIfBranch(ifLabelNum));
+
+		lastElseIfBranchNumber++;
+	}
+
+	public static String getElseIfBranch(int ifLabelNum) {
+		return "$ELIF" + ifLabelNum + "-" + lastElseIfBranchNumber;
+	}
+
+	public static String getIfExitBranch(int ifLabelNum) {
+		return "$IFE" + ifLabelNum;
+	}
+
+	public static void makeIfExitBranch(int ifLabelNum) {
+		genLabel(getIfExitBranch(ifLabelNum));
+	}
+
 
 	public static boolean isInGlobalDeclaration() {
 		return !finishGlobalDec;
@@ -276,12 +331,20 @@ public class CodeGenerator {
 		genCode("ujp");
 	}
 
-	public static void tjp() {
-		genCode("tjp");
+	public static void tjp(String label) {
+		try {
+			writer.write("\ttjp\t" + label + "\r\n");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public static void fjp() {
-		genCode("fjp");
+	public static void fjp(String label) {
+		try {
+			writer.write("\tfjp\t" + label + "\r\n");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void chkh() {
@@ -346,11 +409,5 @@ public class CodeGenerator {
 		currentSymbolTable.put(id, new SymbolTableElement(block, variableOffset + 1, size));
 
 		variableOffset += size;
-	}
-
-
-	public static void floatInit(String id) {
-
-
 	}
 }
