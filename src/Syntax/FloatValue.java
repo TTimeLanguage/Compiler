@@ -23,6 +23,15 @@ public class FloatValue extends Value {
 		return value;
 	}
 
+	int intValue() {
+		return (int) value;
+	}
+
+	int decimalValue() {
+		double decimal = value - (int) value;
+		return (int) (decimal * 100000000);
+	}
+
 	@Override
 	public int hashCode() {
 		return Double.hashCode(value);
@@ -49,7 +58,7 @@ public class FloatValue extends Value {
 
 	@Override
 	public void genCode() {
-		CodeGenerator.ldc((int) value);
-		// todo
+		CodeGenerator.ldc(decimalValue());
+		CodeGenerator.ldc(intValue());
 	}
 }

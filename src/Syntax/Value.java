@@ -9,11 +9,6 @@ import java.util.HashMap;
  * Value = IntValue | BoolValue | FloatValue | CharValue | TimeValue | DateValue
  */
 public abstract class Value extends Expression {
-	/**
-	 * 리터럴의 타입
-	 */
-	protected Type type;
-
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
 		valid = true;
@@ -26,5 +21,3 @@ public abstract class Value extends Expression {
 		return type;
 	}
 }
-
-
