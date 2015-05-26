@@ -1,0 +1,32 @@
+int main(){
+
+int i = 0, j[5] = {1,1};
+
+
+while(i<=15){
+
+	i = i+1;
+	if(i%2 == 0 ){ 
+	continue;
+	}
+	else{
+	continue;
+	} 
+	i = i--;
+	continue;
+}
+for(i=0;i<5;i++)
+{
+	if(i%2 == 0 ){ 
+	continue;
+	}
+	j[i]=3;	
+}
+switch(i){
+case 3: j[4]=3;break;
+case 4: j[4]=4;break;
+case 5: j[4]=5;continue; // switch¹® continue; error
+case 6: j[4]=6;break;
+default:break;
+}
+}
