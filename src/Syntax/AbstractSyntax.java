@@ -47,9 +47,9 @@ public abstract class AbstractSyntax {
 	/**
 	 * AST에서 노드(객체)의 정보를 표시함
 	 *
-	 * @param k 노드의 레벨
+	 * @param lev 노드의 레벨
 	 */
-	abstract void display(int k);
+	abstract void display(int lev);
 
 
 	/**
