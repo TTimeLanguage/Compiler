@@ -125,7 +125,7 @@ public class FunctionDeclaration extends Global {
 		}
 		localVariableSize += statements.variableSize();
 
-		String realName = name + overloadMap.get(name).indexOf(information);
+		String realName = name + '$' + overloadMap.get(name).indexOf(information);
 
 		CodeGenerator.proc(realName, localVariableSize);
 
