@@ -36,7 +36,8 @@ public class WhileStatement extends Statement {
 		statements.display(lev + 1);
 	}
 
-	private void innerV(HashMap<String, Init> declarationMap) {
+	@Override
+	protected void V(HashMap<String, Init> declarationMap, Type functionType) {
 		if (valid) return;
 
 		condition.V(declarationMap);
@@ -44,11 +45,6 @@ public class WhileStatement extends Statement {
 		Type type = condition.typeOf(declarationMap);
 		check(condition.typeOf(declarationMap).equals(Type.BOOL),
 				"condition statement type must be boolean. condition type : " + type);
-	}
-
-	@Override
-	protected void V(HashMap<String, Init> declarationMap, Type functionType) {
-		innerV(declarationMap);
 
 		statements.V(declarationMap, this, functionType);
 
@@ -73,16 +69,16 @@ public class WhileStatement extends Statement {
 	public void genCode() {
 		// todo 확인
 
-		int loopNum = CodeGenerator.makeLoopStartBranch();
+		branchNum = CodeGenerator.makeLoopStartBranch();
 
 		condition.genCode();
 
-		CodeGenerator.fjp(CodeGenerator.getLoopEndBranch(loopNum));
+		CodeGenerator.fjp(CodeGenerator.getLoopEndBranch(branchNum));
 
 		statements.genCode();
 
-		CodeGenerator.ujp(CodeGenerator.getLoopStartBranch(loopNum));
+		CodeGenerator.ujp(CodeGenerator.getLoopStartBranch(branchNum));
 
-		CodeGenerator.makeLoopEndBranch(loopNum);
+		CodeGenerator.makeLoopEndBranch(branchNum);
 	}
 }

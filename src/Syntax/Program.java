@@ -5,7 +5,6 @@ import Semantic.FunctionInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 
 /**
@@ -113,16 +112,6 @@ public class Program extends AbstractSyntax {
 		mapGlobal();
 		statements.mapVariable();
 		V(globalVariableMap);
-	}
-
-
-	/**
-	 * <tt>globalVariableMap</tt>객체를 코드 생성을 위해 반환.
-	 *
-	 * @return 전역변수의 맵
-	 */
-	public LinkedHashMap<String, Init> getGlobalVariableMap() {
-		return globalVariableMap;
 	}
 
 
