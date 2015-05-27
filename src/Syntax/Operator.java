@@ -179,10 +179,12 @@ public class Operator {
 		this.type = type;
 	}
 
+	@Override
 	public String toString() {
 		return value;
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		return obj instanceof Operator && value.equals(obj);
 	}
@@ -290,7 +292,7 @@ public class Operator {
 	 * @param type 연산자의 type
 	 * @return 매개변수에 맞는 알맞은 연산자 <tt>Operator</tt>객체
 	 */
-	static private Operator map(String[][] tmap, String op, Type type) {
+	private static Operator map(String[][] tmap, String op, Type type) {
 		for (String[] aTmap : tmap) {
 
 			if (aTmap[0].equals(op)) {
@@ -330,7 +332,7 @@ public class Operator {
 	 * @param op 변한될 매개변수
 	 * @return 변환한 int형 매개변수
 	 */
-	static public Operator intMap(String op) {
+	public static Operator intMap(String op) {
 		return map(intMap, op, Type.INT);
 	}
 
@@ -340,7 +342,7 @@ public class Operator {
 	 * @param op 변한될 매개변수
 	 * @return 변환한 float형 매개변수
 	 */
-	static public Operator floatMap(String op) {
+	public static Operator floatMap(String op) {
 		return map(floatMap, op, Type.FLOAT);
 	}
 
@@ -350,7 +352,7 @@ public class Operator {
 	 * @param op 변한될 매개변수
 	 * @return 변환한 char형 매개변수
 	 */
-	static public Operator charMap(String op) {
+	public static Operator charMap(String op) {
 		return map(charMap, op, Type.CHAR);
 	}
 
@@ -360,7 +362,7 @@ public class Operator {
 	 * @param op 변한될 매개변수
 	 * @return 변환한 bool형 매개변수
 	 */
-	static public Operator boolMap(String op) {
+	public static Operator boolMap(String op) {
 		return map(boolMap, op, Type.BOOL);
 	}
 
@@ -370,7 +372,7 @@ public class Operator {
 	 * @param op 변한될 매개변수
 	 * @return 변환한 time형 매개변수
 	 */
-	static public Operator timeMap(String op) {
+	public static Operator timeMap(String op) {
 		return map(timeMap, op, Type.TIME);
 	}
 
@@ -380,7 +382,7 @@ public class Operator {
 	 * @param op 변한될 매개변수
 	 * @return 변환한 date형 매개변수
 	 */
-	static public Operator dateMap(String op) {
+	public static Operator dateMap(String op) {
 		return map(dateMap, op, Type.DATE);
 	}
 
@@ -392,4 +394,30 @@ public class Operator {
 		System.out.println("Operator " + value);
 	}
 
+	public static Operator mapping(Operator op, Type type) {
+		if (type.equals(Type.INT)) {
+			return intMap(op.value);
+
+		} else if (type.equals(Type.FLOAT)) {
+			return floatMap(op.value);
+
+		} else if (type.equals(Type.CHAR)) {
+			return charMap(op.value);
+
+		} else if (type.equals(Type.BOOL)) {
+			return boolMap(op.value);
+
+		} else if (type.equals(Type.TIME)) {
+			return timeMap(op.value);
+
+		} else if (type.equals(Type.DATE)) {
+			return dateMap(op.value);
+
+		} else {
+			System.err.println("Compiler error. must not reach here. Operator mapping");
+			System.exit(1);
+		}
+
+		return null;
+	}
 }
