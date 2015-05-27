@@ -8,6 +8,7 @@ package Syntax;
  * | ForStatement | Return | Expression | Break | Continue
  */
 abstract public class Statement extends AbstractSyntax {
+	protected int branchNum;
 }
 
 
