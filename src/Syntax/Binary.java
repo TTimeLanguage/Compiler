@@ -1,6 +1,9 @@
 package Syntax;
 
+import CodeGenerator.CodeGenerator;
+
 import java.util.HashMap;
+import java.util.function.*;
 
 /**
  * 이항연산을 나타내는 구문
@@ -267,5 +270,142 @@ public class Binary extends Expression {
 	@Override
 	public void genCode() {
 		// todo
+
+		switch (op.value) {
+			case Operator.CHAR_EQ:
+			case Operator.INT_EQ:
+				makeCondition(CodeGenerator::eq);
+				break;
+
+			case Operator.INT_NE:
+			case Operator.CHAR_NE:
+				makeCondition(CodeGenerator::ne);
+				break;
+
+			case Operator.INT_GT:
+			case Operator.CHAR_GT:
+				makeCondition(CodeGenerator::gt);
+				break;
+
+			case Operator.INT_LT:
+			case Operator.CHAR_LT:
+				makeCondition(CodeGenerator::lt);
+				break;
+
+			case Operator.INT_GE:
+			case Operator.CHAR_GE:
+				makeCondition(CodeGenerator::ge);
+				break;
+
+			case Operator.INT_LE:
+			case Operator.CHAR_LE:
+				makeCondition(CodeGenerator::le);
+				break;
+
+			case Operator.BOOL_ASSIGN:
+			case Operator.CHAR_ASSIGN:
+			case Operator.INT_ASSIGN:
+			case Operator.TIME_ASSIGN:
+			case Operator.DATE_ASSIGN:
+				if (term1 instanceof Variable) {
+					Variable temp = (Variable) term1;
+
+					term2.genCode();
+
+					CodeGenerator.str(temp.name);
+
+				} else if (term1 instanceof ArrayRef) {
+					ArrayRef temp = (ArrayRef) term1;
+
+					CodeGenerator.lda(temp.name);
+					temp.index.genCode();
+					CodeGenerator.add();
+
+					term2.genCode();
+
+					CodeGenerator.sti();
+
+				} else {
+					check(false, "Compiler error. never reach here. Binary genCode()");
+				}
+				break;
+
+			case Operator.INT_PLUS_ASSIGN:
+			case Operator.INT_MINUS_ASSIGN:
+			case Operator.INT_TIMES_ASSIGN:
+			case Operator.INT_DIV_ASSIGN:
+			case Operator.INT_MOD_ASSIGN:
+				if (term1 instanceof Variable) {
+					Variable temp = (Variable) term1;
+
+					CodeGenerator.lod(temp.name);
+					term2.genCode();
+
+					switch (op.value) {
+						case Operator.INT_PLUS_ASSIGN:
+							CodeGenerator.add();
+							break;
+						case Operator.INT_MINUS_ASSIGN:
+							CodeGenerator.sub();
+							break;
+						case Operator.INT_TIMES_ASSIGN:
+							CodeGenerator.multi();
+							break;
+						case Operator.INT_DIV_ASSIGN:
+							CodeGenerator.div();
+							break;
+						case Operator.INT_MOD_ASSIGN:
+							CodeGenerator.mod();
+					}
+
+					CodeGenerator.str(temp.name);
+
+				} else if (term1 instanceof ArrayRef) {
+					ArrayRef temp = (ArrayRef) term1;
+
+					CodeGenerator.lda(temp.name);
+					temp.index.genCode();
+					CodeGenerator.add();
+
+					CodeGenerator.dup();
+					CodeGenerator.ldi();
+
+					term2.genCode();
+
+					switch (op.value) {
+						case Operator.INT_PLUS_ASSIGN:
+							CodeGenerator.add();
+							break;
+						case Operator.INT_MINUS_ASSIGN:
+							CodeGenerator.sub();
+							break;
+						case Operator.INT_TIMES_ASSIGN:
+							CodeGenerator.multi();
+							break;
+						case Operator.INT_DIV_ASSIGN:
+							CodeGenerator.div();
+							break;
+						case Operator.INT_MOD_ASSIGN:
+							CodeGenerator.mod();
+					}
+
+					CodeGenerator.sti();
+
+				} else {
+					check(false, "Compiler error. never reach here. Binary genCode()");
+				}
+				break;
+
+		}
+	}
+
+	private void makeCondition(Runnable runnable) {
+		term1.genCode();
+		term2.genCode();
+
+		CodeGenerator.sub();
+
+		CodeGenerator.ldc(0);
+		runnable.run();
 	}
 }

@@ -14,6 +14,7 @@ import java.util.HashMap;
  * @see Init
  */
 public class Declaration extends Global {
+	// todo
 	/**
 	 * 초기값을 나타내는 <tt>ArrayList</tt> 배열
 	 */

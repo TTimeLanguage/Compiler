@@ -1,5 +1,7 @@
 package Syntax;
 
+import CodeGenerator.CodeGenerator;
+
 import java.util.HashMap;
 
 /**
@@ -9,6 +11,8 @@ import java.util.HashMap;
  * Continue =
  */
 public class Continue extends Statement {
+	private Statement parentStatement;
+
 	@Override
 	void display(int lev) {
 		for (int i = 0; i < lev; i++) {
@@ -28,10 +32,14 @@ public class Continue extends Statement {
 		check(loopStatement instanceof WhileStatement
 				|| loopStatement instanceof ForStatement
 				, "continue must used in loop statement");
+
+		parentStatement = loopStatement;
 	}
 
 	@Override
 	public void genCode() {
 		// todo
+
+		CodeGenerator.ujp(CodeGenerator.getLoopStartBranch(parentStatement.branchNum));
 	}
 }
