@@ -165,7 +165,7 @@ public class SwitchStatement extends Statement {
 	public void genCode() {
 		// todo
 
-		int ifNum = CodeGenerator.getIfNum();
+		branchNum = CodeGenerator.getIfNum();
 
 		condition.genCode();
 
@@ -180,21 +180,21 @@ public class SwitchStatement extends Statement {
 			CodeGenerator.eq();
 
 			if (i < len - 1) {
-				CodeGenerator.fjp(CodeGenerator.getElseIfBranch(ifNum, i++));
+				CodeGenerator.fjp(CodeGenerator.getElseIfBranch(branchNum, i++));
 			} else {
-				CodeGenerator.fjp(CodeGenerator.getIfExitBranch(ifNum));
+				CodeGenerator.fjp(CodeGenerator.getIfExitBranch(branchNum));
 			}
 		}
 
 		for (Value value : cases.keySet()) {
-			CodeGenerator.makeElseIfBranch(ifNum);
+			CodeGenerator.makeElseIfBranch(branchNum);
 
 			for (Statement statement : cases.get(value)) {
 				statement.genCode();
 			}
 		}
 
-		CodeGenerator.makeIfExitBranch(ifNum);
+		CodeGenerator.makeIfExitBranch(branchNum);
 
 		for (Statement statement : defaults) {
 			statement.genCode();

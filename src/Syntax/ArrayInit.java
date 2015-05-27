@@ -72,6 +72,9 @@ public class ArrayInit extends Init {
 				"array size must higher than 1. declared : " + type + " " + name + "[" + size + "]");
 
 		if (initList != null) {
+			check(size >= initList.size(),
+					"initializes must less than array size. declared : " + type + " " + name + "[" + size + "]");
+
 			for (Expression expression : initList) {
 				expression.V(declarationMap);
 
