@@ -1,5 +1,7 @@
 ﻿package Syntax;
 
+import CodeGenerator.CodeGenerator;
+
 import java.util.HashMap;
 
 /**
@@ -12,7 +14,7 @@ public class Unary extends Expression {
 	/**
 	 * 연산자를 나타내는 변수
 	 */
-	protected final Operator op;
+	protected Operator op;
 	/**
 	 * 실행문을 나타내는 변수
 	 */
@@ -47,13 +49,20 @@ public class Unary extends Expression {
 		if (op.NotOp()) {
 			check(type.equals(Type.BOOL), "type error for NotOp " + op);
 
+			op = Operator.mapping(op, type);
+
 		} else if (op.NegateOp()) {
 			check(type.equals(Type.INT) || type.equals(Type.FLOAT),
 					"type error for NegateOp " + op);
 
+			op = Operator.mapping(op, type);
+
 		} else if (op.incOp()) {
 			check(!(type.equals(Type.BOOL) && type.equals(Type.VOID)),
 					"type error for increase or decrease Op");
+
+			op = Operator.mapping(op, type);
+
 		} else {
 			throw new IllegalArgumentException("should never reach here UnaryOp error");
 		}
@@ -73,5 +82,10 @@ public class Unary extends Expression {
 	@Override
 	public void genCode() {
 		// todo
+
+		switch (op.value) {
+			case Operator.INT_PP:
+				term.genCode();
+		}
 	}
 }

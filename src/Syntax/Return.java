@@ -1,5 +1,7 @@
 package Syntax;
 
+import CodeGenerator.CodeGenerator;
+
 import java.util.HashMap;
 
 /**
@@ -68,5 +70,13 @@ public class Return extends Statement {
 	@Override
 	public void genCode() {
 		// todo
+
+		if (returnValue != null) {
+			returnValue.genCode();
+			CodeGenerator.retv();
+
+		} else {
+			CodeGenerator.ret();
+		}
 	}
 }

@@ -86,7 +86,7 @@ public class Function extends Expression {
 		// todo 개선
 		CodeGenerator.ldp();
 
-		String realName = name + overloadMap.get(name).indexOf(functionInfo);
+		String realName = name + '$' +  overloadMap.get(name).indexOf(functionInfo);
 
 		CodeGenerator.call(realName);
 	}

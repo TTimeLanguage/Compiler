@@ -1,5 +1,7 @@
 package Syntax;
 
+import CodeGenerator.CodeGenerator;
+
 import java.util.HashMap;
 
 /**
@@ -9,6 +11,8 @@ import java.util.HashMap;
  * Break =
  */
 public class Break extends Statement {
+	private Statement parentStatement;
+
 	@Override
 	void display(int lev) {
 		for (int i = 0; i < lev; i++) {
@@ -29,10 +33,14 @@ public class Break extends Statement {
 				|| loopStatement instanceof ForStatement
 				|| loopStatement instanceof SwitchStatement
 				, "break must used in loop or switch statement");
+
+		parentStatement = loopStatement;
 	}
 
 	@Override
 	public void genCode() {
 		// todo
+
+		CodeGenerator.ujp(CodeGenerator.getLoopEndBranch(parentStatement.branchNum));
 	}
 }
