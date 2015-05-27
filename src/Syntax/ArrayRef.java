@@ -1,6 +1,8 @@
 package Syntax;
 
 
+import CodeGenerator.CodeGenerator;
+
 import java.util.HashMap;
 
 /**
@@ -36,7 +38,7 @@ public class ArrayRef extends VariableRef {
 
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
-		// todo 확인
+		// todo 확인 인덱스 범위 확인
 		if (valid) return;
 
 		check(declarationMap.containsKey(name),
@@ -57,16 +59,21 @@ public class ArrayRef extends VariableRef {
 	Type typeOf(HashMap<String, Init> declarationMap) {
 		check(valid, "Compiler error. must check validation");
 
-		check(declarationMap.containsKey(this.name),
-				"undefined variable: " + this.name);
+		check(declarationMap.containsKey(name),
+				"undefined variable: " + name);
 
-		type = declarationMap.get(this.name).type;
+		type = declarationMap.get(name).type;
 
 		return type;
 	}
 
 	@Override
 	public void genCode() {
+		// todo 확인
 
+		CodeGenerator.lda(name);
+		index.genCode();
+		CodeGenerator.add();
+		CodeGenerator.ldi();
 	}
 }
