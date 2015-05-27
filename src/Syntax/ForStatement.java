@@ -98,8 +98,8 @@ public class ForStatement extends Statement {
 		statements.display(lev + 1);
 	}
 
-	private void innerV(HashMap<String, Init> declarationMap) {
-		// todo 확인
+	@Override
+	protected void V(HashMap<String, Init> declarationMap, Type functionType) {
 		if (valid) return;
 
 		check(condition != null,
@@ -117,11 +117,6 @@ public class ForStatement extends Statement {
 		for (Expression post : postExpression) {
 			post.V(declarationMap);
 		}
-	}
-
-	@Override
-	protected void V(HashMap<String, Init> declarationMap, Type functionType) {
-		innerV(declarationMap);
 
 		statements.V(declarationMap, this, functionType);
 
@@ -141,10 +136,10 @@ public class ForStatement extends Statement {
 			pre.genCode();
 		}
 
-		int loopNum = CodeGenerator.makeLoopStartBranch();
+		branchNum = CodeGenerator.makeLoopStartBranch();
 
 		condition.genCode();
-		CodeGenerator.fjp(CodeGenerator.getLoopEndBranch(loopNum));
+		CodeGenerator.fjp(CodeGenerator.getLoopEndBranch(branchNum));
 
 		statements.genCode();
 
@@ -152,8 +147,8 @@ public class ForStatement extends Statement {
 			post.genCode();
 		}
 
-		CodeGenerator.ujp(CodeGenerator.getLoopStartBranch(loopNum));
+		CodeGenerator.ujp(CodeGenerator.getLoopStartBranch(branchNum));
 
-		CodeGenerator.makeLoopEndBranch(loopNum);
+		CodeGenerator.makeLoopEndBranch(branchNum);
 	}
 }
