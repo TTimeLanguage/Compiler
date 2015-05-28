@@ -27,7 +27,7 @@ public class DefinedFunction {
 			"write", "read", "lf", "getHour", "getMin", "getSec", "getYear", "getMonth", "getDay",
 			"addTime", "addDate", "subTime", "subDate", "mulTime", "divTime", "modTime",
 			"validTime", "validDate",
-			"addFloat", "subFloat", "mulFloat", "divFloat", "modFloat"
+			"addFloat", "subFloat", "mulFloat", "divFloat", "modFloat", "F2I", "I2F"
 	));
 
 	public static void defineFunc(FunctionSet functionSet, HashMap<String, ArrayList<FunctionInfo>> overloadMap) {

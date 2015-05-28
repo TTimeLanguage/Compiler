@@ -1,5 +1,7 @@
 package Syntax;
 
+import CodeGenerator.CodeGenerator;
+
 import java.util.HashMap;
 
 /**
@@ -13,6 +15,11 @@ public class TypeCast extends Expression {
 	 * 변환하고자 하는 타입을 나타내는 변수
 	 */
 	protected final Type type;
+
+	/**
+	 * 캐스트할 구문의 타입을 나타내는 변수
+	 */
+	protected Type expressionType;
 	/**
 	 * 변환하고자 하는 실행구문
 	 */
@@ -40,6 +47,7 @@ public class TypeCast extends Expression {
 
 		expression.V(declarationMap);
 		Type t = expression.typeOf(declarationMap);
+		expressionType = t;
 
 		if (type.equals(Type.INT)) {
 			check(t.equals(Type.INT) || t.equals(Type.CHAR) || t.equals(Type.FLOAT) || t.equals(Type.BOOL),
@@ -86,6 +94,18 @@ public class TypeCast extends Expression {
 
 	@Override
 	public void genCode() {
-		// todo
+		if (expressionType.equals(Type.INT) && type.equals(Type.FLOAT)) {
+			CodeGenerator.ldp();
+			expression.genCode();
+			CodeGenerator.call("I2F");
+
+		} else if (expressionType.equals(Type.FLOAT) && type.equals(Type.INT)) {
+			CodeGenerator.ldp();
+			expression.genCode();
+			CodeGenerator.call("F2I");
+
+		} else {
+			expression.genCode();
+		}
 	}
 }
