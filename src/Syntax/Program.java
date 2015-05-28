@@ -1,6 +1,7 @@
 package Syntax;
 
 import CodeGenerator.CodeGenerator;
+import CodeGenerator.DefinedFunction;
 import Semantic.FunctionInfo;
 
 import java.util.ArrayList;
@@ -86,6 +87,8 @@ public class Program extends AbstractSyntax {
 				check(false, "Compiler error. never reach here");
 			}
 		}
+
+		DefinedFunction.defineFunc(globalFunctionMap, overloadMap);
 	}
 
 
