@@ -5,6 +5,7 @@ import Semantic.FunctionInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * 함수 호출을 나타내는 구문
@@ -84,9 +85,19 @@ public class Function extends Expression {
 	@Override
 	public void genCode() {
 		// todo 개선
-		CodeGenerator.ldp();
+		if (!name.equals("lf")) {
+			CodeGenerator.ldp();
+		}
 
-		String realName = name + '$' +  overloadMap.get(name).indexOf(functionInfo);
+		for (Expression param : params) {
+			param.genCode();
+		}
+
+		String realName = name;
+		int index = overloadMap.get(name).indexOf(functionInfo);
+		if (index != 0 && !name.equals("write")) {
+			realName += '$' + index;
+		}
 
 		CodeGenerator.call(realName);
 	}

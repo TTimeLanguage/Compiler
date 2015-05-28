@@ -117,15 +117,13 @@ public class FunctionDeclaration extends Global {
 
 	@Override
 	public void genCode() {
-		LinkedHashMap<String, SymbolTableElement> localMap = new LinkedHashMap<>();
-		int localVariableSize = 0;
+		int localVariableSize = statements.variableSize() + params.size();
 
-		for (ParamDeclaration param : params) {
-			localVariableSize += param.sizeOf();
+		String realName = name;
+		int index = overloadMap.get(name).indexOf(information);
+		if (index != 0) {
+			realName += '$' + index;
 		}
-		localVariableSize += statements.variableSize();
-
-		String realName = name + '$' + overloadMap.get(name).indexOf(information);
 
 		CodeGenerator.proc(realName, localVariableSize);
 

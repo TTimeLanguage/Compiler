@@ -196,31 +196,50 @@ public class IfStatement extends Statement {
 
 		condition.genCode();
 
-		statements.genCode();
-
 		if (elseIfs != null) {
 			CodeGenerator.fjp(CodeGenerator.getElseIfBranch(ifNum));
 
+		} else if (elses != null) {
+			CodeGenerator.fjp(CodeGenerator.getElseBranch(ifNum));
+
+		} else {
+			CodeGenerator.fjp(CodeGenerator.getIfExitBranch(ifNum));
+		}
+
+		statements.genCode();
+
+		CodeGenerator.ujp(CodeGenerator.getIfExitBranch(ifNum));
+
+		if (elseIfs != null) {
 			int len = elseIfs.size();
 			for (int i = 0; i < len; i++) {
 				CodeGenerator.makeElseIfBranch(ifNum);
 
 				elseIfs.get(i).condition.genCode();
 
-				elseIfs.get(i).statements.genCode();
+				if (i  == len - 1) {
+					if (elses != null) {
+						CodeGenerator.fjp(CodeGenerator.getElseBranch(ifNum));
 
-				if (i != len - 1) {
+					} else {
+						CodeGenerator.fjp(CodeGenerator.getIfExitBranch(ifNum));
+					}
+				} else {
 					CodeGenerator.fjp(CodeGenerator.getElseIfBranch(ifNum));
 				}
+
+				elseIfs.get(i).statements.genCode();
+
+				CodeGenerator.ujp(CodeGenerator.getIfExitBranch(ifNum));
 			}
 		}
 
-		CodeGenerator.fjp(CodeGenerator.getIfExitBranch(ifNum));
-
-		CodeGenerator.makeIfExitBranch(ifNum);
-
 		if (elses != null) {
+			CodeGenerator.makeElseBranch(ifNum);
+
 			elses.genCode();
 		}
+
+		CodeGenerator.makeIfExitBranch(ifNum);
 	}
 }

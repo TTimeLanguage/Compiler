@@ -43,7 +43,7 @@ public class ArrayInit extends Init {
 
 	@Override
 	public int sizeOf() {
-		return type.sizeOf() * size;
+		return size;
 	}
 
 	@Override

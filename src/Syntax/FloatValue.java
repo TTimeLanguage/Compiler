@@ -12,24 +12,11 @@ public class FloatValue extends Value {
 	/**
 	 * float 값을 저장하는 변수
 	 */
-	protected final double value;
+	protected final float value;
 
-	public FloatValue(double v) {
+	public FloatValue(float v) {
 		type = Type.FLOAT;
 		value = v;
-	}
-
-	double floatValue() {
-		return value;
-	}
-
-	int intValue() {
-		return (int) value;
-	}
-
-	int decimalValue() {
-		double decimal = value - (int) value;
-		return (int) (decimal * 100000000);
 	}
 
 	@Override
@@ -58,7 +45,6 @@ public class FloatValue extends Value {
 
 	@Override
 	public void genCode() {
-		CodeGenerator.ldc(decimalValue());
-		CodeGenerator.ldc(intValue());
+		CodeGenerator.ldc(Float.floatToRawIntBits(value));
 	}
 }
