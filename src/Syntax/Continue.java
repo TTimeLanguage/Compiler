@@ -37,10 +37,4 @@ public class Continue extends Statement {
 
 		CodeGenerator.ujp(CodeGenerator.getLoopStartBranch(parentStatement.branchNum));
 	}
-
-	@Override
-	void V(HashMap<String, Init> declarationMap, Statement s) {
-		check(s instanceof WhileStatement || s instanceof ForStatement,
-				"can not reach here Continue");
-	}
 }

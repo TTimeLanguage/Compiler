@@ -136,18 +136,23 @@ public class ForStatement extends Statement {
 			pre.genCode();
 		}
 
-		branchNum = CodeGenerator.makeLoopStartBranch();
+		branchNum = CodeGenerator.getLastLoopBranchNumber();
+		CodeGenerator.ujp(CodeGenerator.getForStartBranch(branchNum));
+
+		CodeGenerator.makeLoopStartBranch();
+
+		for (Expression post : postExpression) {
+			post.genCode();
+		}
+		CodeGenerator.makeForStartBranch(branchNum);
+
 
 		condition.genCode();
 		CodeGenerator.fjp(CodeGenerator.getLoopEndBranch(branchNum));
 
 		statements.genCode();
-
-		for (Expression post : postExpression) {
-			post.genCode();
-		}
-
 		CodeGenerator.ujp(CodeGenerator.getLoopStartBranch(branchNum));
+
 
 		CodeGenerator.makeLoopEndBranch(branchNum);
 	}

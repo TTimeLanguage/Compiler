@@ -61,7 +61,13 @@ public class Unary extends Expression {
 			check(!(type.equals(Type.BOOL) && type.equals(Type.VOID)),
 					"type error for increase or decrease Op");
 
+			check(term instanceof VariableRef,
+					"operator " + op + " must be l-value");
+
 			op = Operator.mapping(op, type);
+
+			// todo 주석
+			CodeGenerator.addLink(op.value);
 
 		} else {
 			throw new IllegalArgumentException("should never reach here UnaryOp error");
@@ -81,11 +87,194 @@ public class Unary extends Expression {
 
 	@Override
 	public void genCode() {
-		// todo
+		// todo time, date float 추가
 
 		switch (op.value) {
 			case Operator.INT_PP:
+			case Operator.INT_MM:
+				if (term instanceof Variable) {
+					Variable temp = (Variable) term;
+
+					CodeGenerator.lod(temp.name);
+					if (op.value.equals(Operator.INT_PP)) {
+						CodeGenerator.inc();
+					} else {
+						CodeGenerator.dec();
+					}
+					CodeGenerator.str(temp.name);
+
+				} else if (term instanceof ArrayRef) {
+					ArrayRef temp = (ArrayRef) term;
+
+					CodeGenerator.lda(temp.name);
+					temp.index.genCode();
+					CodeGenerator.add();
+
+					CodeGenerator.dup();
+
+					CodeGenerator.ldi();
+					if (op.value.equals(Operator.INT_PP)) {
+						CodeGenerator.inc();
+					} else {
+						CodeGenerator.dec();
+					}
+
+					CodeGenerator.sti();
+				}
+				break;
+
+			case Operator.INT_NEG:
 				term.genCode();
+				CodeGenerator.neg();
+				break;
+
+			case Operator.BOOL_COMP:
+				term.genCode();
+				CodeGenerator.notop();
+				break;
+
+			case Operator.TIME_PP:
+			case Operator.TIME_MM:
+
+				if (term instanceof Variable) {
+					Variable temp = (Variable) term;
+
+					CodeGenerator.ldp();
+
+					CodeGenerator.lod(temp.name);
+					if (op.value.equals(Operator.TIME_PP)) {
+						CodeGenerator.inc();
+					} else {
+						CodeGenerator.dec();
+					}
+
+					CodeGenerator.call("validTime");
+
+					CodeGenerator.str(temp.name);
+
+				} else if (term instanceof ArrayRef) {
+					ArrayRef temp = (ArrayRef) term;
+
+					CodeGenerator.lda(temp.name);
+					temp.index.genCode();
+					CodeGenerator.add();
+
+
+					CodeGenerator.ldp();
+
+					CodeGenerator.lda(temp.name);
+					temp.index.genCode();
+					CodeGenerator.add();
+
+					CodeGenerator.ldi();
+					if (op.value.equals(Operator.TIME_PP)) {
+						CodeGenerator.inc();
+					} else {
+						CodeGenerator.dec();
+					}
+
+					CodeGenerator.call("validTime");
+
+
+					CodeGenerator.sti();
+				}
+				break;
+
+			case Operator.DATE_PP:
+			case Operator.DATE_MM:
+
+				if (term instanceof Variable) {
+					Variable temp = (Variable) term;
+
+					CodeGenerator.ldp();
+
+					CodeGenerator.lod(temp.name);
+					if (op.value.equals(Operator.DATE_PP)) {
+						CodeGenerator.inc();
+					} else {
+						CodeGenerator.dec();
+					}
+
+					CodeGenerator.call("validDate");
+
+					CodeGenerator.str(temp.name);
+
+				} else if (term instanceof ArrayRef) {
+					ArrayRef temp = (ArrayRef) term;
+
+					CodeGenerator.lda(temp.name);
+					temp.index.genCode();
+					CodeGenerator.add();
+
+
+					CodeGenerator.ldp();
+
+					CodeGenerator.lda(temp.name);
+					temp.index.genCode();
+					CodeGenerator.add();
+
+					CodeGenerator.ldi();
+					if (op.value.equals(Operator.DATE_PP)) {
+						CodeGenerator.inc();
+					} else {
+						CodeGenerator.dec();
+					}
+
+					CodeGenerator.call("validDate");
+
+
+					CodeGenerator.sti();
+				}
+				break;
+
+			case Operator.FLOAT_PP:
+			case Operator.FLOAT_MM:
+				if (term instanceof Variable) {
+					Variable temp = (Variable) term;
+
+					CodeGenerator.ldp();
+
+					CodeGenerator.lda(temp.name);
+					CodeGenerator.ldc(Float.floatToRawIntBits(1.0f));
+
+					if (op.value.equals(Operator.FLOAT_PP)) {
+						CodeGenerator.call("addFloat");
+					} else {
+						CodeGenerator.call("subFloat");
+					}
+
+					CodeGenerator.str(temp.name);
+
+				} else if (term instanceof ArrayRef) {
+					ArrayRef temp = (ArrayRef) term;
+
+					CodeGenerator.lda(temp.name);
+					temp.index.genCode();
+					CodeGenerator.add();
+
+
+					CodeGenerator.ldp();
+
+					CodeGenerator.lda(temp.name);
+					temp.index.genCode();
+					CodeGenerator.add();
+
+					CodeGenerator.ldi();
+					CodeGenerator.ldc(Float.floatToRawIntBits(1.0f));
+
+					if (op.value.equals(Operator.FLOAT_PP)) {
+						CodeGenerator.call("addFloat");
+					} else {
+						CodeGenerator.call("subFloat");
+					}
+
+
+					CodeGenerator.sti();
+				}
+				break;
+
+			default:
+				check(false, "can not find such operation");
 		}
 	}
 }

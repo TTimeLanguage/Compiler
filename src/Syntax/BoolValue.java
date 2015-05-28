@@ -19,10 +19,6 @@ public class BoolValue extends Value {
 		value = v;
 	}
 
-	boolean boolValue() {
-		return value;
-	}
-
 	int intValue() {
 		return value ? 1 : 0;
 	}

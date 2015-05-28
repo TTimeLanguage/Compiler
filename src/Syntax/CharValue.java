@@ -19,10 +19,6 @@ public class CharValue extends Value {
 		value = v;
 	}
 
-	char charValue() {
-		return value;
-	}
-
 	@Override
 	public int hashCode() {
 		return Character.hashCode(value);
