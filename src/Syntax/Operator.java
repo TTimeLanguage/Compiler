@@ -97,21 +97,21 @@ public class Operator {
 	final static String TIME_GT = "TIME>";
 	final static String TIME_GE = "TIME>=";
 	// ArithmeticOp = + | - | * | / | %
-	final static String TIME_PLUS = "TIME+";
-	final static String TIME_MINUS = "TIME-";
-	final static String TIME_TIMES = "TIME*";
-	final static String TIME_DIV = "TIME/";
-	final static String TIME_MOD = "TIME%";
+	public final static String TIME_PLUS = "TIME+";
+	public final static String TIME_MINUS = "TIME-";
+	public final static String TIME_TIMES = "TIME*";
+	public final static String TIME_DIV = "TIME/";
+	public final static String TIME_MOD = "TIME%";
 	// UnaryOp = ++ | --
-	final static String TIME_PP = "TIME++";
-	final static String TIME_MM = "TIME--";
+	public final static String TIME_PP = "TIME++";
+	public final static String TIME_MM = "TIME--";
 	// AssignOp = += | -= | *= | /= | %=
-	final static String TIME_PLUS_ASSIGN = "TIME+=";
-	final static String TIME_MINUS_ASSIGN = "TIME-=";
-	final static String TIME_TIMES_ASSIGN = "TIME*=";
-	final static String TIME_DIV_ASSIGN = "TIME/=";
-	final static String TIME_MOD_ASSIGN = "TIME%=";
-	final static String TIME_ASSIGN = "TIME=";
+	public final static String TIME_PLUS_ASSIGN = "TIME+=";
+	public final static String TIME_MINUS_ASSIGN = "TIME-=";
+	public final static String TIME_TIMES_ASSIGN = "TIME*=";
+	public final static String TIME_DIV_ASSIGN = "TIME/=";
+	public final static String TIME_MOD_ASSIGN = "TIME%=";
+	public final static String TIME_ASSIGN = "TIME=";
 
 	// RelationalOp = < | <= | == | != | >= | > |
 	final static String DATE_LT = "DATE<";
@@ -121,21 +121,18 @@ public class Operator {
 	final static String DATE_GT = "DATE>";
 	final static String DATE_GE = "DATE>=";
 	// ArithmeticOp = + | - | * | / | % | ++ | -
-	final static String DATE_PLUS = "DATE+";
-	final static String DATE_MINUS = "DATE-";
-	final static String DATE_TIMES = "DATE*";
-	final static String DATE_DIV = "DATE/";
-	final static String DATE_MOD = "DATE%";
+	public final static String DATE_PLUS = "DATE+";
+	public final static String DATE_MINUS = "DATE-";
+	public final static String DATE_TIMES = "DATE*";
+	public final static String DATE_DIV = "DATE/";
+	public final static String DATE_MOD = "DATE%";
 	// UnaryOp = ++ | --
-	final static String DATE_PP = "DATE++";
-	final static String DATE_MM = "DATE--";
+	public final static String DATE_PP = "DATE++";
+	public final static String DATE_MM = "DATE--";
 	// AssignOp = += | -= | *= | /= | %=
-	final static String DATE_PLUS_ASSIGN = "DATE+=";
-	final static String DATE_MINUS_ASSIGN = "DATE-=";
-	final static String DATE_TIMES_ASSIGN = "DATE*=";
-	final static String DATE_DIV_ASSIGN = "DATE/=";
-	final static String DATE_MOD_ASSIGN = "DATE%=";
-	final static String DATE_ASSIGN = "DATE=";
+	public final static String DATE_PLUS_ASSIGN = "DATE+=";
+	public final static String DATE_MINUS_ASSIGN = "DATE-=";
+	public final static String DATE_ASSIGN = "DATE=";
 
 	// RelationalOp = < | <= | == | != | >= | >
 	final static String CHAR_LT = "CHAR<";
@@ -260,10 +257,7 @@ public class Operator {
 	};
 
 	final static String boolMap[][] = {
-			{ASSIGN, BOOL_ASSIGN},
-			{EQ, BOOL_EQ}, {NE, BOOL_NE}, {LT, BOOL_LT}, {LE, BOOL_LE}, {GT, BOOL_GT}, {GE, BOOL_GE},
-			{AND, AND}, {OR, OR},
-			{NOT, BOOL_COMP}
+			{ASSIGN, BOOL_ASSIGN}, {AND, AND}, {OR, OR}, {NOT, BOOL_COMP}
 	};
 
 	final static String timeMap[][] = {
@@ -277,8 +271,8 @@ public class Operator {
 	final static String dateMap[][] = {
 			{PLUS, DATE_PLUS}, {MINUS, DATE_MINUS}, {TIMES, DATE_TIMES}, {DIV, DATE_DIV}, {MOD, DATE_MOD},
 			{PLUSPLUS, DATE_PP}, {MINUSMINUS, DATE_MM},
-			{PLUSASSIGN, DATE_PLUS_ASSIGN}, {MINUSASSIGN, DATE_MINUS_ASSIGN}, {TIMESASSIGN, DATE_TIMES_ASSIGN},
-			{DIVASSIGN, DATE_DIV_ASSIGN}, {MODASSIGN, DATE_MOD_ASSIGN}, {ASSIGN, DATE_ASSIGN},
+			{PLUSASSIGN, DATE_PLUS_ASSIGN}, {MINUSASSIGN, DATE_MINUS_ASSIGN},
+			{ASSIGN, DATE_ASSIGN},
 			{EQ, DATE_EQ}, {NE, DATE_NE}, {LT, DATE_LT}, {LE, DATE_LE}, {GT, DATE_GT}, {GE, DATE_GE}
 	};
 

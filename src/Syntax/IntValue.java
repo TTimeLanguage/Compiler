@@ -19,10 +19,6 @@ public class IntValue extends Value {
 		value = v;
 	}
 
-	int intValue() {
-		return value;
-	}
-
 	@Override
 	public int hashCode() {
 		return value;

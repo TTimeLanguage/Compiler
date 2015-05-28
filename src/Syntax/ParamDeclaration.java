@@ -35,7 +35,7 @@ public class ParamDeclaration extends Init {
 
 	@Override
 	public int sizeOf() {
-		return type.sizeOf();
+		return 1;
 	}
 
 	@Override
