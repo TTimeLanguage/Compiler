@@ -22,11 +22,17 @@ public class Break extends Statement {
 		System.out.println("Break");
 	}
 
+	/**
+	 * 반복문이 없는 statement에서 break가 나오면 에러
+	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap, Type functionType) {
 		check(false, "wrong statement. break keyword is not to be here");
 	}
 
+	/**
+	 * while, for, switch문에서 break가 쓰이는지 확인
+	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
 		check(loopStatement instanceof WhileStatement

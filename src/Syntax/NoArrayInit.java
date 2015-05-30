@@ -52,6 +52,13 @@ public class NoArrayInit extends Init {
 		}
 	}
 
+	/**
+	 * void 타입의 변수가 선언되었는지 확인
+	 * <p>
+	 * 초기화 식이 존재한다면 초기화 식 확인
+	 * <p>
+	 * 초기화 식의 type을 확인
+	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
 		// todo 확인

@@ -118,6 +118,11 @@ public class Program extends AbstractSyntax {
 	}
 
 
+	/**
+	 * 외부변수, 함수 선언의 타당성을 확인
+	 * <p>
+	 * main함수의 실행문의 타당성을 확인
+	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
 		for (Global global : globals) {

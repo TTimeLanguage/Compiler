@@ -44,11 +44,21 @@ public class Return extends Statement {
 		}
 	}
 
+	/**
+	 * 반복문 내에 있는 return문의 타당성 확인
+	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
 		V(declarationMap, functionType);
 	}
 
+	/**
+	 * return value가 있는지 확인
+	 * <p>
+	 * return value가 있다면 type이 void인지 확인, return 식이 타당한지 확인
+	 * <p>
+	 * return value가 없다면 type이 void인지 확인
+	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap, Type functionType) {
 		if (returnValue == null) {

@@ -54,6 +54,15 @@ public class Function extends Expression {
 		}
 	}
 
+	/**
+	 * params에 해당하는 식이 타당한지 검사
+	 * <p>
+	 * 타당한 parmas를 paramsType에 추가저장
+	 * <p>
+	 * 해당 함수의 table의 정보를 가져옴
+	 * <p>
+	 * 함수의 리턴타입을 저장
+	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
 		if (valid) return;

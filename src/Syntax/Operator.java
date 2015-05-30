@@ -388,6 +388,12 @@ public class Operator {
 		System.out.println("Operator " + value);
 	}
 
+	/**
+	 * 해당 type에 맞는 연산자를 반환
+	 * @param op
+	 * @param type
+	 * @return
+	 */
 	public static Operator mapping(Operator op, Type type) {
 		if (type.equals(Type.INT)) {
 			return intMap(op.value);

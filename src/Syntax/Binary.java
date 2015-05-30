@@ -40,6 +40,16 @@ public class Binary extends Expression {
 		term2.display(lev + 1);
 	}
 
+	/**
+	 * 좌변, 우변의 타당성 검사
+	 * <p>
+	 * 연산자가 = 이라면 좌변이 변수참조인지 확인
+	 * <p>
+	 * 양 변이 void type인지 확인
+	 * <p>
+	 * 변수에 type에 맞게  해당 연산자를 맞게 불러오도록 함
+	 * 
+	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
 		if (valid) return;

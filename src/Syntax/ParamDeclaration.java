@@ -26,6 +26,9 @@ public class ParamDeclaration extends Init {
 		System.out.println("ParamDeclaration " + type + " " + name);
 	}
 
+	/**
+	 * 파라미터에 void type이 있는지 확인
+	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
 		// todo 확인

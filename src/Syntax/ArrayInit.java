@@ -60,6 +60,15 @@ public class ArrayInit extends Init {
 		}
 	}
 
+	/**
+	 * void type의 변수가 선언되었는지 확인
+	 * <p>
+	 * 배열의 크기가 양수인지 확인
+	 * <p>
+	 * 초기화가 되어있는 배열이라면 해당 초기화 식을 확인
+	 * <p>
+	 * 배열 크기와 초기화 식의 수를 확인, 초기화 식을 확인하고 type을 확인
+	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
 		// todo 확인

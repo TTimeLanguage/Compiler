@@ -22,6 +22,9 @@ public class Continue extends Statement {
 		System.out.println("Continue");
 	}
 
+	/**
+	 * while, for문에서 continue가 쓰이는지 확인
+	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
 		check(loopStatement instanceof WhileStatement

@@ -33,6 +33,11 @@ public class TypeCast extends Expression {
 		expression.display(lev + 1);
 	}
 
+	/**
+	 * type cast를 하려는 식의 타당성을 확인
+	 * <p>
+	 * type cast의 변환 타입이 타당한지 확인
+	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
 		// todo 확인

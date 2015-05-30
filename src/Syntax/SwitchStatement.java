@@ -101,6 +101,15 @@ public class SwitchStatement extends Statement {
 		}
 	}
 
+	/**
+	 * switch의 조건이 타당한지 확인
+	 * <p>
+	 * 해당 case들의 값이 switch type과 맞는지 확인
+	 * <p>
+	 * case내부의 실행문이 타당한지 확인
+	 * <p>
+	 * default가 존재한다면 실행문이 타당한지 확인
+	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap, Type functionType) {
 		// todo 확인
@@ -128,6 +137,9 @@ public class SwitchStatement extends Statement {
 		valid = true;
 	}
 
+	/**
+	 * 반복문 내부에 switch문이 존재할 때 호출하여 타당성 확인
+	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
 		// todo 확인
