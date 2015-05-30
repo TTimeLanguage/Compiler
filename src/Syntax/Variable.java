@@ -47,6 +47,11 @@ public class Variable extends VariableRef {
 		System.out.println("Variable " + name);
 	}
 
+	/**
+	 * table에 정의되어 있는 변수인지 확안
+	 * <p>
+	 * 배열이 table에 정의 되어있는지 확인
+	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
 		// todo 확인

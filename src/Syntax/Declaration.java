@@ -36,6 +36,9 @@ public class Declaration extends Global {
 		}
 	}
 
+	/**
+	 * 선언에 대해서 확인, init V를 호출
+	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
 		for (Init init : inits) {

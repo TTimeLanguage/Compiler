@@ -36,6 +36,13 @@ public class ArrayRef extends VariableRef {
 		index.display(lev + 1);
 	}
 
+	/**
+	 * 선언이 되어있는 변수의 이름인지 확인
+	 * <p>
+	 * <tt>ArrayInit</tt>의 객체인지 확인
+	 * <p>
+	 * 참조하려는 배열의 index가 Int인지 확인
+	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
 		// todo 확인 인덱스 범위 확인
