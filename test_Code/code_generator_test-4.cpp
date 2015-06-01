@@ -7,8 +7,10 @@ int fi(int n) {
 }
 
 int main() {
-	int n = 10;
+	int n;
 	int i;
+
+	read(&n);
 
 	for (i = 1; i <= n; i++) {
 		write(fi(i))
