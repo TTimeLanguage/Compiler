@@ -29,7 +29,7 @@ public class Variable extends VariableRef {
 	public boolean equals(Object obj) {
 		if (obj instanceof Variable) {
 			String s = ((Variable) obj).name;
-			return name.equals(s); // case-sensitive identifiers
+			return name.equals(s);
 		} else return false;
 	}
 

@@ -8,10 +8,7 @@ import Syntax.Statements;
 import Syntax.Type;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.*;
 
 public class DefinedFunction {
 	private static final ParamDeclaration intParam = new ParamDeclaration(Type.INT, "dummy");
@@ -20,15 +17,24 @@ public class DefinedFunction {
 	private static final ParamDeclaration charParam = new ParamDeclaration(Type.CHAR, "dummy");
 	private static final ParamDeclaration dateParam = new ParamDeclaration(Type.DATE, "dummy");
 	private static final ParamDeclaration timeParam = new ParamDeclaration(Type.TIME, "dummy");
+
 	private static FunctionSet functionSet;
 	private static HashMap<String, ArrayList<FunctionInfo>> overloadMap;
 
-	public static final ArrayList<String> predefinedFunc = new ArrayList<>(Arrays.asList(
-			"write", "read", "lf", "getHour", "getMin", "getSec", "getYear", "getMonth", "getDay",
-			"addTime", "addDate", "subTime", "subDate", "mulTime", "divTime", "modTime",
-			"validTime", "validDate",
-			"addFloat", "subFloat", "mulFloat", "divFloat", "modFloat", "F2I", "I2F"
-	));
+	private static final String[] UCodeFunction = {
+			"write", "read", "lf", "addFloat", "subFloat",
+			"mulFloat", "divFloat", "modFloat", "negFloat", "F2I", "I2F",
+			"writeF", "writeC", "writeT", "writeD"
+	};
+
+	private static final String[] customFunc = {
+			"getHour", "getMin", "getSec", "getYear", "getMonth", "getDay",
+			"addTime", "subTime", "mulTime", "divTime", "modTime",
+			"addDate", "subDate",
+			"validTime"
+	};
+
+	public static final HashSet<String> predefinedFunc = new HashSet<>(Arrays.asList(customFunc));
 
 	public static void defineFunc(FunctionSet functionSet, HashMap<String, ArrayList<FunctionInfo>> overloadMap) {
 		DefinedFunction.functionSet = functionSet;
@@ -39,16 +45,17 @@ public class DefinedFunction {
 		createFunc(Type.VOID, "write", charParam);
 		createFunc(Type.VOID, "write", dateParam);
 		createFunc(Type.VOID, "write", timeParam);
+		createFunc(Type.VOID, "write", floatParam);
 		createFunc(Type.INT, "read", intParam);
 		createFunc(Type.VOID, "lf");
-		
+
 		createFunc(Type.INT, "getHour", timeParam);
 		createFunc(Type.INT, "getMin", timeParam);
 		createFunc(Type.INT, "getSec", timeParam);
 		createFunc(Type.INT, "getYear", dateParam);
 		createFunc(Type.INT, "getMonth", dateParam);
 		createFunc(Type.INT, "getDay", dateParam);
-		
+
 		createFunc(Type.TIME, "addTime", timeParam, timeParam);
 		createFunc(Type.TIME, "subTime", timeParam, timeParam);
 		createFunc(Type.TIME, "mulTime", timeParam, intParam);
@@ -58,7 +65,6 @@ public class DefinedFunction {
 
 		createFunc(Type.DATE, "addDate", dateParam, dateParam);
 		createFunc(Type.DATE, "subDate", dateParam, dateParam);
-		createFunc(Type.DATE, "validDate", dateParam);
 	}
 
 	private static void createFunc(Type type, String name, ParamDeclaration... params) {
@@ -190,7 +196,7 @@ public class DefinedFunction {
 		CodeGenerator.genCode("ldp");
 		CodeGenerator.genCode("lod", 2, 1);
 		CodeGenerator.genCode("lod", 2, 2);
-		CodeGenerator.genCode("multi");
+		CodeGenerator.genCode("mult");
 		CodeGenerator.call("validTime");
 
 		CodeGenerator.genCode("retv");
@@ -244,18 +250,28 @@ public class DefinedFunction {
 
 	protected static void addDate() {
 		// todo
+		CodeGenerator.genFunc("addDate", 2, 2, 2);
+		CodeGenerator.genCode("sym", 2, 1, 1);
+		CodeGenerator.genCode("sym", 2, 2, 1);
+
+		CodeGenerator.genCode("lod", 2, 1);
+		CodeGenerator.genCode("lod", 2, 2);
+		CodeGenerator.genCode("add");
+
+		CodeGenerator.call("validDate");
+
+		CodeGenerator.genCode("end");
 	}
 
 	protected static void subDate() {
 		// todo
-	}
-
-	protected static void validDate() {
-		// todo
-		CodeGenerator.genFunc("validDate", 1, 2, 2);
+		CodeGenerator.genFunc("addDate", 2, 2, 2);
 		CodeGenerator.genCode("sym", 2, 1, 1);
+		CodeGenerator.genCode("sym", 2, 2, 1);
 
 		CodeGenerator.genCode("lod", 2, 1);
+		CodeGenerator.genCode("lod", 2, 2);
+		CodeGenerator.genCode("sub");
 
 		CodeGenerator.genCode("retv");
 		CodeGenerator.genCode("end");

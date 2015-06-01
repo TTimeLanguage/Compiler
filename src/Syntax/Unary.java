@@ -67,7 +67,15 @@ public class Unary extends Expression {
 			op = Operator.mapping(op, type);
 
 			// todo 주석
-			CodeGenerator.addLink(op.value);
+			CodeGenerator.addOperatorLink(op.value);
+
+		} else if (op.refOp()) {
+			check(term instanceof VariableRef,
+					type + " type term can not have " + op + " operator");
+
+		} else if (op.pointOp()) {
+			check(term instanceof VariableRef,
+					type + " type term can not have " + op + " operator");
 
 		} else {
 			throw new IllegalArgumentException("should never reach here UnaryOp error");
@@ -135,7 +143,6 @@ public class Unary extends Expression {
 
 			case Operator.TIME_PP:
 			case Operator.TIME_MM:
-
 				if (term instanceof Variable) {
 					Variable temp = (Variable) term;
 
@@ -272,6 +279,31 @@ public class Unary extends Expression {
 					CodeGenerator.sti();
 				}
 				break;
+
+			case Operator.FLOAT_NEG:
+				CodeGenerator.ldp();
+				term.genCode();
+				CodeGenerator.call("negFloat");
+				break;
+
+
+			case Operator.REFERENCE:
+				if (term instanceof Variable) {
+					Variable temp = (Variable) term;
+
+					CodeGenerator.lda(temp.name);
+
+				} else if (term instanceof ArrayRef) {
+					ArrayRef temp = (ArrayRef) term;
+
+					CodeGenerator.lda(temp.name);
+					temp.index.genCode();
+					CodeGenerator.add();
+				}
+				break;
+
+			case Operator.POINT:
+
 
 			default:
 				check(false, "can not find such operation");
