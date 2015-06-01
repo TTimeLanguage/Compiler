@@ -31,7 +31,7 @@ public class DefinedFunction {
 			"getHour", "getMin", "getSec", "getYear", "getMonth", "getDay",
 			"addTime", "subTime", "mulTime", "divTime", "modTime",
 			"addDate", "subDate",
-			"validTime"
+			"validTime", "daysToDate"
 	};
 
 	public static final HashSet<String> predefinedFunc = new HashSet<>(Arrays.asList(customFunc));
@@ -65,6 +65,7 @@ public class DefinedFunction {
 
 		createFunc(Type.DATE, "addDate", dateParam, dateParam);
 		createFunc(Type.DATE, "subDate", dateParam, dateParam);
+		createFunc(Type.DATE, "daysToDate", intParam);
 	}
 
 	private static void createFunc(Type type, String name, ParamDeclaration... params) {
@@ -258,20 +259,30 @@ public class DefinedFunction {
 		CodeGenerator.genCode("lod", 2, 2);
 		CodeGenerator.genCode("add");
 
-		CodeGenerator.call("validDate");
-
+		CodeGenerator.genCode("retv");
 		CodeGenerator.genCode("end");
 	}
 
 	protected static void subDate() {
 		// todo
-		CodeGenerator.genFunc("addDate", 2, 2, 2);
+		CodeGenerator.genFunc("subDate", 2, 2, 2);
 		CodeGenerator.genCode("sym", 2, 1, 1);
 		CodeGenerator.genCode("sym", 2, 2, 1);
 
 		CodeGenerator.genCode("lod", 2, 1);
 		CodeGenerator.genCode("lod", 2, 2);
 		CodeGenerator.genCode("sub");
+
+		CodeGenerator.genCode("retv");
+		CodeGenerator.genCode("end");
+	}
+
+	protected static void daysToDate() {
+		// todo 확인
+		CodeGenerator.genFunc("daysToDate", 1, 2, 2);
+		CodeGenerator.genCode("sym", 2, 1, 1);
+
+		CodeGenerator.genCode("lod", 2, 1);
 
 		CodeGenerator.genCode("retv");
 		CodeGenerator.genCode("end");
