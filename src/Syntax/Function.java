@@ -1,11 +1,11 @@
 package Syntax;
 
 import CodeGenerator.CodeGenerator;
+import CodeGenerator.DefinedFunction;
 import Semantic.FunctionInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 /**
  * 함수 호출을 나타내는 구문
@@ -70,6 +70,10 @@ public class Function extends Expression {
 
 		type = functionInfo.getType();
 
+		if (DefinedFunction.predefinedFunc.contains(name)) {
+			CodeGenerator.addFunctionLink(name);
+		}
+
 		valid = true;
 	}
 
@@ -94,9 +98,29 @@ public class Function extends Expression {
 		}
 
 		String realName = name;
-		int index = overloadMap.get(name).indexOf(functionInfo);
-		if (index != 0 && !name.equals("write")) {
-			realName += '$' + index;
+
+		if (name.equals("write") && paramTypes.size() == 1) {
+			Type t = paramTypes.get(0);
+
+			if (t.equals(Type.FLOAT)) {
+				realName = "writeF";
+
+			} else if (t.equals(Type.CHAR)) {
+				realName = "writeC";
+
+			} else if (t.equals(Type.TIME)) {
+				realName = "writeT";
+
+			} else if (t.equals(Type.DATE)) {
+				realName = "writeD";
+			}
+
+		} else {
+			int index = overloadMap.get(name).indexOf(functionInfo);
+
+			if (index != 0) {
+				realName += '$' + index;
+			}
 		}
 
 		CodeGenerator.call(realName);

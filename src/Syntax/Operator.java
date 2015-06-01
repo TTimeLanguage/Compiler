@@ -37,6 +37,9 @@ public class Operator {
 	final static String DIVASSIGN = "/=";
 	final static String MODASSIGN = "%=";
 	final static String ASSIGN = "=";
+	// ReferenveOp = & | *
+	final static String POINT = "*";
+	final static String REFERENCE = "&";
 
 	// Typed Operators
 	// RelationalOp = < | <= | == | != | >= | >
@@ -53,7 +56,7 @@ public class Operator {
 	final static String INT_DIV = "INT/";
 	final static String INT_MOD = "INT%";
 	// UnaryOp = - | ++ | --
-	final static String INT_NEG = "-";
+	final static String INT_NEG = "INT-";
 	final static String INT_PP = "INT++";
 	final static String INT_MM = "INT--";
 	// AssignOp = += | -= | *= | /= | %= | =
@@ -78,7 +81,7 @@ public class Operator {
 	final static String FLOAT_DIV = "FLOAT/";
 	final static String FLOAT_MOD = "FLOAT%";
 	// UnaryOp = - | ++ | --
-	final static String FLOAT_NEG = "-";
+	final static String FLOAT_NEG = "FLOAT-";
 	final static String FLOAT_PP = "FLOAT++";
 	final static String FLOAT_MM = "FLOAT--";
 	// AssignOp = += | -= | *= | /= | %= | =
@@ -123,9 +126,6 @@ public class Operator {
 	// ArithmeticOp = + | - | * | / | % | ++ | -
 	public final static String DATE_PLUS = "DATE+";
 	public final static String DATE_MINUS = "DATE-";
-	public final static String DATE_TIMES = "DATE*";
-	public final static String DATE_DIV = "DATE/";
-	public final static String DATE_MOD = "DATE%";
 	// UnaryOp = ++ | --
 	public final static String DATE_PP = "DATE++";
 	public final static String DATE_MM = "DATE--";
@@ -144,13 +144,6 @@ public class Operator {
 	// AssignOp = =
 	final static String CHAR_ASSIGN = "CHAR=";
 
-	// RelationalOp = < | <= | == | != | >= | >
-	final static String BOOL_LT = "BOOL<";
-	final static String BOOL_LE = "BOOL<=";
-	final static String BOOL_EQ = "BOOL==";
-	final static String BOOL_NE = "BOOL!=";
-	final static String BOOL_GT = "BOOL>";
-	final static String BOOL_GE = "BOOL>=";
 	// UnaryOp = !
 	final static String BOOL_COMP = "!";
 	// AssignOp = =
@@ -186,20 +179,6 @@ public class Operator {
 		return obj instanceof Operator && value.equals(obj);
 	}
 
-	boolean isBooleanOp() {
-		return value.equals(AND) || value.equals(OR);
-	}
-
-	boolean isRelationalOp() {
-		return value.equals(LT) || value.equals(LE) || value.equals(EQ)
-				|| value.equals(NE) || value.equals(GT) || value.equals(GE);
-	}
-
-	boolean isArithmeticOp() {
-		return value.equals(PLUS) || value.equals(MINUS) || value.equals(TIMES)
-				|| value.equals(DIV) || value.equals(MOD);
-	}
-
 	boolean isAssignOP() {
 		return value.equals(PLUSASSIGN) || value.equals(MINUSASSIGN) || value.equals(TIMESASSIGN)
 				|| value.equals(MODASSIGN) || value.equals(DIVASSIGN) || value.equals(ASSIGN);
@@ -215,6 +194,14 @@ public class Operator {
 
 	boolean incOp() {
 		return value.equals(PLUSPLUS) || value.equals(MINUSMINUS);
+	}
+
+	boolean refOp() {
+		return value.equals(REFERENCE);
+	}
+
+	boolean pointOp() {
+		return value.equals(POINT);
 	}
 
 	/**
@@ -239,7 +226,8 @@ public class Operator {
 			{PLUSASSIGN, INT_PLUS_ASSIGN}, {MINUSASSIGN, INT_MINUS_ASSIGN}, {TIMESASSIGN, INT_TIMES_ASSIGN},
 			{DIVASSIGN, INT_DIV_ASSIGN}, {MODASSIGN, INT_MOD_ASSIGN}, {ASSIGN, INT_ASSIGN},
 			{EQ, INT_EQ}, {NE, INT_NE}, {LT, INT_LT}, {LE, INT_LE}, {GT, INT_GT}, {GE, INT_GE},
-			{NEG, INT_NEG}
+			{NEG, INT_NEG},
+			{REFERENCE, REFERENCE}
 	};
 
 	final static String floatMap[][] = {
@@ -248,16 +236,19 @@ public class Operator {
 			{PLUSASSIGN, FLOAT_PLUS_ASSIGN}, {MINUSASSIGN, FLOAT_MINUS_ASSIGN}, {TIMESASSIGN, FLOAT_TIMES_ASSIGN},
 			{DIVASSIGN, FLOAT_DIV_ASSIGN}, {MODASSIGN, FLOAT_MOD_ASSIGN}, {ASSIGN, FLOAT_ASSIGN},
 			{EQ, FLOAT_EQ}, {NE, FLOAT_NE}, {LT, FLOAT_LT}, {LE, FLOAT_LE}, {GT, FLOAT_GT}, {GE, FLOAT_GE},
-			{NEG, FLOAT_NEG}
+			{NEG, FLOAT_NEG},
+			{REFERENCE, REFERENCE}
 	};
 
 	final static String charMap[][] = {
 			{ASSIGN, CHAR_ASSIGN},
-			{EQ, CHAR_EQ}, {NE, CHAR_NE}, {LT, CHAR_LT}, {LE, CHAR_LE}, {GT, CHAR_GT}, {GE, CHAR_GE}
+			{EQ, CHAR_EQ}, {NE, CHAR_NE}, {LT, CHAR_LT}, {LE, CHAR_LE}, {GT, CHAR_GT}, {GE, CHAR_GE},
+			{POINT, POINT}, {REFERENCE, REFERENCE}
 	};
 
 	final static String boolMap[][] = {
-			{ASSIGN, BOOL_ASSIGN}, {AND, AND}, {OR, OR}, {NOT, BOOL_COMP}
+			{ASSIGN, BOOL_ASSIGN}, {AND, AND}, {OR, OR}, {NOT, BOOL_COMP},
+			{REFERENCE, REFERENCE}
 	};
 
 	final static String timeMap[][] = {
@@ -265,15 +256,17 @@ public class Operator {
 			{PLUSPLUS, TIME_PP}, {MINUSMINUS, TIME_MM},
 			{PLUSASSIGN, TIME_PLUS_ASSIGN}, {MINUSASSIGN, TIME_MINUS_ASSIGN}, {TIMESASSIGN, TIME_TIMES_ASSIGN},
 			{DIVASSIGN, TIME_DIV_ASSIGN}, {MODASSIGN, TIME_MOD_ASSIGN}, {ASSIGN, TIME_ASSIGN},
-			{EQ, TIME_EQ}, {NE, TIME_NE}, {LT, TIME_LT}, {LE, TIME_LE}, {GT, TIME_GT}, {GE, TIME_GE}
+			{EQ, TIME_EQ}, {NE, TIME_NE}, {LT, TIME_LT}, {LE, TIME_LE}, {GT, TIME_GT}, {GE, TIME_GE},
+			{REFERENCE, REFERENCE}
 	};
 
 	final static String dateMap[][] = {
-			{PLUS, DATE_PLUS}, {MINUS, DATE_MINUS}, {TIMES, DATE_TIMES}, {DIV, DATE_DIV}, {MOD, DATE_MOD},
+			{PLUS, DATE_PLUS}, {MINUS, DATE_MINUS},
 			{PLUSPLUS, DATE_PP}, {MINUSMINUS, DATE_MM},
 			{PLUSASSIGN, DATE_PLUS_ASSIGN}, {MINUSASSIGN, DATE_MINUS_ASSIGN},
 			{ASSIGN, DATE_ASSIGN},
-			{EQ, DATE_EQ}, {NE, DATE_NE}, {LT, DATE_LT}, {LE, DATE_LE}, {GT, DATE_GT}, {GE, DATE_GE}
+			{EQ, DATE_EQ}, {NE, DATE_NE}, {LT, DATE_LT}, {LE, DATE_LE}, {GT, DATE_GT}, {GE, DATE_GE},
+			{REFERENCE, REFERENCE}
 	};
 
 	/**

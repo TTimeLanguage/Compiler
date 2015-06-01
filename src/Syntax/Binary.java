@@ -62,7 +62,7 @@ public class Binary extends Expression {
 			Operator operator = Operator.timeMap(op.value);
 
 			// todo 주석
-			CodeGenerator.addLink(operator.value);
+			CodeGenerator.addOperatorLink(operator.value);
 
 			check(operator != null,
 					type1 + " value can not have " + op.value + " operator");
@@ -103,7 +103,7 @@ public class Binary extends Expression {
 			Operator operator = Operator.dateMap(op.value);
 
 			// todo 주석
-			CodeGenerator.addLink(operator.value);
+			CodeGenerator.addOperatorLink(operator.value);
 
 			check(operator != null,
 					type1 + " value can not have " + op.value + " operator");
@@ -124,12 +124,6 @@ public class Binary extends Expression {
 							type1 + " value can not have " + op.value + " operator with " + type2 + " type term");
 					op = operator;
 					break;
-
-				case Operator.DATE_DIV:
-				case Operator.DATE_TIMES:
-				case Operator.DATE_MOD:
-					check(false,
-							type1 + " value can not have " + op.value + " operator with " + type2 + " type term");
 
 				default:
 					check(false, "Compiler error. unknown operator in Binary");
@@ -365,7 +359,7 @@ public class Binary extends Expression {
 							CodeGenerator.sub();
 							break;
 						case Operator.INT_TIMES_ASSIGN:
-							CodeGenerator.multi();
+							CodeGenerator.mult();
 							break;
 						case Operator.INT_DIV_ASSIGN:
 							CodeGenerator.div();
@@ -396,7 +390,7 @@ public class Binary extends Expression {
 							CodeGenerator.sub();
 							break;
 						case Operator.INT_TIMES_ASSIGN:
-							CodeGenerator.multi();
+							CodeGenerator.mult();
 							break;
 						case Operator.INT_DIV_ASSIGN:
 							CodeGenerator.div();
@@ -419,7 +413,7 @@ public class Binary extends Expression {
 				makeOperate(CodeGenerator::sub);
 				break;
 			case Operator.INT_TIMES:
-				makeOperate(CodeGenerator::multi);
+				makeOperate(CodeGenerator::mult);
 				break;
 			case Operator.INT_DIV:
 				makeOperate(CodeGenerator::div);
@@ -435,6 +429,7 @@ public class Binary extends Expression {
 				makeOperate(CodeGenerator::or);
 				break;
 
+			// todo swap call 경우 추가
 			case Operator.TIME_PLUS:
 				makeCall("addTime");
 				break;
@@ -442,13 +437,25 @@ public class Binary extends Expression {
 				makeCall("subTime");
 				break;
 			case Operator.TIME_TIMES:
-				makeSwapCall("mulTime");
+				if (term2.getType().equals(Type.INT)) {
+					makeCall("mulTime");
+				} else {
+					makeSwapCall("mulTime");
+				}
 				break;
 			case Operator.TIME_DIV:
-				makeSwapCall("divTime");
+				if (term2.getType().equals(Type.INT)) {
+					makeCall("divTime");
+				} else {
+					makeSwapCall("divTime");
+				}
 				break;
 			case Operator.TIME_MOD:
-				makeSwapCall("modTime");
+				if (term2.getType().equals(Type.INT)) {
+					makeCall("modTime");
+				} else {
+					makeSwapCall("modTime");
+				}
 				break;
 			case Operator.TIME_PLUS_ASSIGN:
 				makeAssignOp("addTime");
@@ -472,6 +479,12 @@ public class Binary extends Expression {
 			case Operator.DATE_MINUS:
 				makeCall("subDate");
 				break;
+			case Operator.DATE_PLUS_ASSIGN:
+				makeAssignOp("addDate");
+				break;
+			case Operator.DATE_MINUS_ASSIGN:
+				makeAssignOp("subDate");
+				break;
 
 			case Operator.FLOAT_PLUS:
 				makeCall("addFloat");
@@ -488,6 +501,79 @@ public class Binary extends Expression {
 			case Operator.FLOAT_MOD:
 				makeCall("modFloat");
 				break;
+			case Operator.FLOAT_PLUS_ASSIGN:
+			case Operator.FLOAT_MINUS_ASSIGN:
+			case Operator.FLOAT_TIMES_ASSIGN:
+			case Operator.FLOAT_DIV_ASSIGN:
+			case Operator.FLOAT_MOD_ASSIGN:
+				if (term1 instanceof Variable) {
+					Variable temp = (Variable) term1;
+
+					CodeGenerator.ldp();
+
+					CodeGenerator.lod(temp.name);
+					term2.genCode();
+
+					switch (op.value) {
+						case Operator.FLOAT_PLUS_ASSIGN:
+							CodeGenerator.call("addFloat");
+							break;
+						case Operator.FLOAT_MINUS_ASSIGN:
+							CodeGenerator.call("subFloat");
+							break;
+						case Operator.FLOAT_TIMES_ASSIGN:
+							CodeGenerator.call("mulFloat");
+							break;
+						case Operator.FLOAT_DIV_ASSIGN:
+							CodeGenerator.call("divFloat");
+							break;
+						case Operator.FLOAT_MOD_ASSIGN:
+							CodeGenerator.call("modFloat");
+					}
+
+					CodeGenerator.str(temp.name);
+
+				} else if (term1 instanceof ArrayRef) {
+					ArrayRef temp = (ArrayRef) term1;
+
+					CodeGenerator.lda(temp.name);
+					temp.index.genCode();
+					CodeGenerator.add();
+
+
+					CodeGenerator.ldp();
+
+					CodeGenerator.lda(temp.name);
+					temp.index.genCode();
+					CodeGenerator.add();
+					CodeGenerator.ldi();
+
+					term2.genCode();
+
+					switch (op.value) {
+						case Operator.FLOAT_PLUS_ASSIGN:
+							CodeGenerator.call("addFloat");
+							break;
+						case Operator.FLOAT_MINUS_ASSIGN:
+							CodeGenerator.call("subFloat");
+							break;
+						case Operator.FLOAT_TIMES_ASSIGN:
+							CodeGenerator.call("mulFloat");
+							break;
+						case Operator.FLOAT_DIV_ASSIGN:
+							CodeGenerator.call("divFloat");
+							break;
+						case Operator.FLOAT_MOD_ASSIGN:
+							CodeGenerator.call("modFloat");
+					}
+
+					CodeGenerator.sti();
+
+				} else {
+					check(false, "Compiler error. never reach here. Binary genCode()");
+				}
+				break;
+				
 
 		}
 	}
@@ -536,8 +622,8 @@ public class Binary extends Expression {
 
 			CodeGenerator.ldp();
 
-			term2.genCode();
 			CodeGenerator.lod(temp.name);
+			term2.genCode();
 
 			CodeGenerator.call(function);
 

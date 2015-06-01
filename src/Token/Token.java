@@ -59,6 +59,7 @@ public class Token {
 	public static final Token modAssignTok = new Token(TokenType.ModAssign, "%=");
 	public static final Token andTok = new Token(TokenType.And, "&&");
 	public static final Token orTok = new Token(TokenType.Or, "||");
+	public static final Token refTok = new Token(TokenType.Ref, "&");
 
 	private TokenType type;
 	private String value = "";

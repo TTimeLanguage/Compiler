@@ -677,7 +677,9 @@ public class Parser {
 
 	private boolean isUnaryOp() {
 		return token.type().equals(TokenType.Not)
-				|| token.type().equals(TokenType.Minus);
+				|| token.type().equals(TokenType.Minus)
+				|| token.type().equals(TokenType.Multiply)
+				|| token.type().equals(TokenType.Ref);
 	}
 
 	private boolean isEqualityOp() {

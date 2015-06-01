@@ -2,7 +2,10 @@ package Syntax;
 
 import CodeGenerator.CodeGenerator;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 /**
  * date 값을 나타내는 구문
@@ -15,6 +18,11 @@ public class DateValue extends Value {
 	 * 년, 월, 일을 나타내는 변수
 	 */
 	protected final int year, month, day;
+
+	protected final static long base = new GregorianCalendar(0, 0, 0).getTimeInMillis() * -1;
+
+	protected Calendar calendar;
+
 
 	public DateValue(String y, String m, String d) {
 		type = Type.DATE;
@@ -43,13 +51,26 @@ public class DateValue extends Value {
 
 		check(year >= 0, "year can not be negative value");
 		check(month >= 1 && month <= 12, "month value must be between 1 and 12");
-		check(month >= 1 && month <= 12, "month value must be between 1 and 12");
+		check(month >= 1 && month <= 31, "day value must be between 1 and 31");
+
+		calendar = new GregorianCalendar(year, month - 1, day);
+
+		int rightYear = calendar.get(Calendar.YEAR);
+		int rightMonth = calendar.get(Calendar.MONTH);
+		int rightDay = calendar.get(Calendar.DATE);
+
+		check(rightYear == year && rightMonth + 1 == month && rightDay == day,
+				"wrong date type declaration. should be : " + rightYear + "/" + rightMonth + "/" + rightDay);
 
 		valid = true;
 	}
 
 	@Override
 	public void genCode() {
-		CodeGenerator.ldc(year * 10000 + month * 100 + day);
+		CodeGenerator.ldc(getDays());
+	}
+
+	private int getDays() {
+		return (int) TimeUnit.MILLISECONDS.toDays(base + calendar.getTimeInMillis());
 	}
 }

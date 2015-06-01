@@ -1,6 +1,7 @@
 int main() {
 	int n = 0;
 	int s, t[10] = { 0, 1,2,3,4,5,6,7,8,9};
+	float f = 1.1;
 	time ti = 1:1:1;
 	date d = 2015.05.29;
 
@@ -9,12 +10,23 @@ int main() {
 	}
 	lf();
 
+	f = f + 0.9;
+	n = (int) f;
+	write(n);
+	lf();
+
+	write(f);
+	lf();
+
+	write('c');
+	lf();
+
 	ti++;
 	ti += 0:1:0;
 	write(ti);
 	lf();
 
-	write(0:60:0 - 0:0:1);
+	write(23:59:1 + 0:0:59);
 	lf();
 
 	d++;

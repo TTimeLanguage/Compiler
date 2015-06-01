@@ -11,10 +11,8 @@ import Syntax.Type;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 
 public class CodeGenerator {
@@ -123,11 +121,10 @@ public class CodeGenerator {
 	 * @see Syntax.Unary
 	 * @see Syntax.Binary
 	 */
-	public static void addLink(String operator) {
+	public static void addOperatorLink(String operator) {
 		switch (operator) {
 			case Operator.TIME_PLUS:
 			case Operator.TIME_PLUS_ASSIGN:
-				System.out.println("in");
 				needToLinkFunction.add("addTime");
 				needToLinkFunction.add("validTime");
 				break;
@@ -159,18 +156,28 @@ public class CodeGenerator {
 			case Operator.DATE_PLUS:
 			case Operator.DATE_PLUS_ASSIGN:
 				needToLinkFunction.add("addDate");
-				needToLinkFunction.add("validDate");
 				break;
 			case Operator.DATE_MINUS:
 			case Operator.DATE_MINUS_ASSIGN:
 				needToLinkFunction.add("subDate");
-				needToLinkFunction.add("validDate");
 				break;
 			case Operator.DATE_PP:
 			case Operator.DATE_MM:
-				needToLinkFunction.add("validDate");
+				needToLinkFunction.add("addDate");
 				break;
 		}
+	}
+
+
+	/**
+	 * TTime언어 에서는 존재하지만, U-code에서 존재하지 않는 함수들을 사용한다면,
+	 * 이 메소드를 code generating전에 호출해서 등록 해야만 U-code로 변환된 결과파일에 그 함수를 Link할 수 있다.
+	 *
+	 * @param functionName Link할 함수 이름
+	 * @see Syntax.Function
+	 */
+	public static void addFunctionLink(String functionName) {
+		needToLinkFunction.add(functionName);
 	}
 
 
@@ -201,7 +208,7 @@ public class CodeGenerator {
 			result.append('\t');
 
 			for (int arg : args) {
-				result.append(' ').append(arg);
+				result.append(arg).append(' ');
 			}
 		}
 		result.append("\r\n");
@@ -425,8 +432,8 @@ public class CodeGenerator {
 		genCode("sub");
 	}
 
-	public static void multi() {
-		genCode("multi");
+	public static void mult() {
+		genCode("mult");
 	}
 
 	public static void div() {

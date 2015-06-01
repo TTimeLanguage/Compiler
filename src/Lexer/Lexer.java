@@ -161,8 +161,7 @@ public class Lexer {
 					ch = nextChar();
 					return Token.semicolonTok;
 				case '&':
-					check('&');
-					return Token.andTok;
+					return chkOpt('&', Token.refTok, Token.andTok);
 				case '|':
 					check('|');
 					return Token.orTok;
