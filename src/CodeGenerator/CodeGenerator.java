@@ -363,10 +363,6 @@ public class CodeGenerator {
 				exp.genCode();
 
 				str(id, i++);
-
-				if (exp.getType().equals(Type.FLOAT)) {
-					str(id, i++);
-				}
 			}
 		}
 

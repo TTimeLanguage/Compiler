@@ -95,7 +95,7 @@ public class Unary extends Expression {
 
 	@Override
 	public void genCode() {
-		// todo time, date float 추가
+		// todo 확인
 
 		switch (op.value) {
 			case Operator.INT_PP:
