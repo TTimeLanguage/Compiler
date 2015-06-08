@@ -95,7 +95,7 @@ public class Unary extends Expression {
 
 	@Override
 	public void genCode() {
-		// todo time, date float 추가
+		// todo 확인
 
 		switch (op.value) {
 			case Operator.INT_PP:
@@ -193,16 +193,12 @@ public class Unary extends Expression {
 				if (term instanceof Variable) {
 					Variable temp = (Variable) term;
 
-					CodeGenerator.ldp();
-
 					CodeGenerator.lod(temp.name);
 					if (op.value.equals(Operator.DATE_PP)) {
 						CodeGenerator.inc();
 					} else {
 						CodeGenerator.dec();
 					}
-
-					CodeGenerator.call("validDate");
 
 					CodeGenerator.str(temp.name);
 
@@ -213,21 +209,14 @@ public class Unary extends Expression {
 					temp.index.genCode();
 					CodeGenerator.add();
 
-
-					CodeGenerator.ldp();
-
-					CodeGenerator.lda(temp.name);
-					temp.index.genCode();
-					CodeGenerator.add();
-
+					CodeGenerator.dup();
 					CodeGenerator.ldi();
+
 					if (op.value.equals(Operator.DATE_PP)) {
 						CodeGenerator.inc();
 					} else {
 						CodeGenerator.dec();
 					}
-
-					CodeGenerator.call("validDate");
 
 
 					CodeGenerator.sti();

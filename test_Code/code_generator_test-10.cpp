@@ -1,16 +1,16 @@
 int main() {
-	date d = 2015.06.01;
+	date d = 2012.02.29;
 	time t = 19:19:19;
 
 	d++;
 	write(d);
 	lf();
 
-	d += 0.0.1;
+	d += daysToDate(1);
 	write(d);
 	lf();
 
-	d -= 0.0.2;
+	d -= daysToDate(2);
 	write(d);
 	lf();
 
