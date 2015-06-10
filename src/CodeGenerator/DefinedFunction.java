@@ -29,7 +29,7 @@ public class DefinedFunction {
 
 	private static final String[] customFunc = {
 			"getHour", "getMin", "getSec", "getYear", "getMonth", "getDay",
-			"addTime", "subTime", "mulTime", "divTime", "modTime",
+			"addTime", "subTime", "mulTime", "divTime", "modTime", "secToTime",
 			"addDate", "subDate",
 			"validTime", "daysToDate"
 	};
@@ -62,6 +62,7 @@ public class DefinedFunction {
 		createFunc(Type.TIME, "divTime", timeParam, intParam);
 		createFunc(Type.TIME, "modTime", timeParam, intParam);
 		createFunc(Type.TIME, "validTime", timeParam);
+		createFunc(Type.TIME, "secToTime", intParam);
 
 		createFunc(Type.DATE, "addDate", dateParam, dateParam);
 		createFunc(Type.DATE, "subDate", dateParam, dateParam);
@@ -229,6 +230,16 @@ public class DefinedFunction {
 		CodeGenerator.genCode("lod", 2, 2);
 		CodeGenerator.genCode("mod");
 		CodeGenerator.call("validTime");
+
+		CodeGenerator.genCode("retv");
+		CodeGenerator.genCode("end");
+	}
+
+	protected static void secToTime() {
+		CodeGenerator.genFunc("secToTime", 1, 2, 2);
+		CodeGenerator.genCode("sym", 2, 1, 1);
+
+		CodeGenerator.genCode("lod", 2, 1);
 
 		CodeGenerator.genCode("retv");
 		CodeGenerator.genCode("end");
