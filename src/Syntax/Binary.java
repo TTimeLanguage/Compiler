@@ -147,7 +147,9 @@ public class Binary extends Expression {
 							type1 + " value can not have " + op.value + " operator with " + type2 + " type term");
 
 					if (type2.equals(Type.FLOAT)) {
-						term1 = new TypeCast(Type.FLOAT, term1);
+						TypeCast cast = new TypeCast(Type.FLOAT, term1);
+						cast.expressionType = Type.FLOAT;
+						term1 = cast;
 						operator = Operator.floatMap(op.value);
 					}
 					op = operator;
@@ -163,7 +165,9 @@ public class Binary extends Expression {
 							type1 + " value can not have " + op.value + " operator with " + type2 + " type term");
 
 					if (type2.equals(Type.FLOAT)) {
-						term2 = new TypeCast(Type.INT, term2);
+						TypeCast cast = new TypeCast(Type.INT, term2);
+						cast.expressionType = Type.INT;
+						term2 = cast;
 					}
 					op = operator;
 					break;
@@ -175,7 +179,9 @@ public class Binary extends Expression {
 							type1 + " value can not have " + op.value + " operator with " + type2 + " type term");
 
 					if (type2.equals(Type.FLOAT)) {
-						term1 = new TypeCast(Type.FLOAT, term1);
+						TypeCast cast = new TypeCast(Type.FLOAT, term1);
+						cast.expressionType = Type.FLOAT;
+						term1 = cast;
 						operator = Operator.floatMap(op.value);
 
 					} else if (type2.equals(Type.TIME)) {
@@ -236,7 +242,9 @@ public class Binary extends Expression {
 							type1 + " value can not have " + op.value + " operator with " + type2 + " type term");
 
 					if (type2.equals(Type.INT)) {
-						term2 = new TypeCast(Type.FLOAT, term2);
+						TypeCast cast = new TypeCast(Type.FLOAT, term2);
+						cast.expressionType = Type.FLOAT;
+						term2 = cast;
 						operator = Operator.floatMap(op.value);
 					}
 					op = operator;
