@@ -41,6 +41,11 @@ public class Break extends Statement {
 	public void genCode() {
 		// todo
 
-		CodeGenerator.ujp(CodeGenerator.getLoopEndBranch(parentStatement.branchNum));
+		if (parentStatement instanceof SwitchStatement) {
+			CodeGenerator.ujp(CodeGenerator.getIfExitBranch(parentStatement.branchNum));
+
+		} else {
+			CodeGenerator.ujp(CodeGenerator.getLoopEndBranch(parentStatement.branchNum));
+		}
 	}
 }

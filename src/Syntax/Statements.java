@@ -87,7 +87,7 @@ public class Statements extends AbstractSyntax {
 		localMap.putAll(variableMap);
 
 		check(globalLength + localLength == localMap.size(),
-				"duplicated declaration in main");
+				"duplicated declaration");
 
 		for (Statement statement : statements) {
 			statement.V(localMap, functionType);

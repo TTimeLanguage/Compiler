@@ -182,7 +182,7 @@ public class SwitchStatement extends Statement {
 			if (i < len - 1) {
 				CodeGenerator.fjp(CodeGenerator.getElseIfBranch(branchNum, i++));
 			} else {
-				CodeGenerator.fjp(CodeGenerator.getIfExitBranch(branchNum));
+				CodeGenerator.fjp(CodeGenerator.getElseBranch(branchNum));
 			}
 		}
 
@@ -194,10 +194,12 @@ public class SwitchStatement extends Statement {
 			}
 		}
 
-		CodeGenerator.makeIfExitBranch(branchNum);
+		CodeGenerator.makeElseBranch(branchNum);
 
 		for (Statement statement : defaults) {
 			statement.genCode();
 		}
+
+		CodeGenerator.makeIfExitBranch(branchNum);
 	}
 }
