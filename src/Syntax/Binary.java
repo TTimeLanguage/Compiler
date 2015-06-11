@@ -79,7 +79,7 @@ public class Binary extends Expression {
 				case Operator.TIME_GE:
 				case Operator.TIME_ASSIGN:
 					check(type2.equals(Type.TIME),
-							type1 + " value can not have " + op.value + " operator with " + type2 + "type term");
+							type1 + " value can not have " + op.value + " operator with " + type2 + " type term");
 					op = operator;
 					break;
 
@@ -90,7 +90,7 @@ public class Binary extends Expression {
 				case Operator.TIME_DIV_ASSIGN:
 				case Operator.TIME_MOD_ASSIGN:
 					check(type2.equals(Type.INT),
-							type1 + " value can not have " + op.value + " operator with " + type2 + "type term");
+							type1 + " value can not have " + op.value + " operator with " + type2 + " type term");
 					op = operator;
 					break;
 

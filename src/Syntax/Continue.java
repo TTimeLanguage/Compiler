@@ -23,6 +23,11 @@ public class Continue extends Statement {
 	}
 
 	@Override
+	protected void V(HashMap<String, Init> declarationMap, Type functionType) {
+		check(false, "wrong statement. continue can not be here");
+	}
+
+	@Override
 	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
 		check(loopStatement instanceof WhileStatement
 				|| loopStatement instanceof ForStatement

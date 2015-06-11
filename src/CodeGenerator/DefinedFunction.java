@@ -29,9 +29,9 @@ public class DefinedFunction {
 
 	private static final String[] customFunc = {
 			"getHour", "getMin", "getSec", "getYear", "getMonth", "getDay",
-			"addTime", "subTime", "mulTime", "divTime", "modTime", "secToTime",
+			"addTime", "subTime", "mulTime", "divTime", "modTime", "secToTime", "timeToSec",
 			"addDate", "subDate",
-			"validTime", "daysToDate"
+			"validTime", "daysToDate", "makeTime"
 	};
 
 	public static final HashSet<String> predefinedFunc = new HashSet<>(Arrays.asList(customFunc));
@@ -246,6 +246,15 @@ public class DefinedFunction {
 		CodeGenerator.genCode("end");
 	}
 
+	protected static void timeToSec() {
+		CodeGenerator.genFunc("timeToSec", 1, 2, 2);
+		CodeGenerator.genCode("sym", 2, 1, 1);
+
+		CodeGenerator.genCode("lod", 2, 1);
+
+		CodeGenerator.genCode("retv");
+		CodeGenerator.genCode("end");
+	}
 	protected static void makeTime() {
 		CodeGenerator.genFunc("makeTime", 3, 2, 2);
 		CodeGenerator.genCode("sym", 2, 1, 1);
@@ -258,7 +267,7 @@ public class DefinedFunction {
 		CodeGenerator.genCode("lod", 2, 2);
 		CodeGenerator.genCode("ldc", 60);
 		CodeGenerator.genCode("mult");
-		CodeGenerator.genCode("lod", 2, 1);
+		CodeGenerator.genCode("lod", 2, 3);
 		CodeGenerator.genCode("add");
 		CodeGenerator.genCode("add");
 
