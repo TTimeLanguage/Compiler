@@ -20,6 +20,8 @@ public class Return extends Statement {
 
 	/**
 	 * return 값이 있을 때의 생성자
+	 *
+	 * @param returnValue 반환 할 객체
 	 */
 	public Return(Expression returnValue) {
 		this.returnValue = returnValue;
@@ -65,8 +67,8 @@ public class Return extends Statement {
 			check(functionType.equals(Type.VOID),
 					"must not have return value in void function.");
 		} else {
-			 check(!functionType.equals(Type.VOID),
-					 "void function can not have return value");
+			check(!functionType.equals(Type.VOID),
+					"void function can not have return value");
 
 			returnValue.V(declarationMap);
 

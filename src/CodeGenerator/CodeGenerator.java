@@ -6,13 +6,14 @@ import Semantic.TypeChecker;
 import Syntax.Expression;
 import Syntax.Operator;
 import Syntax.Program;
-import Syntax.Type;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 
 
 public class CodeGenerator {

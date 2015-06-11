@@ -4,7 +4,6 @@ import Semantic.FunctionInfo;
 import Semantic.FunctionSet;
 import Syntax.FunctionDeclaration;
 import Syntax.ParamDeclaration;
-import Syntax.Statements;
 import Syntax.Type;
 
 import java.lang.reflect.InvocationTargetException;
@@ -255,6 +254,7 @@ public class DefinedFunction {
 		CodeGenerator.genCode("retv");
 		CodeGenerator.genCode("end");
 	}
+
 	protected static void makeTime() {
 		CodeGenerator.genFunc("makeTime", 3, 2, 2);
 		CodeGenerator.genCode("sym", 2, 1, 1);

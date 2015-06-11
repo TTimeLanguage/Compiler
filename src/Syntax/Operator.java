@@ -383,6 +383,7 @@ public class Operator {
 
 	/**
 	 * 해당 type에 맞는 연산자를 반환
+	 *
 	 * @param op
 	 * @param type
 	 * @return

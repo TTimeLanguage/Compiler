@@ -62,7 +62,7 @@ public class DateValue extends Value {
 
 		check(year >= 0, "year can not be negative value");
 		check(month >= 0, "month can not be negative value");
-		check(day >=0, "day can not be negative value");
+		check(day >= 0, "day can not be negative value");
 
 		calendar = new GregorianCalendar(year, month - 1, day);
 

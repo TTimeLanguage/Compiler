@@ -198,7 +198,7 @@ public class IfStatement extends Statement {
 
 				elseIfs.get(i).condition.genCode();
 
-				if (i  == len - 1) {
+				if (i == len - 1) {
 					if (elses != null) {
 						CodeGenerator.fjp(CodeGenerator.getElseBranch(ifNum));
 

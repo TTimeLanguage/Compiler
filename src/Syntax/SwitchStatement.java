@@ -55,7 +55,7 @@ public class SwitchStatement extends Statement {
 	 * <p>
 	 * 두번 실행도리 경우(구문이 덮어씌여질 경우) 에러가난다.
 	 *
-	 * @param defaults	설정할 default의 <tt>Statement</tt>들의 <tt>ArrayList</tt>
+	 * @param defaults 설정할 default의 <tt>Statement</tt>들의 <tt>ArrayList</tt>
 	 */
 	public void setDefault(ArrayList<Statement> defaults) {
 		check(defaults != null, "duplicated default in switch");

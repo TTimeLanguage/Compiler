@@ -48,7 +48,6 @@ public class Binary extends Expression {
 	 * 양 변이 void type인지 확인
 	 * <p>
 	 * 변수에 type에 맞게  해당 연산자를 맞게 불러오도록 함
-	 * 
 	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
@@ -590,7 +589,7 @@ public class Binary extends Expression {
 					check(false, "Compiler error. never reach here. Binary genCode()");
 				}
 				break;
-				
+
 
 		}
 	}
