@@ -26,23 +26,27 @@ It compiles **TTime Language** source code to [U-Code](http://pl.skuniv.ac.kr/Le
 ### 1. `CodeGenerator.CodeGenerator`
 - code generator
 - It returns [U-Code](http://pl.skuniv.ac.kr/Lecture/Compiler/cdt-9/sld022.htm) file
+
 #### Parameter
 1. source code full path
 2. result file full path
 
 ### 2. `Lexer.Lexer`
 - Just print tokens of given source code
+
 #### Parameter
 1. source code full path
 
 ### 3. `Parser.Parser`
 - Print AST of given source code
+
 #### Parameter
 1. source code full path
 
 
 ### 4. `Semantic.TypeChecker`
 - Print AST if given source code is valid, or print error message
+
 #### Parameter
 1. source code full path
 
