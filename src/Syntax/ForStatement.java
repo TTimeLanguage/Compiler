@@ -136,6 +136,15 @@ public class ForStatement extends Statement {
 	 * break, continue의 포함여부를 구분하기 위해 선언
 	 */
 	@Override
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
+		innerV(declarationMap);
+
+		statements.V(declarationMap, this);
+
+		valid = true;
+	}
+
+	@Override
 	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
 		V(declarationMap, functionType);
 	}

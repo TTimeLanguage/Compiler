@@ -23,17 +23,6 @@ public class BoolValue extends Value {
 		return value ? 1 : 0;
 	}
 
-	@Override
-	public int hashCode() {
-		return Boolean.hashCode(value);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		return obj instanceof BoolValue && obj.hashCode() == this.hashCode();
-	}
-
-	@Override
 	public String toString() {
 		return "" + value;
 	}

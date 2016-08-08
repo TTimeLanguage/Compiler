@@ -22,6 +22,10 @@ public class Skip extends Statement {
 	}
 
 	@Override
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
+	}
+
+	@Override
 	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
 	}
 

@@ -62,6 +62,15 @@ public class WhileStatement extends Statement {
 	 * 반복문 내부의 while문의 타당성 검사
 	 */
 	@Override
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
+		innerV(declarationMap);
+
+		statements.V(declarationMap, loopStatement);
+
+		valid = true;
+	}
+
+	@Override
 	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
 		V(declarationMap, functionType);
 	}

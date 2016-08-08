@@ -1,0 +1,16 @@
+int main()
+{
+	case a : r
+	case a: r;
+	case 1:
+	case 1 :
+	case 1.1:
+	case 2.2 :
+	case 1:2:3:
+	case 4:5:6 :
+	case 1.3.7:
+	case 2.4.8 :
+	case true:
+	case a: b: 1:
+}
+

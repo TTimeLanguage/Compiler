@@ -137,6 +137,39 @@ public class IfStatement extends Statement {
 	 * 반복문 내부에 존재하는 if구문 검사
 	 */
 	@Override
+	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
+		// todo 확인
+		if (valid) return;
+
+		condition.V(declarationMap);
+
+		check(condition.typeOf(declarationMap) == Type.BOOL,
+				"\'if\'\'s condition must boolean type. declared : " + condition.typeOf(declarationMap));
+
+		statements.V(declarationMap, loopStatement);
+
+		if (elseIfs != null) {
+			HashSet<Expression> conditions = new HashSet<>();
+			conditions.add(condition);
+
+			for (IfStatement statement : elseIfs) {
+
+				check(conditions.contains(statement.condition),
+						"duplicated else if condition");
+
+				conditions.add(statement.condition);
+				statement.V(declarationMap, loopStatement);
+			}
+		}
+
+		if (elses != null) {
+			elses.V(declarationMap, loopStatement);
+		}
+
+		valid = true;
+	}
+
+	@Override
 	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
 		// todo 확인
 		if (valid) return;

@@ -3,6 +3,7 @@ package Syntax;
 import CodeGenerator.CodeGenerator;
 
 import java.util.HashMap;
+import java.util.function.*;
 
 /**
  * 이항연산을 나타내는 구문

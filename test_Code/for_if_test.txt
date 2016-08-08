@@ -15,10 +15,8 @@ else if (a == 10)
 {
 	b==10;
 }
-else
-{
+Else 
 a--;
-}
 
 for(i=0;i<3;i++)
 {
