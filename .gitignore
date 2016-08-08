@@ -63,3 +63,7 @@ doc/*
 out/*
 *.iml
 /bin/
+.idea/
+doc/
+out/
+test_Code/new.txt
