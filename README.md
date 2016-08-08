@@ -28,25 +28,25 @@ It compiles **TTime Language** source code to [U-Code](http://pl.skuniv.ac.kr/Le
 - It returns [U-Code](http://pl.skuniv.ac.kr/Lecture/Compiler/cdt-9/sld022.htm) file
 
 #### Parameter
-1. source code full path
-2. result file full path
+1. full path of source code
+2. full path of result file
 
 ### 2. `Lexer.Lexer`
 - Just print tokens of given source code
 
 #### Parameter
-1. source code full path
+1. full path of source code
 
 ### 3. `Parser.Parser`
 - Print AST of given source code
 
 #### Parameter
-1. source code full path
+1. full path of source code
 
 
 ### 4. `Semantic.TypeChecker`
 - Print AST if given source code is valid, or print error message
 
 #### Parameter
-1. source code full path
+1. full path of source code
 
