@@ -89,6 +89,17 @@ public class IfStatement extends Statement {
 		}
 	}
 
+	/**
+	 * if문의 조건이 타당한지 검사
+	 * <p>
+	 * 조건문의 타입이 bool인지 검사
+	 * <p>
+	 * if문 내부의 실행문 검사
+	 * <p>
+	 * elseif 구문이 존재한다면 조건과 실행문 검사
+	 * <p>
+	 * else 구문이 존재한다면 실행문 검사
+	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap, Type functionType) {
 		// todo 확인
@@ -122,6 +133,9 @@ public class IfStatement extends Statement {
 		valid = true;
 	}
 
+	/**
+	 * 반복문 내부에 존재하는 if구문 검사
+	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
 		// todo 확인
@@ -217,7 +231,7 @@ public class IfStatement extends Statement {
 
 				elseIfs.get(i).condition.genCode();
 
-				if (i  == len - 1) {
+				if (i == len - 1) {
 					if (elses != null) {
 						CodeGenerator.fjp(CodeGenerator.getElseBranch(ifNum));
 

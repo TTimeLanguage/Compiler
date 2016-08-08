@@ -98,6 +98,15 @@ public class ForStatement extends Statement {
 		statements.display(lev + 1);
 	}
 
+	/**
+	 * for문에 조건문이 null이면 에러, 조건문 타입체크
+	 * <p>
+	 * preExpression의 타입체크
+	 * <p>
+	 * postExpression의 타입체크
+	 * <p>
+	 * for문 내의 statements의 타입 체크
+	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap, Type functionType) {
 		if (valid) return;
@@ -123,6 +132,9 @@ public class ForStatement extends Statement {
 		valid = true;
 	}
 
+	/**
+	 * break, continue의 포함여부를 구분하기 위해 선언
+	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
 		innerV(declarationMap);

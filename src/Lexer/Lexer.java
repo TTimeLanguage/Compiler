@@ -62,7 +62,7 @@ public class Lexer {
 	public Token next() {
 		do {
 			if (isLetter(ch)) { // ident or keyword
-				String spelling = concat(letters + digits);
+				String spelling = concat(letters + digits + "_");
 				return Token.keyword(spelling);
 
 			} else if (isDigit(ch)) { // int or float literal

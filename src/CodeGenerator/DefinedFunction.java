@@ -4,7 +4,6 @@ import Semantic.FunctionInfo;
 import Semantic.FunctionSet;
 import Syntax.FunctionDeclaration;
 import Syntax.ParamDeclaration;
-import Syntax.Statements;
 import Syntax.Type;
 
 import java.lang.reflect.InvocationTargetException;
@@ -29,9 +28,9 @@ public class DefinedFunction {
 
 	private static final String[] customFunc = {
 			"getHour", "getMin", "getSec", "getYear", "getMonth", "getDay",
-			"addTime", "subTime", "mulTime", "divTime", "modTime",
+			"addTime", "subTime", "mulTime", "divTime", "modTime", "secToTime", "timeToSec",
 			"addDate", "subDate",
-			"validTime", "daysToDate"
+			"validTime", "daysToDate", "makeTime"
 	};
 
 	public static final HashSet<String> predefinedFunc = new HashSet<>(Arrays.asList(customFunc));
@@ -61,7 +60,9 @@ public class DefinedFunction {
 		createFunc(Type.TIME, "mulTime", timeParam, intParam);
 		createFunc(Type.TIME, "divTime", timeParam, intParam);
 		createFunc(Type.TIME, "modTime", timeParam, intParam);
+		createFunc(Type.TIME, "makeTime", intParam, intParam, intParam);
 		createFunc(Type.TIME, "validTime", timeParam);
+		createFunc(Type.TIME, "secToTime", intParam);
 
 		createFunc(Type.DATE, "addDate", dateParam, dateParam);
 		createFunc(Type.DATE, "subDate", dateParam, dateParam);
@@ -229,6 +230,46 @@ public class DefinedFunction {
 		CodeGenerator.genCode("lod", 2, 2);
 		CodeGenerator.genCode("mod");
 		CodeGenerator.call("validTime");
+
+		CodeGenerator.genCode("retv");
+		CodeGenerator.genCode("end");
+	}
+
+	protected static void secToTime() {
+		CodeGenerator.genFunc("secToTime", 1, 2, 2);
+		CodeGenerator.genCode("sym", 2, 1, 1);
+
+		CodeGenerator.genCode("lod", 2, 1);
+
+		CodeGenerator.genCode("retv");
+		CodeGenerator.genCode("end");
+	}
+
+	protected static void timeToSec() {
+		CodeGenerator.genFunc("timeToSec", 1, 2, 2);
+		CodeGenerator.genCode("sym", 2, 1, 1);
+
+		CodeGenerator.genCode("lod", 2, 1);
+
+		CodeGenerator.genCode("retv");
+		CodeGenerator.genCode("end");
+	}
+
+	protected static void makeTime() {
+		CodeGenerator.genFunc("makeTime", 3, 2, 2);
+		CodeGenerator.genCode("sym", 2, 1, 1);
+		CodeGenerator.genCode("sym", 2, 2, 1);
+		CodeGenerator.genCode("sym", 2, 3, 1);
+
+		CodeGenerator.genCode("lod", 2, 1);
+		CodeGenerator.genCode("ldc", 3600);
+		CodeGenerator.genCode("mult");
+		CodeGenerator.genCode("lod", 2, 2);
+		CodeGenerator.genCode("ldc", 60);
+		CodeGenerator.genCode("mult");
+		CodeGenerator.genCode("lod", 2, 3);
+		CodeGenerator.genCode("add");
+		CodeGenerator.genCode("add");
 
 		CodeGenerator.genCode("retv");
 		CodeGenerator.genCode("end");

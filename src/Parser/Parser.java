@@ -47,10 +47,10 @@ public class Parser {
 			Type t = type();
 
 			if (t.equals(Type.INT) && isMain()) {
-				match(TokenType.Main);				// int main
-				match(TokenType.LeftParen);			// (
-				match(TokenType.RightParen);		// )
-				s = statements();					// Statements
+				match(TokenType.Main);                // int main
+				match(TokenType.LeftParen);            // (
+				match(TokenType.RightParen);        // )
+				s = statements();                    // Statements
 			} else {
 				String id = match(TokenType.Identifier);
 
@@ -215,31 +215,31 @@ public class Parser {
 			match(TokenType.Semicolon);
 			return new Skip();
 
-		} else if (isIf()) {			//if
+		} else if (isIf()) {            //if
 			return IfStatement();
 
-		} else if (isLeftBrace()) {		//block
+		} else if (isLeftBrace()) {        //block
 			return block();
 
-		} else if (token.type().equals(TokenType.While)) {		// while
+		} else if (token.type().equals(TokenType.While)) {        // while
 			return WhileStatement();
 
-		} else if (token.type().equals(TokenType.Switch)) {		// switch
+		} else if (token.type().equals(TokenType.Switch)) {        // switch
 			return SwitchStatement();
 
-		} else if (token.type().equals(TokenType.For)) {		// for
+		} else if (token.type().equals(TokenType.For)) {        // for
 			return ForStatement();
 
-		} else if (token.type().equals(TokenType.Return)) {		// return
+		} else if (token.type().equals(TokenType.Return)) {        // return
 			return Return();
 
-		} else if (token.type().equals(TokenType.Break)) {		// break
+		} else if (token.type().equals(TokenType.Break)) {        // break
 			return Break();
 
-		} else if (token.type().equals(TokenType.Continue)) {	// continue
+		} else if (token.type().equals(TokenType.Continue)) {    // continue
 			return Continue();
 
-		} else {												 // expression
+		} else {                                                 // expression
 			return expression();
 		}
 	}

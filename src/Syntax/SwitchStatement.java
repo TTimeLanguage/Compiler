@@ -55,7 +55,7 @@ public class SwitchStatement extends Statement {
 	 * <p>
 	 * 두번 실행도리 경우(구문이 덮어씌여질 경우) 에러가난다.
 	 *
-	 * @param defaults	설정할 default의 <tt>Statement</tt>들의 <tt>ArrayList</tt>
+	 * @param defaults 설정할 default의 <tt>Statement</tt>들의 <tt>ArrayList</tt>
 	 */
 	public void setDefault(ArrayList<Statement> defaults) {
 		check(defaults != null, "duplicated default in switch");
@@ -101,6 +101,15 @@ public class SwitchStatement extends Statement {
 		}
 	}
 
+	/**
+	 * switch의 조건이 타당한지 확인
+	 * <p>
+	 * 해당 case들의 값이 switch type과 맞는지 확인
+	 * <p>
+	 * case내부의 실행문이 타당한지 확인
+	 * <p>
+	 * default가 존재한다면 실행문이 타당한지 확인
+	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap, Type functionType) {
 		// todo 확인
@@ -128,6 +137,9 @@ public class SwitchStatement extends Statement {
 		valid = true;
 	}
 
+	/**
+	 * 반복문 내부에 switch문이 존재할 때 호출하여 타당성 확인
+	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement, Type functionType) {
 		// todo 확인
@@ -182,7 +194,7 @@ public class SwitchStatement extends Statement {
 			if (i < len - 1) {
 				CodeGenerator.fjp(CodeGenerator.getElseIfBranch(branchNum, i++));
 			} else {
-				CodeGenerator.fjp(CodeGenerator.getIfExitBranch(branchNum));
+				CodeGenerator.fjp(CodeGenerator.getElseBranch(branchNum));
 			}
 		}
 
@@ -194,10 +206,12 @@ public class SwitchStatement extends Statement {
 			}
 		}
 
-		CodeGenerator.makeIfExitBranch(branchNum);
+		CodeGenerator.makeElseBranch(branchNum);
 
 		for (Statement statement : defaults) {
 			statement.genCode();
 		}
+
+		CodeGenerator.makeIfExitBranch(branchNum);
 	}
 }

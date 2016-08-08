@@ -36,6 +36,13 @@ public class WhileStatement extends Statement {
 		statements.display(lev + 1);
 	}
 
+	/**
+	 * while문의 조건문이 타당한지 검사
+	 * <p>
+	 * 조건문의 반환 type이 bool인지 검사
+	 * <p>
+	 * while문 내부의 실행문의 타당성 검사
+	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap, Type functionType) {
 		if (valid) return;
@@ -51,6 +58,9 @@ public class WhileStatement extends Statement {
 		valid = true;
 	}
 
+	/**
+	 * 반복문 내부의 while문의 타당성 검사
+	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap, Statement loopStatement) {
 		innerV(declarationMap);

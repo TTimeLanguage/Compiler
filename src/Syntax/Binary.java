@@ -41,6 +41,15 @@ public class Binary extends Expression {
 		term2.display(lev + 1);
 	}
 
+	/**
+	 * 좌변, 우변의 타당성 검사
+	 * <p>
+	 * 연산자가 = 이라면 좌변이 변수참조인지 확인
+	 * <p>
+	 * 양 변이 void type인지 확인
+	 * <p>
+	 * 변수에 type에 맞게  해당 연산자를 맞게 불러오도록 함
+	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
 		if (valid) return;
@@ -80,7 +89,7 @@ public class Binary extends Expression {
 				case Operator.TIME_GE:
 				case Operator.TIME_ASSIGN:
 					check(type2.equals(Type.TIME),
-							type1 + " value can not have " + op.value + " operator with " + type2 + "type term");
+							type1 + " value can not have " + op.value + " operator with " + type2 + " type term");
 					op = operator;
 					break;
 
@@ -91,7 +100,7 @@ public class Binary extends Expression {
 				case Operator.TIME_DIV_ASSIGN:
 				case Operator.TIME_MOD_ASSIGN:
 					check(type2.equals(Type.INT),
-							type1 + " value can not have " + op.value + " operator with " + type2 + "type term");
+							type1 + " value can not have " + op.value + " operator with " + type2 + " type term");
 					op = operator;
 					break;
 
@@ -148,7 +157,9 @@ public class Binary extends Expression {
 							type1 + " value can not have " + op.value + " operator with " + type2 + " type term");
 
 					if (type2.equals(Type.FLOAT)) {
-						term1 = new TypeCast(Type.FLOAT, term1);
+						TypeCast cast = new TypeCast(Type.FLOAT, term1);
+						cast.expressionType = Type.FLOAT;
+						term1 = cast;
 						operator = Operator.floatMap(op.value);
 					}
 					op = operator;
@@ -164,7 +175,9 @@ public class Binary extends Expression {
 							type1 + " value can not have " + op.value + " operator with " + type2 + " type term");
 
 					if (type2.equals(Type.FLOAT)) {
-						term2 = new TypeCast(Type.INT, term2);
+						TypeCast cast = new TypeCast(Type.INT, term2);
+						cast.expressionType = Type.INT;
+						term2 = cast;
 					}
 					op = operator;
 					break;
@@ -176,7 +189,9 @@ public class Binary extends Expression {
 							type1 + " value can not have " + op.value + " operator with " + type2 + " type term");
 
 					if (type2.equals(Type.FLOAT)) {
-						term1 = new TypeCast(Type.FLOAT, term1);
+						TypeCast cast = new TypeCast(Type.FLOAT, term1);
+						cast.expressionType = Type.FLOAT;
+						term1 = cast;
 						operator = Operator.floatMap(op.value);
 
 					} else if (type2.equals(Type.TIME)) {
@@ -237,7 +252,9 @@ public class Binary extends Expression {
 							type1 + " value can not have " + op.value + " operator with " + type2 + " type term");
 
 					if (type2.equals(Type.INT)) {
-						term2 = new TypeCast(Type.FLOAT, term2);
+						TypeCast cast = new TypeCast(Type.FLOAT, term2);
+						cast.expressionType = Type.FLOAT;
+						term2 = cast;
 						operator = Operator.floatMap(op.value);
 					}
 					op = operator;
@@ -573,7 +590,7 @@ public class Binary extends Expression {
 					check(false, "Compiler error. never reach here. Binary genCode()");
 				}
 				break;
-				
+
 
 		}
 	}

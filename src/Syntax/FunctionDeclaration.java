@@ -1,7 +1,6 @@
 package Syntax;
 
 import CodeGenerator.CodeGenerator;
-import CodeGenerator.SymbolTableElement;
 import Semantic.FunctionInfo;
 
 import java.util.ArrayList;
@@ -97,6 +96,13 @@ public class FunctionDeclaration extends Global {
 		statements.display(lev + 1);
 	}
 
+	/**
+	 * global 변수의 table을 가져와 해당 함수의 변수를 table에 추가
+	 * <p>
+	 * 추가된 table의 길이가 맞는지 확인
+	 * <p>
+	 * 함수 내부의 실행문의 v 호출
+	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap) {
 		// todo

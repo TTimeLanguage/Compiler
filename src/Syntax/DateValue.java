@@ -51,16 +51,13 @@ public class DateValue extends Value {
 
 		check(year >= 0, "year can not be negative value");
 		check(month >= 0, "month can not be negative value");
-		check(day >=0, "day can not be negative value");
+		check(day >= 0, "day can not be negative value");
 
 		calendar = new GregorianCalendar(year, month - 1, day);
 
 		int rightYear = calendar.get(Calendar.YEAR);
 		int rightMonth = calendar.get(Calendar.MONTH);
 		int rightDay = calendar.get(Calendar.DATE);
-
-		System.out.println(year + " " + month + " " + day);
-		System.out.println(calendar.getTime());
 
 		check(rightYear == year && rightMonth + 1 == month && rightDay == day,
 				"wrong date type declaration. should be : " + rightYear + "/" + rightMonth + "/" + rightDay);

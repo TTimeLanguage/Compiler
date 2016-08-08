@@ -72,6 +72,13 @@ public class Statements extends AbstractSyntax {
 		}
 	}
 
+	/**
+	 * main함수 내의 선언부의 타당성을 확인
+	 * <p>
+	 * main함수 내에서 선언된 변수를 table에 추가
+	 * <p>
+	 * 내부 실행문들의 타당성 확인
+	 */
 	@Override
 	protected void V(HashMap<String, Init> declarationMap, Type functionType) {
 		// todo
@@ -87,7 +94,7 @@ public class Statements extends AbstractSyntax {
 		localMap.putAll(variableMap);
 
 		check(globalLength + localLength == localMap.size(),
-				"duplicated declaration in main");
+				"duplicated declaration");
 
 		for (Statement statement : statements) {
 			statement.V(localMap, functionType);
