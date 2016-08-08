@@ -7,7 +7,7 @@
 - Support calculation of _Time_ (like +, -)
 - Support Array of variable
 - Support Global Variable
-- Support user-custom Function
+- Support User-defined Functions
 - Support Function Overloading
 - Support **for, while, switch** loop
 - Support floating point variable(_float_)
